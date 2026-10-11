@@ -1,0 +1,44 @@
+.dot,
+.ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 300;
+  pointer-events: none;
+  translate: -50% -50%;
+  border-radius: 50%;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background: var(--white);
+  mix-blend-mode: difference;
+}
+
+.ring {
+  display: grid;
+  place-items: center;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  mix-blend-mode: difference;
+  transition: background-color 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+}
+
+.ring[data-kind='hover'] {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.ring[data-kind='label'] {
+  mix-blend-mode: normal;
+  border-color: var(--butter);
+  background: var(--butter);
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--navy);
+  white-space: nowrap;
+}

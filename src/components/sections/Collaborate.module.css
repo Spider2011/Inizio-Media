@@ -1,0 +1,115 @@
+.band {
+  position: relative;
+  padding-block: clamp(72px, 9vw, 140px);
+  background: var(--butter);
+  color: var(--navy);
+  overflow: hidden;
+  --fx-deep: rgba(7, 28, 64, 0.28);
+  --fx-metal-top: var(--blue-mid);
+  --fx-metal-bottom: var(--navy);
+}
+
+.phrase {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding-right: 0.35em;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(64px, 13vw, 230px);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  /* Off-register print: a blue plate sits just behind the ink. */
+  text-shadow: 0.025em 0.03em 0 var(--blue);
+}
+
+/* Navy outline with the blue plate showing through it. */
+.outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--navy);
+  text-shadow: 0.05em 0.05em 0 rgba(0, 74, 173, 0.85);
+}
+
+.dot {
+  display: inline-block;
+  width: 0.28em;
+  height: 0.28em;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: clamp(40px, 6vw, 80px);
+}
+
+.figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(28px, 5vw, 80px);
+  margin: 0;
+}
+
+.figure {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 6px;
+}
+
+.figure dt {
+  max-width: 16ch;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.figure dd {
+  margin: 0;
+}
+
+.num {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(56px, 7vw, 110px);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: var(--blue);
+}
+
+.badgeLink {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.badge {
+  --badge-size: clamp(150px, 15vw, 210px);
+  color: var(--navy);
+}
+
+.badgeCore {
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--butter);
+  transition: transform 0.6s var(--ease-out), background-color 0.4s;
+}
+
+.badgeCore svg {
+  width: 32px;
+  height: 32px;
+}
+
+.badgeLink:hover .badgeCore {
+  transform: scale(1.12) rotate(45deg);
+  background: var(--blue);
+  color: var(--white);
+}

@@ -1,0 +1,128 @@
+.clients {
+  --accent: var(--blue);
+  --muted: var(--ink-muted);
+  --fx-edge: var(--blue-sky);
+  --fx-deep: rgba(0, 74, 173, 0.3);
+  --fx-glow: transparent;
+  --fx-shine-hi: var(--blue-sky);
+  position: relative;
+  padding-block: var(--section-pad);
+  background: var(--paper);
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.head {
+  display: grid;
+  gap: 24px;
+  align-items: end;
+}
+
+.count {
+  display: grid;
+  gap: 6px;
+  max-width: 30ch;
+  margin-bottom: clamp(48px, 7vw, 96px);
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.countNum {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(64px, 8vw, 120px);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: var(--blue);
+}
+
+.rows {
+  display: grid;
+  gap: 16px;
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+.row {
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: slide 55s linear infinite;
+}
+
+.reverse {
+  animation-direction: reverse;
+}
+
+.rows:hover .track {
+  animation-play-state: paused;
+}
+
+.list {
+  display: flex;
+  gap: 16px;
+  padding-right: 16px;
+}
+
+.tile {
+  display: grid;
+  place-items: center;
+  width: clamp(150px, 16vw, 220px);
+  aspect-ratio: 3 / 2;
+  padding: 18%;
+  border-radius: var(--radius-md);
+  background: var(--white);
+  border: 1px solid var(--hairline-dark);
+  transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+}
+
+.tile:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(7, 28, 64, 0.14);
+}
+
+.logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.75;
+  transition: filter 0.4s, opacity 0.4s;
+}
+
+.tile:hover .logo {
+  filter: none;
+  opacity: 1;
+}
+
+@keyframes slide {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (min-width: 900px) {
+  .head {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+    flex-wrap: wrap;
+    width: auto;
+  }
+
+  .list:last-child {
+    display: none;
+  }
+
+  .list {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-inline: var(--gutter);
+  }
+}

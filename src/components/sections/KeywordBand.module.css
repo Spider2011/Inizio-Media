@@ -1,0 +1,50 @@
+.band {
+  position: relative;
+  height: clamp(220px, 26vw, 360px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--navy);
+}
+
+.ribbon {
+  position: absolute;
+  left: -5%;
+  width: 110%;
+  padding-block: clamp(14px, 1.6vw, 24px);
+  box-shadow: 0 30px 60px rgba(4, 15, 36, 0.45);
+}
+
+.butter {
+  z-index: 2;
+  background: var(--butter);
+  color: var(--navy);
+  transform: rotate(-4deg);
+  text-shadow: 0.03em 0.035em 0 rgba(0, 74, 173, 0.4);
+}
+
+.blue {
+  background: var(--blue);
+  color: var(--white);
+  transform: rotate(3deg);
+  text-shadow: 0.03em 0.035em 0 var(--navy), 0 0 0.4em rgba(169, 196, 238, 0.35);
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(20px, 3vw, 44px);
+  padding-right: clamp(20px, 3vw, 44px);
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(30px, 5vw, 76px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.star {
+  width: 0.6em;
+  height: 0.6em;
+  fill: currentColor;
+}

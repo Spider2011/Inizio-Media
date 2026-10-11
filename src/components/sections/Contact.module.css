@@ -1,0 +1,127 @@
+.contact {
+  position: relative;
+  padding-block: var(--section-pad);
+  background: var(--navy);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.glow {
+  position: absolute;
+  left: -15%;
+  top: 10%;
+  z-index: -1;
+  width: 70vw;
+  height: 70vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 74, 173, 0.7), transparent 65%);
+}
+
+.layout {
+  display: grid;
+  gap: 56px;
+  align-items: start;
+}
+
+.side {
+  display: grid;
+  gap: 32px;
+  justify-items: start;
+}
+
+.title {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(64px, 11vw, 190px);
+  line-height: 0.86;
+  letter-spacing: -0.05em;
+}
+
+.contact {
+  --fx-neon: var(--butter);
+  --fx-glow: rgba(246, 231, 161, 0.28);
+}
+
+.details {
+  width: 100%;
+  max-width: 520px;
+}
+
+/* Phones: label above the value, so the email address never breaks mid-word. */
+.detail {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 6px 12px;
+  padding-block: 18px;
+  border-bottom: 1px solid var(--hairline-light);
+}
+
+.detailLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue-sky);
+}
+
+.detailLabel {
+  grid-column: 1 / -1;
+}
+
+.detailValue {
+  font-size: clamp(16px, 1.4vw, 20px);
+  font-weight: 700;
+}
+
+@media (min-width: 560px) {
+  .detail {
+    grid-template-columns: 100px 1fr auto;
+  }
+
+  .detailLabel {
+    grid-column: auto;
+  }
+}
+
+.detailArrow {
+  color: var(--butter);
+  transition: transform 0.5s var(--ease-out);
+}
+
+.detail:hover .detailArrow {
+  transform: translate(4px, -4px);
+}
+
+.call {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.callBadge {
+  --badge-size: 160px;
+  color: var(--butter);
+}
+
+.callCore {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--butter);
+  color: var(--navy);
+  transition: transform 0.6s var(--ease-out), background-color 0.4s;
+}
+
+.call:hover .callCore {
+  transform: scale(1.12) rotate(45deg);
+  background: var(--white);
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 5fr 6fr;
+    gap: 72px;
+  }
+}

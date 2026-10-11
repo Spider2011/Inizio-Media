@@ -1,0 +1,23 @@
+.roll {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  line-height: 1.3;
+}
+
+.inner {
+  position: relative;
+  display: inline-block;
+  transition: transform 0.55s var(--ease-out);
+}
+
+.clone {
+  position: absolute;
+  left: 0;
+  top: 100%;
+}
+
+:is(a, button):hover .inner,
+:is(a, button):focus-visible .inner {
+  transform: translateY(-100%);
+}

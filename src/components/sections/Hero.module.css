@@ -1,0 +1,321 @@
+/* Exactly one screen tall on every display: the headline box absorbs whatever height is left. */
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding-top: clamp(84px, 12vh, 120px);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--navy);
+  --accent: var(--butter);
+}
+
+/* ---------- Backdrop ---------- */
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.85;
+  background: radial-gradient(circle, var(--orb) 0%, transparent 68%);
+  animation: drift 18s ease-in-out infinite alternate;
+}
+
+.orbA {
+  width: 46vw;
+  height: 46vw;
+  left: -10vw;
+  top: -12vw;
+  --orb: var(--blue);
+}
+
+.orbB {
+  width: 38vw;
+  height: 38vw;
+  right: -8vw;
+  top: 20%;
+  --orb: var(--blue-mid);
+  animation-duration: 22s;
+}
+
+.orbC {
+  width: 22vw;
+  height: 22vw;
+  left: 38%;
+  bottom: -6vw;
+  --orb: var(--blue-sky);
+  opacity: 0.35;
+  animation-duration: 26s;
+}
+
+@keyframes drift {
+  0% { translate: 0 0; }
+  50% { translate: 4vw -3vw; }
+  100% { translate: -3vw 4vw; }
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--hairline-light) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hairline-light) 1px, transparent 1px);
+  background-size: 88px 88px;
+  mask-image: radial-gradient(ellipse at 50% 40%, black 10%, transparent 70%);
+  opacity: 0.5;
+}
+
+.circuit {
+  position: absolute !important;
+  inset: auto 0 0 auto;
+  width: 60% !important;
+  height: 55% !important;
+  background: none !important;
+  opacity: 0.35;
+}
+
+/* ---------- Content ---------- */
+.content {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 3vh, 40px);
+  /* Own layer: the glowing headline scrolls away without being repainted every frame. */
+  will-change: transform;
+}
+
+.titleBox {
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--hairline-light);
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--blue-sky);
+}
+
+.live {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--butter);
+  box-shadow: 0 0 0 0 rgba(246, 231, 161, 0.7);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  70% { box-shadow: 0 0 0 12px rgba(246, 231, 161, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(246, 231, 161, 0); }
+}
+
+.title {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: var(--text-hero);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+
+.row {
+  display: grid;
+  gap: 28px;
+  align-items: end;
+}
+
+.lead {
+  max-width: 34ch;
+  font-size: clamp(18px, 1.6vw, 24px);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 0 28px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 16px;
+  transition: background-color 0.4s var(--ease-out), color 0.4s var(--ease-out), border-color 0.4s;
+}
+
+.primary {
+  background: var(--butter);
+  color: var(--navy);
+}
+
+.primary:hover {
+  background: var(--white);
+}
+
+.secondary {
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  color: var(--white);
+}
+
+.secondary:hover {
+  background: var(--white);
+  color: var(--navy);
+  border-color: var(--white);
+}
+
+/* ---------- Badge ---------- */
+.badge {
+  position: absolute;
+  right: var(--gutter);
+  top: 128px;
+  display: none;
+  --badge-size: clamp(150px, 13vw, 200px);
+  color: var(--white);
+}
+
+/* ---------- Footer row ---------- */
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+  padding-block: clamp(12px, 3vh, 40px) clamp(12px, 3vh, 32px);
+}
+
+.stats {
+  display: flex;
+  gap: clamp(28px, 5vw, 72px);
+  margin: 0;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.stat dd {
+  margin: 0;
+}
+
+.statNum {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.statLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue-sky);
+}
+
+.scroll {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 44px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blue-sky);
+}
+
+.mouse {
+  position: relative;
+  width: 24px;
+  height: 38px;
+  border: 1.5px solid currentColor;
+  border-radius: 14px;
+}
+
+.mouse::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  width: 4px;
+  height: 8px;
+  margin-left: -2px;
+  border-radius: 2px;
+  background: var(--butter);
+  animation: wheel 1.8s var(--ease-out) infinite;
+}
+
+@keyframes wheel {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(14px); opacity: 0; }
+}
+
+@media (min-width: 900px) {
+  .row {
+    grid-template-columns: 1fr auto;
+  }
+
+  .badge {
+    display: block;
+  }
+
+  /* Leave a lane on the right for the spinning badge. */
+  .titleBox {
+    padding-right: calc(clamp(150px, 13vw, 200px) + 48px);
+  }
+}
+
+/* Short screens (landscape phones, small laptops): secondary details step aside for the headline. */
+@media (max-height: 700px) {
+  .kicker,
+  .scroll {
+    display: none;
+  }
+}
+
+@media (max-height: 520px) {
+  .stats {
+    display: none;
+  }
+
+  .lead {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb,
+  .live,
+  .mouse::after {
+    animation: none;
+  }
+}

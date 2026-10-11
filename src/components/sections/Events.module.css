@@ -1,0 +1,105 @@
+.events {
+  position: relative;
+  padding-block: var(--section-pad);
+  background: radial-gradient(ellipse at 10% 30%, rgba(0, 74, 173, 0.45), transparent 50%), var(--navy);
+  overflow: hidden;
+}
+
+.grid {
+  display: grid;
+  gap: clamp(12px, 2vw, 24px);
+  align-items: start;
+}
+
+.column {
+  display: grid;
+  gap: clamp(12px, 2vw, 24px);
+}
+
+.item {
+  position: relative;
+  display: block;
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  text-align: left;
+}
+
+.media {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.photo {
+  object-fit: cover;
+  transition: scale 0.9s var(--ease-out);
+}
+
+.item:hover .photo {
+  scale: 1.06;
+}
+
+.caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 40px 16px 14px;
+  background: linear-gradient(transparent, rgba(4, 15, 36, 0.85));
+  font-size: 15px;
+  font-style: italic;
+  color: var(--white);
+  transform: translateY(20%);
+  opacity: 0;
+  transition: transform 0.5s var(--ease-out), opacity 0.5s var(--ease-out);
+}
+
+.caption b {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--butter);
+}
+
+.item:hover .caption,
+.item:focus-visible .caption {
+  transform: none;
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .caption {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.more {
+  display: flex;
+  justify-content: center;
+  /* The columns drift upward as they pass, so the gap below them is already generous. */
+  margin-top: clamp(24px, 3vw, 48px);
+}
+
+.moreLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 0 32px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  font-weight: 800;
+  transition: background-color 0.4s var(--ease-out), color 0.4s, border-color 0.4s;
+}
+
+.moreLink:hover {
+  background: var(--butter);
+  border-color: var(--butter);
+  color: var(--navy);
+}

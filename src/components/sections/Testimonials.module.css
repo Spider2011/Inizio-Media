@@ -1,0 +1,128 @@
+.testimonials {
+  --accent: var(--butter);
+  --muted: rgba(255, 255, 255, 0.86);
+  --fx-edge: var(--navy);
+  --fx-deep: #04122b;
+  --fx-glow: rgba(7, 28, 64, 0.45);
+  position: relative;
+  padding-block: var(--section-pad);
+  background: var(--blue);
+  overflow: hidden;
+}
+
+.layout {
+  display: grid;
+  gap: 56px;
+  align-items: center;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.control {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.control:hover {
+  background: var(--butter);
+  border-color: var(--butter);
+  color: var(--navy);
+}
+
+.counter {
+  margin-left: 12px;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--blue-sky);
+}
+
+.counter b {
+  color: var(--white);
+}
+
+.deck {
+  position: relative;
+  display: grid;
+  min-height: 460px;
+  padding-bottom: 60px;
+  border-radius: var(--radius-lg);
+}
+
+.card {
+  grid-area: 1 / 1;
+  display: grid;
+  gap: 24px;
+  align-content: start;
+  padding: clamp(28px, 4vw, 48px);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 0 30px 70px rgba(4, 15, 36, 0.35);
+  transform-origin: 50% 100%;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.mark {
+  height: 60px;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: 140px;
+  line-height: 0.8;
+  color: var(--blue);
+}
+
+.quote {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 600;
+  font-size: clamp(22px, 2.4vw, 34px);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.by {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 20px;
+  border-top: 1px solid var(--hairline-dark);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--butter);
+  color: var(--navy);
+  font-weight: 800;
+}
+
+.name {
+  display: block;
+  font-weight: 800;
+}
+
+.biz {
+  display: block;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+}

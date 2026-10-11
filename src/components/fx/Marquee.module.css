@@ -1,0 +1,15 @@
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+}
+
+.copy {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}

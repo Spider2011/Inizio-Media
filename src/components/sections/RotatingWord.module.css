@@ -1,0 +1,13 @@
+.slot {
+  position: relative;
+  display: inline-grid;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-inline: 0.12em;
+}
+
+.word {
+  display: inline-block;
+  color: var(--butter);
+  white-space: nowrap;
+}

@@ -1,0 +1,118 @@
+.art {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  --ink-a: rgba(255, 255, 255, 0.5);
+}
+
+.orb {
+  position: absolute;
+  width: 55%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  /* Soft edge from a mask rather than a blur filter: far cheaper to render. */
+  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 70%);
+  mask-image: radial-gradient(circle, #000 0%, transparent 70%);
+  opacity: 0.85;
+  z-index: -1;
+}
+
+.orbAlt {
+  width: 40%;
+}
+
+.traces {
+  position: absolute;
+  inset: -20%;
+  width: 140%;
+  height: 140%;
+  fill: none;
+  stroke: var(--ink-a);
+  stroke-width: 1.4;
+}
+
+.traces circle {
+  fill: var(--ink-a);
+  stroke: none;
+}
+
+.glyph {
+  position: absolute;
+  left: 6%;
+  bottom: 2%;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(64px, 12vw, 180px);
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ink-a);
+}
+
+.label {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: rgba(7, 28, 64, 0.55);
+  color: var(--white);
+  backdrop-filter: blur(8px);
+}
+
+/* Tones from the brand palette */
+.blue {
+  background: linear-gradient(150deg, var(--blue-mid), var(--blue) 55%, var(--navy));
+}
+.blue .orb {
+  background: var(--blue-sky);
+}
+.blue .orbAlt {
+  background: var(--butter);
+  opacity: 0.45;
+}
+
+.navy {
+  background: linear-gradient(160deg, var(--navy), var(--bg-deep));
+}
+.navy .orb {
+  background: var(--blue-mid);
+}
+.navy .orbAlt {
+  background: var(--blue-sky);
+  opacity: 0.4;
+}
+
+.butter {
+  background: linear-gradient(150deg, var(--butter), var(--butter-soft));
+  --ink-a: rgba(0, 74, 173, 0.45);
+}
+.butter .orb {
+  background: var(--white);
+}
+.butter .orbAlt {
+  background: var(--blue-sky);
+}
+
+.pale,
+.paper,
+.white {
+  background: linear-gradient(150deg, var(--blue-pale), var(--paper));
+  --ink-a: rgba(0, 74, 173, 0.4);
+}
+.pale .orb,
+.paper .orb,
+.white .orb {
+  background: var(--blue-sky);
+}
+.pale .orbAlt,
+.paper .orbAlt,
+.white .orbAlt {
+  background: var(--butter);
+}

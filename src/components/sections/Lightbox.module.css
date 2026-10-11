@@ -1,0 +1,115 @@
+.box {
+  position: fixed;
+  inset: 0;
+  z-index: 130;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: rgba(4, 15, 36, 0.96);
+  backdrop-filter: blur(12px);
+  color: var(--white);
+}
+
+.top,
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 20px var(--gutter);
+}
+
+.count {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: 32px;
+  letter-spacing: -0.02em;
+}
+
+.count span {
+  color: var(--blue-sky);
+}
+
+.iconButton {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid var(--hairline-light);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.iconButton:hover {
+  background: var(--butter);
+  color: var(--navy);
+}
+
+.x {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+.x::before,
+.x::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+
+.x::after {
+  transform: rotate(-45deg);
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding-inline: var(--gutter);
+}
+
+.slide {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y;
+}
+
+/* As large as fits: never wider than the stage, never taller than 70vh, always at the photo's ratio. */
+.frame {
+  position: relative;
+  width: min(100%, calc(70vh * var(--ratio, 1)));
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+}
+
+.photo {
+  object-fit: cover;
+}
+
+.caption {
+  font-size: 18px;
+  font-style: italic;
+}
+
+.caption b {
+  margin-right: 10px;
+  font-style: normal;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--butter);
+}
+
+.nav {
+  display: flex;
+  gap: 8px;
+}

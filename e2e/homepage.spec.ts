@@ -1,0 +1,125 @@
+import { expect, test, type Page } from '@playwright/test';
+
+/* Load the page and wait for the preloader curtain to finish. */
+async function open(page: Page) {
+  await page.goto('/');
+  await expect(page.locator('.preloader')).toHaveCount(0, { timeout: 10_000 });
+}
+
+/* Scroll the whole page in steps so every in-view and scroll-linked effect gets its chance to run. */
+async function scrollThrough(page: Page) {
+  await page.evaluate(async () => {
+    for (let y = 0; y <= document.body.scrollHeight; y += Math.round(window.innerHeight / 2)) {
+      window.scrollTo(0, y);
+      await new Promise((resolve) => setTimeout(resolve, 140));
+    }
+  });
+}
+
+test('renders without errors or sideways scrolling', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
+  page.on('pageerror', (error) => errors.push(error.message));
+
+  await open(page);
+  await expect(page.getByRole('heading', { level: 1, name: 'Giving new beginnings to your digital presence.' })).toBeVisible();
+  await scrollThrough(page);
+
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
+  expect(errors).toEqual([]);
+});
+
+test('every animated element finishes visible once scrolled past', async ({ page }) => {
+  await open(page);
+  await scrollThrough(page);
+  await page.waitForTimeout(1500);
+  const hidden = await page.evaluate(() =>
+    Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'))
+      .filter((el) => !el.closest('header') && Number(getComputedStyle(el).opacity) < 0.99)
+      .map((el) => (el.textContent ?? el.className).slice(0, 40))
+  );
+  expect(hidden).toEqual([]);
+});
+
+test('results count up and land on the real figures', async ({ page }) => {
+  await open(page);
+  const results = page.getByRole('region', { name: 'Statistics, on average' });
+  await results.scrollIntoViewIfNeeded();
+  for (const figure of ['15M', '10.2M', '100K']) {
+    await expect(results.getByText(figure, { exact: true }).first()).toBeVisible({ timeout: 6000 });
+  }
+});
+
+test('the gallery viewer opens, moves between photos, and is removed on close', async ({ page }) => {
+  await open(page);
+  const opener = page.getByRole('button', { name: 'Open photo: Haldi morning' });
+  await opener.scrollIntoViewIfNeeded();
+  await opener.click();
+
+  const viewer = page.getByRole('dialog', { name: 'Photo viewer' });
+  await expect(viewer).toBeVisible();
+  await expect(viewer.getByRole('button', { name: 'Close' })).toBeFocused();
+  await page.keyboard.press('ArrowRight');
+  await expect(viewer.getByText('The pheras')).toBeVisible();
+
+  await page.keyboard.press('Escape');
+  await expect(viewer).toHaveCount(0);
+  await expect(opener).toBeFocused();
+});
+
+test('the menu bursts open, traps focus and closes cleanly', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'phone', 'The Menu button shows below 1280px.');
+  await open(page);
+  const toggle = page.getByRole('button', { name: 'Menu' });
+  await toggle.click();
+  const menu = page.getByRole('dialog', { name: 'Menu' });
+  await expect(menu).toBeVisible();
+  await expect(menu.getByRole('button', { name: 'Close' })).toBeFocused();
+
+  await page.keyboard.press('Escape');
+  await expect(menu).toHaveCount(0);
+  await expect(toggle).toBeFocused();
+
+  await toggle.click();
+  await page.getByRole('dialog', { name: 'Menu' }).getByRole('link', { name: /Clientele/ }).click();
+  await expect(page.getByRole('dialog', { name: 'Menu' })).toHaveCount(0);
+  await expect(page.locator('#clientele')).toBeInViewport({ timeout: 5000 });
+});
+
+test('the enquiry form validates, then thanks the visitor', async ({ page }) => {
+  await page.route('**/api/enquiry', (route) =>
+    route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: null, error: null }) })
+  );
+  await open(page);
+  await page.locator('#contact').scrollIntoViewIfNeeded();
+
+  await page.getByRole('button', { name: 'Send enquiry' }).click();
+  await expect(page.getByLabel('Your name')).toBeFocused();
+  await expect(page.getByText('Tell us your name.')).toBeVisible();
+
+  await page.getByLabel('Your name').fill('Asha');
+  await page.getByLabel('Phone or email').fill('9082322109');
+  await page.getByRole('button', { name: 'Send enquiry' }).click();
+  await expect(page.getByRole('heading', { name: 'Thank you, Asha.' })).toBeFocused();
+});
+
+test('with reduced motion, there is no intro and content shows without movement', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await expect(page.locator('.preloader')).toHaveCount(0, { timeout: 2000 });
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  const services = page.locator('#services');
+  await services.scrollIntoViewIfNeeded();
+  await expect(services.getByRole('heading', { name: 'Branding' })).toBeVisible();
+});
+
+test('the enquiry API answers with the standard envelope', async ({ request }, testInfo) => {
+  const res = await request.post('/api/enquiry', {
+    headers: { 'x-forwarded-for': `e2e-${testInfo.project.name}-${Date.now()}` },
+    data: { name: 'Asha', contact: 'asha@example.com', service: 'Branding' }
+  });
+  expect(res.status()).toBe(503);
+  expect(await res.json()).toMatchObject({ success: false, data: null, code: 'not_configured' });
+});

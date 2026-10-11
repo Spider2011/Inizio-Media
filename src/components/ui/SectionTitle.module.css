@@ -1,0 +1,39 @@
+/* Colours follow the section: set --accent and --muted on the section (defaults suit dark grounds). */
+.intro {
+  display: grid;
+  gap: 22px;
+  margin-bottom: clamp(48px, 7vw, 96px);
+}
+
+.center {
+  justify-items: center;
+  text-align: center;
+}
+
+.eyebrow {
+  color: var(--accent, var(--butter));
+}
+
+.title {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: var(--text-xxl);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  max-width: 14ch;
+}
+
+.center .title {
+  margin-inline: auto;
+}
+
+.accent {
+  color: var(--accent, var(--butter));
+}
+
+.lead {
+  max-width: 46ch;
+  font-size: clamp(17px, 1.4vw, 21px);
+  line-height: 1.6;
+  color: var(--muted, rgba(255, 255, 255, 0.78));
+}

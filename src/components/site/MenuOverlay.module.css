@@ -1,0 +1,141 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  display: flex;
+  flex-direction: column;
+  padding: 24px var(--gutter) 32px;
+  background: var(--blue);
+  color: var(--white);
+  overflow-y: auto;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 64px;
+}
+
+.kicker {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--butter);
+}
+
+.close {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--navy);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.x {
+  position: relative;
+  width: 14px;
+  height: 14px;
+}
+
+.x::before,
+.x::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 14px;
+  height: 2px;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+
+.x::after {
+  transform: rotate(-45deg);
+}
+
+.list {
+  margin-block: auto;
+  padding-block: 32px;
+}
+
+.row {
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.link {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 10px 0;
+  transition: transform 0.5s var(--ease-out), opacity 0.4s var(--ease-out), color 0.4s;
+}
+
+.index {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--blue-sky);
+}
+
+.label {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(34px, 7vw, 88px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.arrow {
+  width: clamp(24px, 3vw, 44px);
+  height: auto;
+  margin-left: auto;
+  opacity: 0;
+  transform: translate(-12px, 12px);
+  transition: opacity 0.4s var(--ease-out), transform 0.5s var(--ease-out);
+}
+
+.list:hover .link:not(:hover) {
+  opacity: 0.35;
+}
+
+.link:hover,
+.link:focus-visible {
+  transform: translateX(14px);
+  color: var(--butter);
+}
+
+.link:hover .arrow,
+.link:focus-visible .arrow {
+  opacity: 1;
+  transform: none;
+}
+
+.current .label {
+  color: var(--butter);
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  font-size: 15px;
+  color: var(--blue-sky);
+}
+
+.foot a {
+  color: var(--white);
+}
+
+.foot a:hover {
+  color: var(--butter);
+}
