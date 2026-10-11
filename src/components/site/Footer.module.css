@@ -126,6 +126,8 @@
   white-space: nowrap;
   color: transparent;
   -webkit-text-stroke: 1.5px rgba(169, 196, 238, 0.4);
+  /* A faint blue haze glows inside the outline. */
+  text-shadow: 0 0 0.04em rgba(31, 99, 209, 0.55), 0 0 0.2em rgba(31, 99, 209, 0.25);
   margin-bottom: -0.04em;
   user-select: none;
 }

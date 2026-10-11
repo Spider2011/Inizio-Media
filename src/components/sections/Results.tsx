@@ -102,19 +102,19 @@ export function Results() {
         <div className={styles.bento}>
           <Spotlight className={cx(styles.card, styles.big)} tilt={4}>
             <p className={styles.label}>{views.label}</p>
-            <Counter className={styles.num} value={views.value} suffix={views.suffix} />
+            <Counter className={`${styles.num} fx-metal`} value={views.value} suffix={views.suffix} />
             <Chart />
           </Spotlight>
           <Spotlight className={cx(styles.card, styles.blue)}>
             <p className={styles.label}>{reach.label}</p>
             <div className={styles.ringWrap}>
               <Ring />
-              <Counter className={styles.ringNum} value={reach.value} suffix={reach.suffix} />
+              <Counter className={`${styles.ringNum} fx-metal`} value={reach.value} suffix={reach.suffix} />
             </div>
           </Spotlight>
           <Spotlight className={styles.card}>
             <p className={styles.label}>{engagement.label}</p>
-            <Counter className={styles.num} value={engagement.value} suffix={engagement.suffix} />
+            <Counter className={`${styles.num} fx-metal`} value={engagement.value} suffix={engagement.suffix} />
             <Bars />
           </Spotlight>
           <Spotlight className={cx(styles.card, styles.wide)} tilt={3}>
@@ -123,7 +123,7 @@ export function Results() {
                 <div key={item.label}>
                   <dt className={styles.label}>{item.label}</dt>
                   <dd>
-                    <Counter className={styles.recordNum} value={item.value} suffix={item.suffix} />
+                    <Counter className={`${styles.recordNum} fx-metal`} value={item.value} suffix={item.suffix} />
                   </dd>
                 </div>
               ))}

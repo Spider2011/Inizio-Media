@@ -34,6 +34,8 @@
   line-height: 0.9;
   letter-spacing: -0.05em;
   color: var(--blue);
+  --fx-metal-top: var(--blue-mid);
+  --fx-metal-bottom: var(--navy);
 }
 
 .rows {
