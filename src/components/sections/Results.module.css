@@ -27,6 +27,7 @@
 .blue {
   background: linear-gradient(160deg, var(--blue-mid), var(--blue));
   border-color: transparent;
+  --fx-deep: var(--navy);
 }
 
 .label {
@@ -138,6 +139,8 @@
   line-height: 1;
   letter-spacing: -0.04em;
   color: var(--butter);
+  --fx-metal-top: #fffbe8;
+  --fx-metal-bottom: #d9b94f;
 }
 
 @media (min-width: 768px) {

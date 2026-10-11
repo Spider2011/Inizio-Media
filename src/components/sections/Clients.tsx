@@ -40,7 +40,7 @@ export function Clients() {
         <div className={styles.head}>
           <SectionTitle eyebrow="Clientele" title="Brands that began with us" titleId="clientele-title" accent={['began']} />
           <p className={styles.count}>
-            <Counter className={styles.countNum} value={String(CLIENTS.length)} suffix="+" />
+            <Counter className={`${styles.countNum} fx-metal`} value={String(CLIENTS.length)} suffix="+" />
             <span>brands, from founders&apos; first launches to city institutions</span>
           </p>
         </div>

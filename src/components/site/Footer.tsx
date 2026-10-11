@@ -13,7 +13,7 @@ export function Footer() {
         <div className={styles.top}>
           <a className={styles.bigLink} href="#contact" data-cursor="Talk">
             <span className={styles.bigKicker}>Have an idea?</span>
-            <SplitText as="span" className={styles.bigText} text="Let's make it happen" by="words" />
+            <SplitText as="span" className={`${styles.bigText} fx-depth`} text="Let's make it happen" by="words" />
             <Arrow direction="up-right" className={styles.bigArrow} />
           </a>
         </div>

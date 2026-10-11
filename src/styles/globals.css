@@ -222,10 +222,6 @@ ol {
 }
 
 /* A highlight sweeps across the accent word, letter by letter (--i is the letter's index). */
-.fx-shine {
-  filter: drop-shadow(0.03em 0.036em 0 var(--fx-deep));
-}
-
 .fx-shine .split-unit {
   background-image: linear-gradient(
     100deg,

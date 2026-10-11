@@ -32,7 +32,7 @@ export function Collaborate() {
             <div key={figure.label} className={styles.figure}>
               <dt>{figure.label}</dt>
               <dd>
-                <Counter className={styles.num} value={figure.value} suffix={figure.suffix} />
+                <Counter className={`${styles.num} fx-metal`} value={figure.value} suffix={figure.suffix} />
               </dd>
             </div>
           ))}
