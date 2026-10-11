@@ -1,0 +1,72 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  /* minmax(0, 1fr): the column is the screen width, never stretched by the wordmark being measured. */
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  gap: clamp(12px, 3vh, 28px);
+  padding: var(--gutter);
+  background: var(--blue);
+  color: var(--white);
+  clip-path: inset(0% 0% 0% 0%);
+}
+
+/* The wordmark is sized to the largest size that fits this box (useFitText), on any screen. */
+.wordBox {
+  width: min(100%, 1600px);
+  height: min(40vh, 240px);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.word {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+
+.mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.char {
+  display: inline-block;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--butter);
+}
+
+.count {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(32px, 4vw, 56px);
+  letter-spacing: 0;
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+}
+
+.bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  background: var(--butter);
+  transform-origin: 0 50%;
+}

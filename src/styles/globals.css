@@ -1,0 +1,332 @@
+/* ==========================================================================
+   INIZIO MEDIA — immersive redesign
+   Brand palette comes from tokens.css (generated from design-system/tokens.json).
+   ========================================================================== */
+@import './tokens.css';
+
+:root {
+  --bg-deep: #040f24;
+  --glass: rgba(7, 28, 64, 0.62);
+  --hairline-light: rgba(255, 255, 255, 0.14);
+  --hairline-dark: rgba(7, 28, 64, 0.14);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --gutter: clamp(16px, 4vw, 56px);
+  --maxw: 1440px;
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --section-pad: clamp(96px, 12vw, 180px);
+  /* Display sizes are set in sentence case: lower-case Syne runs ~0.62em per letter, so the longest
+     words ("beginnings", "statistics,") always fit the container. */
+  --text-hero: min(calc((100vw - 2 * var(--gutter)) / 6.8), 132px);
+  --text-xxl: clamp(40px, 7vw, 120px);
+  --text-xl: clamp(36px, 6vw, 96px);
+  --text-lg: clamp(28px, 3.6vw, 56px);
+
+  /* Text-effect palette (see "Display type effects"). Defaults suit navy grounds; sections on
+     other colours re-point these. */
+  --fx-edge: var(--blue-mid);
+  --fx-deep: var(--blue);
+  --fx-glow: rgba(31, 99, 209, 0.5);
+  --fx-shine-hi: #ffffff;
+  --fx-neon: var(--blue-sky);
+}
+
+/* Surface presets for the text effects */
+.fx-on-blue {
+  --fx-edge: var(--navy);
+  --fx-deep: #04122b;
+  --fx-glow: rgba(7, 28, 64, 0.45);
+}
+
+.fx-on-paper {
+  --fx-edge: var(--blue-sky);
+  --fx-deep: rgba(0, 74, 173, 0.3);
+  --fx-glow: transparent;
+  --fx-shine-hi: var(--blue-sky);
+}
+
+.fx-on-butter {
+  --fx-edge: var(--blue);
+  --fx-deep: rgba(7, 28, 64, 0.35);
+  --fx-glow: transparent;
+  --fx-shine-hi: var(--blue-sky);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--navy);
+  color: var(--white);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+ul,
+ol {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--butter);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--butter);
+  color: var(--navy);
+}
+
+/* ---------- Utilities ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.display {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Split-text reveal (components/fx/SplitText) */
+.split-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.split-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.1em 0.03em 0.14em;
+  margin: -0.1em -0.03em -0.14em;
+}
+
+.split-unit {
+  display: inline-block;
+  transform-origin: 0 100%;
+}
+
+/* Once the letters have risen, the masks stop clipping so glows and extrusions can spill out. */
+.split-done .split-mask {
+  overflow: visible;
+}
+
+/* ---------- Display type effects ---------- */
+
+/* Extruded, lit-from-above headline: stacked hard shadows build a 3D edge, a soft glow sits behind. */
+.fx-depth {
+  text-shadow:
+    0.01em 0.012em 0 var(--fx-edge),
+    0.02em 0.024em 0 var(--fx-edge),
+    0.03em 0.036em 0 var(--fx-deep),
+    0.04em 0.06em 0.08em rgba(0, 0, 0, 0.3),
+    0 0 0.35em var(--fx-glow);
+}
+
+/* Lighter version for smaller display text. */
+.fx-lift {
+  text-shadow:
+    0.02em 0.025em 0 var(--fx-edge),
+    0 0.08em 0.25em rgba(0, 0, 0, 0.22);
+}
+
+/* Glowing tube outline that flickers now and then. */
+.fx-neon {
+  color: transparent;
+  -webkit-text-stroke: max(1.5px, 0.012em) var(--fx-neon);
+  text-shadow:
+    0 0 0.05em color-mix(in srgb, var(--fx-neon) 55%, transparent),
+    0 0 0.3em var(--fx-glow);
+  animation: fx-flicker 7s linear infinite;
+}
+
+/* A highlight sweeps across the accent word, letter by letter (--i is the letter's index). */
+.fx-shine {
+  filter: drop-shadow(0.03em 0.036em 0 var(--fx-deep));
+}
+
+.fx-shine .split-unit {
+  background-image: linear-gradient(
+    100deg,
+    var(--accent, var(--butter)) 42%,
+    var(--fx-shine-hi) 50%,
+    var(--accent, var(--butter)) 58%
+  );
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  animation: fx-shine 5s var(--ease-in-out) infinite;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+/* Polished-metal numbers: a vertical gradient with a hard edge underneath. */
+.fx-metal {
+  background-image: linear-gradient(180deg, var(--fx-metal-top, #ffffff) 25%, var(--fx-metal-bottom, var(--blue-sky)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0.025em 0.035em 0 var(--fx-deep));
+}
+
+/* Letters lift and light up under the pointer. */
+@media (hover: hover) {
+  .fx-hover .split-unit {
+    transition: translate 0.5s var(--ease-out), color 0.3s var(--ease-out);
+  }
+
+  .fx-hover .split-unit:hover {
+    translate: 0 -0.08em;
+    color: var(--accent, var(--butter));
+  }
+}
+
+@keyframes fx-shine {
+  0%, 55% { background-position: 100% 0; }
+  100% { background-position: 0% 0; }
+}
+
+@keyframes fx-flicker {
+  0%, 40%, 43%, 46%, 100% { opacity: 1; }
+  41% { opacity: 0.4; }
+  44.5% { opacity: 0.65; }
+  78% { opacity: 1; }
+  79% { opacity: 0.55; }
+  80% { opacity: 1; }
+}
+
+/* Skip link */
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  z-index: 200;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: var(--butter);
+  color: var(--navy);
+  font-weight: 700;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+/* Film grain over everything */
+.grain {
+  position: fixed;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  z-index: 150;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 7s steps(8) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -4%); }
+  60% { transform: translate(-4%, -1%); }
+  80% { transform: translate(3%, 3%); }
+}
+
+/* Custom cursor replaces the system pointer on mouse devices */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain,
+  .fx-neon,
+  .fx-shine .split-unit {
+    animation: none;
+  }
+}

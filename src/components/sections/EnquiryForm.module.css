@@ -1,0 +1,228 @@
+.form {
+  position: relative;
+  padding: clamp(24px, 4vw, 48px);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 0 40px 100px rgba(4, 15, 36, 0.45);
+}
+
+.panel {
+  display: grid;
+  gap: 22px;
+}
+
+.kicker {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.title {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.title:focus {
+  outline: none;
+}
+
+.note {
+  color: var(--ink-muted);
+}
+
+.row {
+  display: grid;
+  gap: 22px;
+}
+
+/* ---------- Floating-label field ---------- */
+.field {
+  position: relative;
+  padding-top: 18px;
+}
+
+.input {
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 0 10px;
+  border: 0;
+  border-bottom: 1.5px solid var(--line-strong);
+  background: transparent;
+  font: inherit;
+  font-size: 17px;
+  color: var(--ink);
+  outline: none;
+  border-radius: 0;
+  appearance: none;
+}
+
+.textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.select {
+  padding-right: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23004aad' stroke-width='1.6'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0 center;
+}
+
+.label {
+  position: absolute;
+  left: 0;
+  top: 32px;
+  font-size: 17px;
+  color: var(--ink-muted);
+  pointer-events: none;
+  transform-origin: 0 0;
+  transition: transform 0.35s var(--ease-out), color 0.35s;
+}
+
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label,
+.floated .label {
+  transform: translateY(-28px) scale(0.78);
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  margin-top: -2px;
+  background: var(--blue);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.input:focus ~ .line {
+  transform: scaleX(1);
+}
+
+.input:focus-visible {
+  outline: none;
+}
+
+.invalid .input {
+  border-bottom-color: var(--danger);
+}
+
+.invalid .label {
+  color: var(--danger) !important;
+}
+
+.error {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--danger);
+}
+
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ---------- Submit ---------- */
+.submitRow {
+  display: grid;
+  gap: 14px;
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: fit-content;
+  min-height: 60px;
+  padding: 0 8px 0 28px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: var(--white);
+  font-weight: 800;
+  font-size: 16px;
+  transition: background-color 0.4s var(--ease-out);
+}
+
+.submitIcon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--butter);
+  color: var(--navy);
+  transition: transform 0.5s var(--ease-out);
+}
+
+.submit:hover {
+  background: var(--blue);
+}
+
+.submit:hover .submitIcon {
+  transform: rotate(45deg);
+}
+
+.submit:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(7, 28, 64, 0.25);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.status {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+.statusError {
+  color: var(--danger);
+}
+
+.secondary {
+  width: fit-content;
+  min-height: 52px;
+  padding: 0 24px;
+  border-radius: 999px;
+  border: 1.5px solid var(--navy);
+  font-weight: 800;
+}
+
+.secondary:hover {
+  background: var(--navy);
+  color: var(--white);
+}
+
+@media (min-width: 640px) {
+  .row {
+    grid-template-columns: 1fr 1fr;
+  }
+}

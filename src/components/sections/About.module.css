@@ -1,0 +1,113 @@
+.about {
+  --accent: var(--blue);
+  --muted: var(--ink-muted);
+  --fx-edge: var(--blue-sky);
+  --fx-deep: rgba(0, 74, 173, 0.3);
+  --fx-glow: transparent;
+  --fx-shine-hi: var(--blue-sky);
+  position: relative;
+  padding-block: var(--section-pad);
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  margin-top: -1px;
+}
+
+.grid {
+  display: grid;
+  gap: 56px;
+}
+
+.visual {
+  position: relative;
+  min-height: 360px;
+  display: grid;
+  place-items: center;
+}
+
+.markWrap {
+  display: grid;
+  place-items: center;
+  width: clamp(260px, 30vw, 420px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--white) 0%, var(--blue-pale) 70%);
+  box-shadow: 0 40px 80px rgba(0, 74, 173, 0.18);
+}
+
+.badge {
+  --badge-size: 88%;
+  color: var(--blue);
+}
+
+.chips {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.chip {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--navy);
+  color: var(--white);
+  box-shadow: 0 16px 30px rgba(7, 28, 64, 0.2);
+}
+
+.chip0, .chip1, .chip2, .chip3, .chip4, .chip5 {
+  position: absolute;
+}
+
+.chip0 { left: 0; top: 8%; }
+.chip1 { right: 2%; top: 18%; }
+.chip2 { left: 6%; bottom: 14%; }
+.chip3 { right: 0; bottom: 4%; }
+.chip4 { left: 38%; top: -2%; }
+.chip5 { left: 40%; bottom: -4%; }
+
+.chip1 .chip,
+.chip4 .chip {
+  background: var(--butter);
+  color: var(--navy);
+}
+
+.chip2 .chip {
+  background: var(--blue);
+}
+
+.copy {
+  display: grid;
+  gap: 32px;
+  align-content: center;
+}
+
+.statement {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  font-size: clamp(28px, 3.4vw, 52px);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.body {
+  max-width: 58ch;
+  font-size: clamp(16px, 1.2vw, 19px);
+  line-height: 1.7;
+  color: var(--ink-muted);
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 5fr 7fr;
+    gap: 80px;
+  }
+
+  .visual {
+    min-height: 560px;
+  }
+}

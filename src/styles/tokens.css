@@ -1,0 +1,67 @@
+/* GENERATED from design-system/tokens.json by scripts/build-tokens.mjs — do not edit by hand. */
+
+:root, [data-theme="light"] {
+  --blue: #004aad;
+  --navy: #071c40;
+  --blue-mid: #1f63d1;
+  --blue-pale: #eaf1fb;
+  --blue-sky: #a9c4ee;
+  --white: #ffffff;
+  --paper: #f0f0ec;
+  --ink: #141414;
+  --ink-muted: #4a4a46;
+  --line: #d6d6cf;
+  --line-strong: #888883;
+  --line-inverse: rgba(255, 255, 255, 0.32);
+  --butter: #f6e7a1;
+  --butter-soft: #fbf3d3;
+  --danger: #b42318;
+  --on-blue: var(--white);
+  --on-navy: var(--white);
+  --link: var(--blue-mid);
+  --focus: var(--blue);
+  --focus-inverse: var(--butter);
+  --shadow-none: none;
+  --shadow-sm: 0 1px 2px rgba(7, 28, 64, 0.06);
+  --shadow-md: 0 12px 32px rgba(7, 28, 64, 0.10);
+  --shadow-lg: 0 24px 64px rgba(7, 28, 64, 0.28);
+}
+
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --space-11: 160px;
+  --radius-none: 0px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-dot: 999px;
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+  --container-max: 1240px;
+  --container-narrow: 760px;
+  --gutter-sm: 16px;
+  --gutter-md: 24px;
+  --gutter-lg: 32px;
+  --nav-height: 64px;
+  --nav-height-lg: 80px;
+  --tap-min: 44px;
+  --hairline: 1px;
+  --rule: 1.5px;
+  --rule-bold: 6px;
+  --motif-faint: 0.12;
+  --motif-inverse: 0.18;
+  --scrim: 0.94;
+  --z-nav: 50;
+  --z-menu: 60;
+  --z-lightbox: 80;
+}
