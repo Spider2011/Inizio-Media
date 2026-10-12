@@ -40,7 +40,7 @@ export function Collaborate() {
         </dl>
         <Magnetic strength={0.25}>
           <Link className={styles.badgeLink} href="/contact" aria-label="Start a project">
-            <RotatingBadge text="Start a project • Start a project • " className={styles.badge}>
+            <RotatingBadge text="Start a project" className={styles.badge}>
               <span className={styles.badgeCore}>
                 <Arrow direction="up-right" />
               </span>

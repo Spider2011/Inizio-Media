@@ -40,7 +40,7 @@ export function Contact() {
 
           <Magnetic strength={0.3}>
             <a className={styles.call} href={SITE.phone.href} aria-label={`Book a call: ${SITE.phone.display}`}>
-              <RotatingBadge text="Book a call • Book a call • " className={styles.callBadge}>
+              <RotatingBadge text="Book a call" className={styles.callBadge}>
                 <span className={styles.callCore}>
                   <Arrow direction="up-right" />
                 </span>

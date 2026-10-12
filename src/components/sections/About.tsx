@@ -19,7 +19,7 @@ export function About({ more }: { more?: MoreLink }) {
           <div className={styles.visual}>
             <Parallax distance={-160}>
               <div className={styles.markWrap}>
-                <RotatingBadge text="Inizio means beginning • Inizio means beginning • " className={styles.badge}>
+                <RotatingBadge text="Inizio means beginning" className={styles.badge}>
                   <Image src={markBlue} alt="" width={150} height={77} unoptimized />
                 </RotatingBadge>
               </div>
