@@ -110,7 +110,7 @@ export function Hero() {
         style={{ rotate: badgeRotate }}
         aria-hidden="true"
       >
-        <RotatingBadge text="Inizio Media • We build brands • ">
+        <RotatingBadge text="Inizio Media • We build brands">
           <Image src={markWhite} alt="" width={96} height={49} unoptimized />
         </RotatingBadge>
       </m.div>
