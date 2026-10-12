@@ -30,12 +30,21 @@
   line-height: 0.9;
   letter-spacing: -0.04em;
   white-space: nowrap;
+  /* Extruded navy edge with a deep shadow: the wordmark stands off the blue. */
+  text-shadow:
+    0.012em 0.014em 0 var(--navy),
+    0.024em 0.028em 0 var(--navy),
+    0.034em 0.04em 0 #04122b,
+    0.04em 0.07em 0.1em rgba(4, 18, 43, 0.45);
 }
 
+/* Padding gives the extrusion room inside each clipping mask; the negative margin keeps the layout. */
 .mask {
   display: inline-block;
   overflow: hidden;
   vertical-align: top;
+  padding: 0.08em 0.05em 0.14em 0.02em;
+  margin: -0.08em -0.05em -0.14em -0.02em;
 }
 
 .char {
