@@ -57,7 +57,9 @@ export function IntroProvider({ children }: { children: ReactNode }) {
             key="loader"
             className={`preloader ${styles.loader}`}
             aria-hidden="true"
-            exit={{ clipPath: 'inset(0% 0% 100% 0%)', transition: { duration: reduce ? 0 : 1, ease: EASE_IN_OUT } }}
+            /* With reduced motion there is no exit at all: a zero-length exit can be missed by
+               AnimatePresence, leaving the loader over the page. */
+            exit={reduce ? undefined : { clipPath: 'inset(0% 0% 100% 0%)', transition: { duration: 1, ease: EASE_IN_OUT } }}
           >
             <div ref={wordBoxRef} className={styles.wordBox}>
               <m.div className={styles.word} initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.05 } } }}>
@@ -65,7 +67,7 @@ export function IntroProvider({ children }: { children: ReactNode }) {
                   <span key={i} className={styles.mask}>
                     <m.span
                       className={styles.char}
-                      variants={{ hidden: { y: '110%' }, show: { y: '0%', transition: { duration: 0.9, ease: EASE_OUT } } }}
+                      variants={{ hidden: { y: '130%' }, show: { y: '0%', transition: { duration: 0.9, ease: EASE_OUT } } }}
                     >
                       {ch === ' ' ? '\u00a0' : ch}
                     </m.span>

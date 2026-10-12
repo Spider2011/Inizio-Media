@@ -211,13 +211,15 @@ ol {
     0 0.08em 0.25em rgba(0, 0, 0, 0.22);
 }
 
-/* Glowing tube outline that flickers now and then. */
+/* Glowing tube outline that flickers now and then. The glow is a drop-shadow of the stroke, not a
+   text-shadow: a text-shadow would show through the transparent letters and fill them in. */
 .fx-neon {
   color: transparent;
   -webkit-text-stroke: max(1.5px, 0.012em) var(--fx-neon);
-  text-shadow:
-    0 0 0.05em color-mix(in srgb, var(--fx-neon) 55%, transparent),
-    0 0 0.3em var(--fx-glow);
+  text-shadow: none;
+  filter:
+    drop-shadow(0 0 0.03em var(--fx-neon))
+    drop-shadow(0 0 0.18em color-mix(in srgb, var(--fx-neon) 55%, transparent));
   animation: fx-flicker 7s linear infinite;
 }
 

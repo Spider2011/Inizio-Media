@@ -168,7 +168,7 @@ export function EnquiryForm({ endpoint = '/api/enquiry', openMailto = defaultOpe
                 )}
               </Field>
             </div>
-            <Field name="message" label="A few lines about the project (optional)" error={errors.message}>
+            <Field name="message" label="About the project (optional)" error={errors.message}>
               {(props) => <textarea className={cx(styles.input, styles.textarea)} name="message" placeholder=" " {...props} />}
             </Field>
 

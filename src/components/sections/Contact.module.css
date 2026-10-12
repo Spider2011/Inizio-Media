@@ -27,12 +27,15 @@
   display: grid;
   gap: 32px;
   justify-items: start;
+  /* The title is sized to this column (cqi), so it can never push the form aside. */
+  container-type: inline-size;
 }
 
 .title {
   font-family: var(--font-display), sans-serif;
   font-weight: 800;
-  font-size: clamp(64px, 11vw, 190px);
+  /* "create." runs ~5.3em wide, so 18cqi keeps it inside the column. */
+  font-size: clamp(48px, 18cqi, 160px);
   line-height: 0.86;
   letter-spacing: -0.05em;
 }
@@ -121,7 +124,7 @@
 
 @media (min-width: 1024px) {
   .layout {
-    grid-template-columns: 5fr 6fr;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
     gap: 72px;
   }
 }

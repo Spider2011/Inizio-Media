@@ -5,6 +5,8 @@
   background: var(--white);
   color: var(--ink);
   box-shadow: 0 40px 100px rgba(4, 15, 36, 0.45);
+  /* Field columns follow the form's own width, not the screen's: the form often sits in a narrow column. */
+  container-type: inline-size;
 }
 
 .panel {
@@ -23,10 +25,11 @@
 .title {
   font-family: var(--font-display), sans-serif;
   font-weight: 800;
-  font-size: clamp(28px, 3vw, 44px);
+  font-size: clamp(30px, 9cqi, 48px);
   line-height: 1;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+  text-shadow: 0.02em 0.025em 0 var(--blue-sky);
 }
 
 .title:focus {
@@ -48,7 +51,9 @@
   padding-top: 18px;
 }
 
+/* Block-level, so the focus line below sits under the field (a textarea's baseline is its first line). */
 .input {
+  display: block;
   width: 100%;
   min-height: 52px;
   padding: 12px 0 10px;
@@ -75,10 +80,16 @@
   background-position: right 0 center;
 }
 
+/* Labels stay on one line (trimmed with an ellipsis if a column is very narrow), so they never
+   spill onto the underline or into the value. */
 .label {
   position: absolute;
   left: 0;
   top: 32px;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-size: 17px;
   color: var(--ink-muted);
   pointer-events: none;
@@ -86,10 +97,17 @@
   transition: transform 0.35s var(--ease-out), color 0.35s;
 }
 
+/* Keep clear of the select's chevron while resting. */
+.select + .label {
+  max-width: calc(100% - 32px);
+}
+
+/* Raised labels are drawn at 78%, so they may use 1/0.78 of the width. */
 .input:focus + .label,
 .input:not(:placeholder-shown) + .label,
 .floated .label {
-  transform: translateY(-28px) scale(0.78);
+  max-width: 128%;
+  transform: translateY(-30px) scale(0.78);
   color: var(--blue);
   font-weight: 700;
 }
@@ -221,7 +239,7 @@
   color: var(--white);
 }
 
-@media (min-width: 640px) {
+@container (min-width: 560px) {
   .row {
     grid-template-columns: 1fr 1fr;
   }
