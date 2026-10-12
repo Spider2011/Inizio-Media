@@ -6,13 +6,13 @@ import { useRef } from 'react';
 import { RollText } from '@/components/site/RollText';
 import { Arrow } from '@/components/ui/Arrow';
 import { Art } from '@/components/ui/Art';
-import { SectionTitle } from '@/components/ui/SectionTitle';
+import { SectionTitle, type MoreLink } from '@/components/ui/SectionTitle';
 import { WORK, WORK_IS_SAMPLE, type WorkItem } from '@/content/work';
 import { cx } from '@/lib/cx';
 import { EASE_IN_OUT, EASE_OUT, VIEW } from '@/lib/motion';
 import styles from './Work.module.css';
 
-export function Work() {
+export function Work({ more }: { more?: MoreLink }) {
   return (
     <section className={styles.work} id="work" aria-labelledby="work-title">
       <div className="container">
@@ -22,6 +22,7 @@ export function Work() {
           titleId="work-title"
           accent={['work']}
           lead={WORK_IS_SAMPLE ? 'Sample cards — swap in real projects and figures.' : 'A few recent beginnings.'}
+          more={more}
         />
         <div className={styles.grid}>
           {WORK.map((item, i) => (

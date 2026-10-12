@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Counter } from '@/components/fx/Counter';
 import { Magnetic } from '@/components/fx/Magnetic';
 import { Marquee } from '@/components/fx/Marquee';
@@ -38,13 +39,13 @@ export function Collaborate() {
           ))}
         </dl>
         <Magnetic strength={0.25}>
-          <a className={styles.badgeLink} href="#contact" aria-label="Start a project">
+          <Link className={styles.badgeLink} href="/contact" aria-label="Start a project">
             <RotatingBadge text="Start a project • Start a project • " className={styles.badge}>
               <span className={styles.badgeCore}>
                 <Arrow direction="up-right" />
               </span>
             </RotatingBadge>
-          </a>
+          </Link>
         </Magnetic>
       </div>
     </section>

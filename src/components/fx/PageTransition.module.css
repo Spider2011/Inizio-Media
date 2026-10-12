@@ -1,0 +1,41 @@
+.curtain {
+  --fx-edge: var(--navy);
+  --fx-deep: #04122b;
+  --fx-glow: rgba(7, 28, 64, 0.45);
+  position: fixed;
+  inset: 0;
+  z-index: 140;
+  display: grid;
+  place-items: center;
+  padding: var(--gutter);
+  background: var(--blue);
+  color: var(--white);
+  pointer-events: none;
+}
+
+.mask {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0.1em 0.06em 0.16em 0.02em;
+}
+
+.label {
+  display: block;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(36px, 9vw, 150px);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  text-align: center;
+}
+
+.bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  background: var(--butter);
+  transform-origin: 0 50%;
+}

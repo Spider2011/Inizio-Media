@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Counter } from '@/components/fx/Counter';
-import { SectionTitle } from '@/components/ui/SectionTitle';
+import { SectionTitle, type MoreLink } from '@/components/ui/SectionTitle';
 import { CLIENTS, type Client } from '@/content/clients';
 import { cx } from '@/lib/cx';
 import styles from './Clients.module.css';
@@ -33,12 +33,12 @@ function Row({ clients, reverse }: { clients: readonly Client[]; reverse?: boole
   );
 }
 
-export function Clients() {
+export function Clients({ more }: { more?: MoreLink }) {
   return (
     <section className={styles.clients} id="clientele" aria-labelledby="clientele-title">
       <div className="container">
         <div className={styles.head}>
-          <SectionTitle eyebrow="Clientele" title="Brands that began with us" titleId="clientele-title" accent={['began']} />
+          <SectionTitle eyebrow="Clientele" title="Brands that began with us" titleId="clientele-title" accent={['began']} more={more} />
           <p className={styles.count}>
             <Counter className={`${styles.countNum} fx-metal`} value={String(CLIENTS.length)} suffix="+" />
             <span>brands, from founders&apos; first launches to city institutions</span>

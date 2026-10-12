@@ -31,6 +31,59 @@
   color: var(--accent, var(--butter));
 }
 
+/* "Explore …" pill: the arrow disc spins and the fill sweeps in from the left on hover. */
+.more {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 52px;
+  padding: 0 6px 0 22px;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+  font-weight: 800;
+  font-size: 15px;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.45s var(--ease-out), border-color 0.45s var(--ease-out);
+}
+
+.more::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--accent, var(--butter));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.moreIcon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent, var(--butter));
+  color: var(--on-accent, var(--navy));
+  transition: transform 0.6s var(--ease-out), background-color 0.45s;
+}
+
+.more:hover {
+  color: var(--on-accent, var(--navy));
+  border-color: var(--accent, var(--butter));
+}
+
+.more:hover::before {
+  transform: scaleX(1);
+}
+
+.more:hover .moreIcon {
+  transform: rotate(45deg);
+  background: var(--white);
+}
+
 .lead {
   max-width: 46ch;
   font-size: clamp(17px, 1.4vw, 21px);

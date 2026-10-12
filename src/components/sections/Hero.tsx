@@ -2,6 +2,7 @@
 
 import { m, useMotionValue, useScroll, useSpring, useTransform } from 'motion/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRef, type PointerEvent } from 'react';
 import markWhite from '@/assets/logos/inizio-im-mark-white.svg';
 import { Counter } from '@/components/fx/Counter';
@@ -87,14 +88,14 @@ export function Hero() {
           </m.p>
           <m.div className={styles.actions} data-reveal="" {...appear(1.15)}>
             <Magnetic>
-              <a className={styles.primary} href="#contact">
+              <Link className={styles.primary} href="/contact">
                 Book a call <Arrow direction="up-right" />
-              </a>
+              </Link>
             </Magnetic>
             <Magnetic>
-              <a className={styles.secondary} href="#work">
+              <Link className={styles.secondary} href="/work">
                 See our work
-              </a>
+              </Link>
             </Magnetic>
           </m.div>
         </div>

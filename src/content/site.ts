@@ -11,14 +11,21 @@ export const SITE = {
   keywords: ['Strategy', 'Branding', 'Content', 'Social', 'Performance', 'Growth']
 } as const;
 
+/* Every navigation entry is its own page. */
 export const NAV_LINKS = [
-  { id: 'about', label: 'About Us' },
-  { id: 'services', label: 'Our Services' },
-  { id: 'work', label: 'Our Work' },
-  { id: 'events', label: 'Events & Weddings' },
-  { id: 'clientele', label: 'Clientele' },
-  { id: 'testimonials', label: 'Testimonials' },
-  { id: 'contact', label: 'Contact' }
+  { id: 'about', label: 'About Us', href: '/about' },
+  { id: 'services', label: 'Our Services', href: '/services' },
+  { id: 'work', label: 'Our Work', href: '/work' },
+  { id: 'events', label: 'Events & Weddings', href: '/events' },
+  { id: 'clientele', label: 'Clientele', href: '/clientele' },
+  { id: 'testimonials', label: 'Testimonials', href: '/testimonials' },
+  { id: 'contact', label: 'Contact', href: '/contact' }
 ] as const;
 
-export const NAV_IDS: readonly string[] = NAV_LINKS.map((link) => link.id);
+export type NavId = (typeof NAV_LINKS)[number]['id'];
+
+/* True when `pathname` is the link's page (or a page beneath it). */
+export function isCurrentPage(href: string, pathname: string | null): boolean {
+  if (!pathname) return false;
+  return pathname === href || pathname.startsWith(`${href}/`);
+}

@@ -1,11 +1,12 @@
 'use client';
 
 import { m, useScroll, useTransform } from 'motion/react';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { Spotlight } from '@/components/fx/Spotlight';
 import { Arrow } from '@/components/ui/Arrow';
 import { Art } from '@/components/ui/Art';
-import { SectionTitle } from '@/components/ui/SectionTitle';
+import { SectionTitle, type MoreLink } from '@/components/ui/SectionTitle';
 import { SERVICE_CARDS } from '@/content/services';
 import { pad2 } from '@/lib/format';
 import styles from './Services.module.css';
@@ -14,7 +15,7 @@ import styles from './Services.module.css';
 const HORIZONTAL = '(min-width: 1024px) and (prefers-reduced-motion: no-preference)';
 
 /* Desktop: the section pins and the cards travel sideways as you scroll down. Elsewhere: a grid. */
-export function Services() {
+export function Services({ more }: { more?: MoreLink }) {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [distance, setDistance] = useState(0);
@@ -55,6 +56,7 @@ export function Services() {
               titleId="services-title"
               accent={['do']}
               lead="Fourteen services, one team. Pick one, or let us run the whole journey."
+              more={more}
             />
             <p className={styles.hint} aria-hidden="true">
               Keep scrolling <Arrow />
@@ -62,7 +64,7 @@ export function Services() {
           </div>
           {SERVICE_CARDS.map((service, i) => (
             <Spotlight key={service.title} as="article" className={styles.card} tilt={10}>
-              <a className={styles.link} href="#contact" data-cursor="Enquire">
+              <Link className={styles.link} href="/contact" data-cursor="Enquire">
                 <span className={styles.num}>{pad2(i + 1)}</span>
                 <div className={styles.art}>
                   <Art tone={i % 3 === 0 ? 'butter' : i % 3 === 1 ? 'blue' : 'navy'} seed={i + 1} />
@@ -76,7 +78,7 @@ export function Services() {
                 <span className={styles.more}>
                   Start a project <Arrow direction="up-right" />
                 </span>
-              </a>
+              </Link>
             </Spotlight>
           ))}
         </m.div>
