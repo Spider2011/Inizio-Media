@@ -1,24 +1,26 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithMotion as render } from '@/test-utils/render';
 import { Header } from './Header';
 
+const navigation = vi.hoisted(() => ({ pathname: '/services' }));
+vi.mock('next/navigation', () => ({ usePathname: () => navigation.pathname }));
+
 function renderWithSections() {
-  return render(
-    <>
-      <Header />
-      <section id="about">About</section>
-      <section id="services">Services</section>
-    </>
-  );
+  return render(<Header />);
 }
 
 describe('Header', () => {
-  it('links every section, in order', () => {
+  beforeEach(() => {
+    navigation.pathname = '/services';
+  });
+
+  it('links every page, in order', () => {
     renderWithSections();
     const nav = screen.getByRole('navigation', { name: 'Main' });
-    expect(within(nav).getAllByRole('link').map((a) => a.textContent?.slice(0, a.textContent.length / 2))).toEqual([
+    const links = within(nav).getAllByRole('link');
+    expect(links.map((a) => a.textContent?.slice(0, a.textContent.length / 2))).toEqual([
       'About Us',
       'Our Services',
       'Our Work',
@@ -27,12 +29,30 @@ describe('Header', () => {
       'Testimonials',
       'Contact'
     ]);
+    expect(links.map((a) => a.getAttribute('href'))).toEqual([
+      '/about',
+      '/services',
+      '/work',
+      '/events',
+      '/clientele',
+      '/testimonials',
+      '/contact'
+    ]);
   });
 
-  it('marks the section in view as the current location', async () => {
+  it('marks the page being viewed as current, and only that one', () => {
     renderWithSections();
     const nav = screen.getByRole('navigation', { name: 'Main' });
-    await waitFor(() => expect(within(nav).getByRole('link', { name: /About Us/ })).toHaveAttribute('aria-current', 'location'));
+    expect(within(nav).getByRole('link', { name: /Our Services/ })).toHaveAttribute('aria-current', 'page');
+    expect(within(nav).getAllByRole('link').filter((a) => a.hasAttribute('aria-current'))).toHaveLength(1);
+  });
+
+  it('marks nothing as current on the home page, and links the logo home', () => {
+    navigation.pathname = '/';
+    renderWithSections();
+    const nav = screen.getByRole('navigation', { name: 'Main' });
+    expect(within(nav).getAllByRole('link').filter((a) => a.hasAttribute('aria-current'))).toHaveLength(0);
+    expect(screen.getByRole('link', { name: 'Inizio Media — home' })).toHaveAttribute('href', '/');
   });
 
   it('opens the menu with focus inside, locks scrolling, and closes on Escape back to the Menu button', async () => {

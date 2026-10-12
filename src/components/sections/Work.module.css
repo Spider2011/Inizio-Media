@@ -1,5 +1,6 @@
 .work {
   --accent: var(--blue);
+  --on-accent: var(--white);
   --muted: var(--ink-muted);
   --fx-edge: var(--blue-sky);
   --fx-deep: rgba(0, 74, 173, 0.3);

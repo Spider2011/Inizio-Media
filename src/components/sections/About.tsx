@@ -3,17 +3,17 @@ import markBlue from '@/assets/logos/inizio-im-mark-blue.svg';
 import { Parallax } from '@/components/fx/Parallax';
 import { RotatingBadge } from '@/components/fx/RotatingBadge';
 import { ScrollWords } from '@/components/fx/ScrollWords';
-import { SectionTitle } from '@/components/ui/SectionTitle';
+import { SectionTitle, type MoreLink } from '@/components/ui/SectionTitle';
 import { SITE } from '@/content/site';
 import styles from './About.module.css';
 
 const CHIP_DISTANCES = [-220, -90, -300, -140, -60, -260];
 
-export function About() {
+export function About({ more }: { more?: MoreLink }) {
   return (
     <section className={styles.about} id="about" aria-labelledby="about-title">
       <div className="container">
-        <SectionTitle eyebrow="About us" title="Every brand needs a beginning." titleId="about-title" accent={['beginning.']} />
+        <SectionTitle eyebrow="About us" title="Every brand needs a beginning." titleId="about-title" accent={['beginning.']} more={more} />
 
         <div className={styles.grid}>
           <div className={styles.visual}>

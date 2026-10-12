@@ -3,7 +3,7 @@
 import { m } from 'motion/react';
 import { Counter } from '@/components/fx/Counter';
 import { Spotlight } from '@/components/fx/Spotlight';
-import { SectionTitle } from '@/components/ui/SectionTitle';
+import { SectionTitle, type MoreLink } from '@/components/ui/SectionTitle';
 import { RESULT_STATS } from '@/content/stats';
 import { cx } from '@/lib/cx';
 import { EASE_OUT, VIEW } from '@/lib/motion';
@@ -88,7 +88,7 @@ function Bars() {
   );
 }
 
-export function Results() {
+export function Results({ more }: { more?: MoreLink }) {
   return (
     <section className={styles.results} aria-labelledby="results-title">
       <div className="container">
@@ -98,6 +98,7 @@ export function Results() {
           titleId="results-title"
           accent={['average']}
           lead="Averages across the brands we grow: attention earned, not bought."
+          more={more}
         />
         <div className={styles.bento}>
           <Spotlight className={cx(styles.card, styles.big)} tilt={4}>

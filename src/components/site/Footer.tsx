@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Magnetic } from '@/components/fx/Magnetic';
 import { SplitText } from '@/components/fx/SplitText';
 import { Arrow } from '@/components/ui/Arrow';
@@ -11,11 +12,11 @@ export function Footer() {
     <footer className={styles.footer}>
       <div className="container">
         <div className={styles.top}>
-          <a className={styles.bigLink} href="#contact" data-cursor="Talk">
+          <Link className={styles.bigLink} href="/contact" data-cursor="Talk">
             <span className={styles.bigKicker}>Have an idea?</span>
             <SplitText as="span" className={`${styles.bigText} fx-depth`} text="Let's make it happen" by="words" />
             <Arrow direction="up-right" className={styles.bigArrow} />
-          </a>
+          </Link>
         </div>
 
         <div className={styles.cols}>
@@ -24,9 +25,9 @@ export function Footer() {
             <ul className={styles.list}>
               {NAV_LINKS.map((link) => (
                 <li key={link.id}>
-                  <a href={`#${link.id}`}>
+                  <Link href={link.href}>
                     <RollText text={link.label} />
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

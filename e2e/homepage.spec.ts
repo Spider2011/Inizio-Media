@@ -1,8 +1,10 @@
 import { expect, test, type Page } from '@playwright/test';
 
-/* Load the page and wait for the preloader curtain to finish. */
-async function open(page: Page) {
-  await page.goto('/');
+const ROUTES = ['/', '/about', '/services', '/work', '/events', '/clientele', '/testimonials', '/contact'] as const;
+
+/* Load a page and wait for the preloader curtain to finish. */
+async function open(page: Page, path = '/') {
+  await page.goto(path);
   await expect(page.locator('.preloader')).toHaveCount(0, { timeout: 10_000 });
 }
 
@@ -16,22 +18,24 @@ async function scrollThrough(page: Page) {
   });
 }
 
-test('renders without errors or sideways scrolling', async ({ page }) => {
-  const errors: string[] = [];
-  page.on('console', (message) => {
-    if (message.type() === 'error') errors.push(message.text());
+for (const route of ROUTES) {
+  test(`${route} renders without errors or sideways scrolling`, async ({ page }) => {
+    const errors: string[] = [];
+    page.on('console', (message) => {
+      if (message.type() === 'error') errors.push(message.text());
+    });
+    page.on('pageerror', (error) => errors.push(error.message));
+
+    await open(page, route);
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await scrollThrough(page);
+
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
+    expect(errors).toEqual([]);
   });
-  page.on('pageerror', (error) => errors.push(error.message));
+}
 
-  await open(page);
-  await expect(page.getByRole('heading', { level: 1, name: 'Giving new beginnings to your digital presence.' })).toBeVisible();
-  await scrollThrough(page);
-
-  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
-  expect(errors).toEqual([]);
-});
-
-test('every animated element finishes visible once scrolled past', async ({ page }) => {
+test('every animated element on the home page finishes visible once scrolled past', async ({ page }) => {
   await open(page);
   await scrollThrough(page);
   await page.waitForTimeout(1500);
@@ -52,8 +56,25 @@ test('results count up and land on the real figures', async ({ page }) => {
   }
 });
 
-test('the gallery viewer opens, moves between photos, and is removed on close', async ({ page }) => {
+test('the header moves between pages under the curtain and marks the current page', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'phone', 'The full navigation shows from 1280px.');
   await open(page);
+  const nav = page.getByRole('navigation', { name: 'Main' });
+  await nav.getByRole('link', { name: /Our Work/ }).click();
+
+  await expect(page).toHaveURL(/\/work$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'Work that moves the numbers.' })).toBeVisible();
+  await expect(nav.getByRole('link', { name: /Our Work/ })).toHaveAttribute('aria-current', 'page');
+  await expect(page.locator('[class*="curtain"]')).toHaveCount(0, { timeout: 5000 });
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+
+  await page.getByRole('region', { name: 'Next page' }).getByRole('link').click();
+  await expect(page).toHaveURL(/\/events$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'Moments worth keeping.' })).toBeVisible();
+});
+
+test('the gallery viewer opens, moves between photos, and is removed on close', async ({ page }) => {
+  await open(page, '/events');
   const opener = page.getByRole('button', { name: 'Open photo: Haldi morning' });
   await opener.scrollIntoViewIfNeeded();
   await opener.click();
@@ -69,7 +90,7 @@ test('the gallery viewer opens, moves between photos, and is removed on close', 
   await expect(opener).toBeFocused();
 });
 
-test('the menu bursts open, traps focus and closes cleanly', async ({ page }, testInfo) => {
+test('the menu bursts open, traps focus and takes you to another page', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'phone', 'The Menu button shows below 1280px.');
   await open(page);
   const toggle = page.getByRole('button', { name: 'Menu' });
@@ -85,14 +106,15 @@ test('the menu bursts open, traps focus and closes cleanly', async ({ page }, te
   await toggle.click();
   await page.getByRole('dialog', { name: 'Menu' }).getByRole('link', { name: /Clientele/ }).click();
   await expect(page.getByRole('dialog', { name: 'Menu' })).toHaveCount(0);
-  await expect(page.locator('#clientele')).toBeInViewport({ timeout: 5000 });
+  await expect(page).toHaveURL(/\/clientele$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'The company we keep.' })).toBeVisible();
 });
 
 test('the enquiry form validates, then thanks the visitor', async ({ page }) => {
   await page.route('**/api/enquiry', (route) =>
     route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ success: true, data: null, error: null }) })
   );
-  await open(page);
+  await open(page, '/contact');
   await page.locator('#contact').scrollIntoViewIfNeeded();
 
   await page.getByRole('button', { name: 'Send enquiry' }).click();
@@ -105,14 +127,30 @@ test('the enquiry form validates, then thanks the visitor', async ({ page }) => 
   await expect(page.getByRole('heading', { name: 'Thank you, Asha.' })).toBeFocused();
 });
 
-test('with reduced motion, there is no intro and content shows without movement', async ({ page }) => {
+test('with reduced motion, there is no intro or curtain and content shows without movement', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/');
+  await page.goto('/services');
   await expect(page.locator('.preloader')).toHaveCount(0, { timeout: 2000 });
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   const services = page.locator('#services');
   await services.scrollIntoViewIfNeeded();
   await expect(services.getByRole('heading', { name: 'Branding' })).toBeVisible();
+
+  await page.getByRole('region', { name: 'Next page' }).getByRole('link').click();
+  await expect(page).toHaveURL(/\/work$/);
+  await expect(page.locator('[class*="curtain"]')).toHaveCount(0);
+});
+
+test('an unknown address shows the 404 page', async ({ page }) => {
+  const response = await page.goto('/not-a-real-page');
+  expect(response?.status()).toBe(404);
+  await expect(page.locator('.preloader')).toHaveCount(0, { timeout: 10_000 });
+  await expect(page.getByRole('heading', { level: 1, name: "This page hasn't begun yet." })).toBeVisible();
+});
+
+test('the sitemap lists every page', async ({ request }) => {
+  const xml = await (await request.get('/sitemap.xml')).text();
+  for (const route of ROUTES.slice(1)) expect(xml).toContain(`${route}</loc>`);
 });
 
 test('the enquiry API answers with the standard envelope', async ({ request }, testInfo) => {

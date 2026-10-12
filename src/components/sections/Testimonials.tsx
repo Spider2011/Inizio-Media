@@ -3,7 +3,7 @@
 import { m, type PanInfo } from 'motion/react';
 import { useState } from 'react';
 import { Arrow } from '@/components/ui/Arrow';
-import { SectionTitle } from '@/components/ui/SectionTitle';
+import { SectionTitle, type MoreLink } from '@/components/ui/SectionTitle';
 import { TESTIMONIALS, TESTIMONIALS_ARE_SAMPLE } from '@/content/testimonials';
 import { pad2 } from '@/lib/format';
 import { EASE_OUT } from '@/lib/motion';
@@ -13,7 +13,7 @@ const SWIPE_DISTANCE = 110;
 const SWIPE_VELOCITY = 600;
 
 /* A deck of quotes: swipe the top card away (or use the buttons) and it tucks in at the back. */
-export function Testimonials() {
+export function Testimonials({ more }: { more?: MoreLink }) {
   const [order, setOrder] = useState(() => TESTIMONIALS.map((_, i) => i));
   const next = () => setOrder((o) => [...o.slice(1), o[0]]);
   const previous = () => setOrder((o) => [o[o.length - 1], ...o.slice(0, -1)]);
@@ -32,6 +32,7 @@ export function Testimonials() {
             titleId="testimonials-title"
             accent={['words']}
             lead={TESTIMONIALS_ARE_SAMPLE ? 'Sample quotes — replace with real client words and permission.' : undefined}
+            more={more}
           />
           <div className={styles.controls}>
             <button className={styles.control} type="button" onClick={previous} aria-label="Previous testimonial">

@@ -1,6 +1,7 @@
 'use client';
 
 import Lenis from 'lenis';
+import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 let instance: Lenis | null = null;
@@ -15,6 +16,15 @@ export const INTRO_DONE_EVENT = 'im:intro-done';
 /* Buttery inertial scrolling (native scroll underneath, so sticky and scroll-linked effects keep working).
    Off for visitors who prefer reduced motion. In-page links glide to their section. */
 export function SmoothScroll() {
+  const pathname = usePathname();
+
+  /* A new page starts at the top (unless the link points at a section of it). Lenis keeps its own
+     scroll position, so it is told directly. */
+  useEffect(() => {
+    if (window.location.hash) return;
+    instance?.scrollTo(0, { immediate: true, force: true });
+  }, [pathname]);
+
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 

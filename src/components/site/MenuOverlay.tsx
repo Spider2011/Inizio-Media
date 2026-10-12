@@ -1,9 +1,10 @@
 'use client';
 
 import { m, useIsPresent, type Variants } from 'motion/react';
+import Link from 'next/link';
 import { useRef } from 'react';
 import { Arrow } from '@/components/ui/Arrow';
-import { NAV_LINKS, SITE } from '@/content/site';
+import { isCurrentPage, NAV_LINKS, SITE } from '@/content/site';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
 import { cx } from '@/lib/cx';
@@ -11,7 +12,9 @@ import { pad2 } from '@/lib/format';
 import { EASE_IN_OUT, EASE_OUT } from '@/lib/motion';
 import styles from './MenuOverlay.module.css';
 
-type Props = { id: string; active: string | null; onClose: () => void; returnFocus: () => HTMLElement | null };
+type Props = { id: string; pathname: string | null; onClose: () => void; returnFocus: () => HTMLElement | null };
+
+const MotionLink = m.create(Link);
 
 const ORIGIN = 'calc(100% - 64px) 44px';
 
@@ -26,7 +29,7 @@ const item: Variants = {
 };
 
 /* Full-screen blue menu that bursts open from the Menu button. */
-export function MenuOverlay({ id, active, onClose, returnFocus }: Props) {
+export function MenuOverlay({ id, pathname, onClose, returnFocus }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const isPresent = useIsPresent();
   useFocusTrap(ref, isPresent, { onEscape: onClose, returnFocus });
@@ -53,20 +56,24 @@ export function MenuOverlay({ id, active, onClose, returnFocus }: Props) {
       </div>
 
       <m.ul className={styles.list} variants={list} initial="hidden" animate="show">
-        {NAV_LINKS.map((link, i) => (
-          <li key={link.id} className={styles.row}>
-            <m.a
-              className={cx(styles.link, active === link.id && styles.current)}
-              href={`#${link.id}`}
-              onClick={onClose}
-              variants={item}
-            >
-              <span className={styles.index}>{pad2(i + 1)}</span>
-              <span className={styles.label}>{link.label}</span>
-              <Arrow direction="up-right" className={styles.arrow} />
-            </m.a>
-          </li>
-        ))}
+        {NAV_LINKS.map((link, i) => {
+          const current = isCurrentPage(link.href, pathname);
+          return (
+            <li key={link.id} className={styles.row}>
+              <MotionLink
+                className={cx(styles.link, current && styles.current)}
+                href={link.href}
+                aria-current={current ? 'page' : undefined}
+                onClick={onClose}
+                variants={item}
+              >
+                <span className={styles.index}>{pad2(i + 1)}</span>
+                <span className={styles.label}>{link.label}</span>
+                <Arrow direction="up-right" className={styles.arrow} />
+              </MotionLink>
+            </li>
+          );
+        })}
       </m.ul>
 
       <m.div

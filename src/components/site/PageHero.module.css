@@ -1,0 +1,210 @@
+.hero {
+  --accent: var(--butter);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: min(100svh, 920px);
+  min-height: clamp(560px, 88svh, 920px);
+  padding-top: clamp(120px, 18vh, 180px);
+  padding-bottom: clamp(48px, 8vh, 96px);
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--navy);
+}
+
+/* ---------- Backdrop ---------- */
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--orb) 0%, transparent 68%);
+  animation: drift 20s ease-in-out infinite alternate;
+}
+
+.orbA {
+  width: 52vw;
+  height: 52vw;
+  left: -14vw;
+  bottom: -18vw;
+  --orb: var(--blue);
+}
+
+.orbB {
+  width: 36vw;
+  height: 36vw;
+  right: -6vw;
+  top: -8vw;
+  --orb: var(--blue-mid);
+  opacity: 0.8;
+  animation-duration: 24s;
+}
+
+@keyframes drift {
+  0% { translate: 0 0; }
+  50% { translate: 3vw -4vw; }
+  100% { translate: -4vw 3vw; }
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--hairline-light) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hairline-light) 1px, transparent 1px);
+  background-size: 88px 88px;
+  mask-image: radial-gradient(ellipse at 70% 30%, black 5%, transparent 65%);
+  opacity: 0.45;
+}
+
+/* Giant outlined page number, glowing faintly behind the headline. */
+.index {
+  position: absolute;
+  right: -0.04em;
+  top: 50%;
+  margin-top: -0.55em;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(200px, 42vw, 640px);
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: max(1.5px, 0.004em) rgba(169, 196, 238, 0.35);
+  filter: drop-shadow(0 0 0.04em rgba(31, 99, 209, 0.6));
+  user-select: none;
+}
+
+/* ---------- Content ---------- */
+.content {
+  position: relative;
+  display: grid;
+  gap: clamp(20px, 4vh, 44px);
+  will-change: transform;
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blue-sky);
+}
+
+.crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.crumbs li + li::before {
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 1px;
+  margin-right: 12px;
+  vertical-align: middle;
+  background: currentColor;
+}
+
+.crumbs a {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  transition: color 0.3s;
+}
+
+.crumbs a:hover {
+  color: var(--butter);
+}
+
+.crumbs [aria-current='page'] {
+  color: var(--butter);
+}
+
+.count {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sentence-case display type: the longest words run ~0.62em a letter, so this always fits the width. */
+.title {
+  max-width: 13ch;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: calc(var(--text-hero) * 0.92);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+
+.row {
+  display: grid;
+  gap: 28px;
+  align-items: end;
+}
+
+.lead {
+  max-width: 44ch;
+  font-size: clamp(17px, 1.5vw, 22px);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.scroll {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  width: fit-content;
+  min-height: 44px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blue-sky);
+}
+
+.scrollDisc {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid var(--hairline-light);
+  color: var(--butter);
+  animation: bob 2.4s var(--ease-in-out) infinite;
+  transition: background-color 0.4s, color 0.4s;
+}
+
+.scroll:hover .scrollDisc {
+  background: var(--butter);
+  color: var(--navy);
+}
+
+@keyframes bob {
+  50% { transform: translateY(6px); }
+}
+
+@media (min-width: 900px) {
+  .row {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb,
+  .scrollDisc {
+    animation: none;
+  }
+}
