@@ -15,7 +15,7 @@
 
 .track {
   display: grid;
-  gap: 16px;
+  gap: 28px 18px;
   padding-inline: var(--gutter);
 }
 
@@ -28,99 +28,9 @@
   display: none;
 }
 
-.card {
-  border-radius: var(--radius-lg);
-  background: var(--navy);
-  transition: background-color 0.5s var(--ease-out), color 0.5s var(--ease-out);
-}
-
-.link {
-  position: relative;
-  display: grid;
-  grid-template-rows: auto 1fr auto auto auto;
-  gap: 16px;
-  height: 100%;
-  min-height: 420px;
-  padding: 28px;
-}
-
-.num {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 800;
-  font-size: 64px;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--blue-sky);
-  text-shadow:
-    0 0 0.05em rgba(169, 196, 238, 0.55),
-    0 0 0.3em rgba(7, 28, 64, 0.5);
-  transition: -webkit-text-stroke-color 0.5s;
-}
-
-.art {
-  position: relative;
-  min-height: 140px;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  transition: transform 0.7s var(--ease-out);
-}
-
-.title {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 800;
-  font-size: clamp(24px, 2vw, 32px);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-  text-shadow: 0.03em 0.04em 0 var(--fx-edge), 0 0.1em 0.3em rgba(0, 0, 0, 0.2);
-}
-
-.keys {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.keys li {
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--hairline-light);
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.more {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--butter);
-}
-
-.card:hover,
-.card:focus-within {
-  background: var(--butter);
-  color: var(--navy);
-}
-
-.card:hover .num,
-.card:focus-within .num {
-  -webkit-text-stroke-color: var(--navy);
-}
-
-.card:hover .keys li,
-.card:focus-within .keys li {
-  border-color: rgba(7, 28, 64, 0.3);
-}
-
-.card:hover .more,
-.card:focus-within .more {
-  color: var(--blue);
-}
-
-.card:hover .art {
-  transform: scale(0.96) rotate(-2deg);
+/* Each glass folder (ServiceFolder). The tab rises above the folder, so rows need a little air. */
+.item {
+  min-width: 0;
 }
 
 .progress {
@@ -180,13 +90,11 @@
     color: var(--butter);
   }
 
-  .card {
-    width: clamp(320px, 26vw, 400px);
-    height: min(72vh, 600px);
-  }
-
-  .link {
-    min-height: 0;
+  /* `.track .item` outranks the folder's own min-height, so short screens still fit the row. */
+  .track .item {
+    width: clamp(300px, 24vw, 380px);
+    height: min(70vh, 560px);
+    min-height: 380px;
   }
 }
 
