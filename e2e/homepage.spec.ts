@@ -56,6 +56,28 @@ test('results count up and land on the real figures', async ({ page }) => {
   }
 });
 
+test('every service folder is shown full size, each in its own place', async ({ page }) => {
+  await open(page, '/services');
+  const folders = page.locator('#services article');
+  await expect(folders).toHaveCount(14);
+  await expect(folders.getByRole('heading', { level: 3 })).toHaveCount(14);
+
+  /* Positions relative to the row (which may be mid-travel): no folder may collapse or stack on another. */
+  const boxes = await folders.evaluateAll((els) => {
+    const row = els[0].closest('section')!.getBoundingClientRect();
+    return els.map((el) => {
+      const r = el.getBoundingClientRect();
+      return { left: r.left - row.left, top: r.top - row.top, width: r.width, height: r.height };
+    });
+  });
+  for (const box of boxes) {
+    expect(box.width).toBeGreaterThan(250);
+    expect(box.height).toBeGreaterThan(350);
+  }
+  const places = new Set(boxes.map((b) => `${Math.round(b.left)}:${Math.round(b.top)}`));
+  expect(places.size).toBe(14);
+});
+
 test('the header moves between pages under the curtain and marks the current page', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === 'phone', 'The full navigation shows from 1280px.');
   await open(page);

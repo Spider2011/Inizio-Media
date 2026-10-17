@@ -1,0 +1,341 @@
+.wrap {
+  min-height: 440px;
+}
+
+/* ---------- Tones: the folder colour, its darker fold, and the ink that reads on its glass ---------- */
+.butter {
+  --folder: var(--butter);
+  --folder-deep: #e7cf72;
+  --folder-ink: var(--navy);
+  --folder-ink-soft: rgba(7, 28, 64, 0.7);
+  --glass: rgba(255, 255, 255, 0.5);
+  --glass-edge: rgba(255, 255, 255, 0.75);
+  --disc: var(--navy);
+  --disc-ink: var(--butter);
+}
+
+.sky {
+  --folder: var(--blue-sky);
+  --folder-deep: #86a9e0;
+  --folder-ink: var(--navy);
+  --folder-ink-soft: rgba(7, 28, 64, 0.7);
+  --glass: rgba(255, 255, 255, 0.5);
+  --glass-edge: rgba(255, 255, 255, 0.75);
+  --disc: var(--blue);
+  --disc-ink: var(--white);
+}
+
+.navy {
+  --folder: var(--navy);
+  --folder-deep: #04122b;
+  --folder-ink: var(--white);
+  --folder-ink-soft: rgba(255, 255, 255, 0.72);
+  --glass: rgba(16, 42, 92, 0.6);
+  --glass-edge: rgba(255, 255, 255, 0.28);
+  --disc: var(--butter);
+  --disc-ink: var(--navy);
+}
+
+.paper {
+  --folder: var(--paper);
+  --folder-deep: #dcdfe6;
+  --folder-ink: var(--navy);
+  --folder-ink-soft: rgba(7, 28, 64, 0.7);
+  --glass: rgba(255, 255, 255, 0.56);
+  --glass-edge: rgba(255, 255, 255, 0.85);
+  --disc: var(--blue);
+  --disc-ink: var(--white);
+}
+
+/* ---------- Structure ---------- */
+/* `article.folder` outranks Spotlight's preserve-3d: a flat context keeps the glass blur working,
+   and the pocket gets its own perspective for the opening tilt. */
+article.folder {
+  height: 100%;
+  border-radius: var(--radius-lg);
+  transform-style: flat;
+  color: var(--folder-ink);
+}
+
+.link {
+  position: relative;
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+/* Back of the folder, with a tab rising from its top-left corner. */
+.back {
+  position: absolute;
+  inset: 34px 0 0;
+  border-radius: 22px var(--radius-lg) var(--radius-lg) var(--radius-lg);
+  background: linear-gradient(180deg, var(--folder) 0%, var(--folder-deep) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 30px 60px rgba(4, 15, 36, 0.35);
+}
+
+.tab {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  display: grid;
+  place-items: center start;
+  width: 46%;
+  height: 34px;
+  margin-bottom: -1px;
+  padding-left: 18px;
+  border-radius: 18px 26px 0 0;
+  background: var(--folder);
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: var(--folder-ink);
+}
+
+/* The tab's sloped shoulder into the folder's top edge. */
+.tab::after {
+  content: '';
+  position: absolute;
+  left: calc(100% - 14px);
+  bottom: 0;
+  width: 34px;
+  height: 100%;
+  background: var(--folder);
+  clip-path: polygon(0 0, 30% 0, 100% 100%, 0 100%);
+}
+
+/* ---------- Papers peeking out of the top ---------- */
+/* The papers end just inside the pocket (it starts at 38%), so they look tucked in without sitting behind the text. */
+.sheets {
+  position: absolute;
+  left: 9%;
+  right: 9%;
+  top: 46px;
+  bottom: 56%;
+}
+
+.sheet {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--white);
+  box-shadow: 0 10px 24px rgba(4, 15, 36, 0.25);
+  transition: transform 0.8s var(--ease-out);
+}
+
+.sheetArt {
+  left: 0;
+  width: 64%;
+  transform: rotate(-5deg);
+  transform-origin: 50% 100%;
+}
+
+.sheetNote {
+  right: 0;
+  width: 50%;
+  top: 10%;
+  height: 92%;
+  display: grid;
+  align-content: space-between;
+  padding: 14px;
+  transform: rotate(6deg);
+  transform-origin: 50% 100%;
+  color: var(--blue);
+}
+
+.initial {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: 46px;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-shadow: 0.03em 0.04em 0 var(--blue-sky);
+}
+
+.lines {
+  display: grid;
+  gap: 7px;
+}
+
+.lines span {
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(0, 74, 173, 0.18);
+}
+
+.lines span:nth-child(2) {
+  width: 72%;
+}
+
+.lines span:nth-child(3) {
+  width: 48%;
+}
+
+/* ---------- Frosted front pocket ---------- */
+.front {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 62%;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 10px;
+  padding: 22px 22px 18px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.35) 0%, transparent 40%),
+    var(--glass);
+  border: 1px solid var(--glass-edge);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -18px 30px rgba(4, 15, 36, 0.06),
+    0 -6px 24px rgba(4, 15, 36, 0.12);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
+  backdrop-filter: blur(14px) saturate(1.5);
+  transform: perspective(900px) rotateX(0deg);
+  transform-origin: 50% 100%;
+  transition: transform 0.8s var(--ease-out);
+}
+
+/* A soft highlight that follows the pointer across the glass (Spotlight sets --mx / --my). */
+.front::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), rgba(255, 255, 255, 0.35), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+}
+
+.shine {
+  position: absolute;
+  inset: -20% -60%;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.55) 50%, transparent 60%);
+  transform: translateX(-70%);
+  transition: transform 1.1s var(--ease-out);
+}
+
+.kicker {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--folder-ink-soft);
+}
+
+.title {
+  align-self: end;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(22px, 1.8vw, 28px);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.keys li {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-edge);
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--folder-ink-soft);
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.disc {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--disc);
+  color: var(--disc-ink);
+  transition: transform 0.6s var(--ease-out);
+}
+
+/* ---------- Open: the pocket tips forward, the papers rise and fan, light sweeps the glass ---------- */
+.folder:hover .front,
+.link:focus-visible .front {
+  transform: perspective(900px) rotateX(-14deg);
+}
+
+.folder:hover .front::after {
+  opacity: 1;
+}
+
+.folder:hover .shine,
+.link:focus-visible .shine {
+  transform: translateX(70%);
+}
+
+.folder:hover .sheetArt,
+.link:focus-visible .sheetArt {
+  transform: translate(-8%, -24%) rotate(-12deg);
+}
+
+.folder:hover .sheetNote,
+.link:focus-visible .sheetNote {
+  transform: translate(8%, -30%) rotate(13deg);
+}
+
+.folder:hover .disc,
+.link:focus-visible .disc {
+  transform: rotate(45deg) scale(1.08);
+}
+
+.link:focus-visible {
+  outline-offset: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .front,
+  .sheet,
+  .shine,
+  .disc {
+    transition: none;
+  }
+
+  .folder:hover .front,
+  .link:focus-visible .front,
+  .folder:hover .sheetArt,
+  .link:focus-visible .sheetArt,
+  .folder:hover .sheetNote,
+  .link:focus-visible .sheetNote {
+    transform: none;
+  }
+
+  .sheetArt {
+    transform: rotate(-5deg);
+  }
+
+  .sheetNote {
+    transform: rotate(6deg);
+  }
+}

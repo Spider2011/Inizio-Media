@@ -1,20 +1,17 @@
 'use client';
 
 import { m, useScroll, useTransform } from 'motion/react';
-import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { Spotlight } from '@/components/fx/Spotlight';
 import { Arrow } from '@/components/ui/Arrow';
-import { Art } from '@/components/ui/Art';
 import { SectionTitle, type MoreLink } from '@/components/ui/SectionTitle';
 import { SERVICE_CARDS } from '@/content/services';
-import { pad2 } from '@/lib/format';
 import styles from './Services.module.css';
+import { ServiceFolder } from './ServiceFolder';
 
 /* Matches the CSS that lays the cards out in one row. */
 const HORIZONTAL = '(min-width: 1024px) and (prefers-reduced-motion: no-preference)';
 
-/* Desktop: the section pins and the cards travel sideways as you scroll down. Elsewhere: a grid. */
+/* Desktop: the section pins and the glass folders travel sideways as you scroll down. Elsewhere: a grid. */
 export function Services({ more }: { more?: MoreLink }) {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -63,23 +60,7 @@ export function Services({ more }: { more?: MoreLink }) {
             </p>
           </div>
           {SERVICE_CARDS.map((service, i) => (
-            <Spotlight key={service.title} as="article" className={styles.card} tilt={10}>
-              <Link className={styles.link} href="/contact" data-cursor="Enquire">
-                <span className={styles.num}>{pad2(i + 1)}</span>
-                <div className={styles.art}>
-                  <Art tone={i % 3 === 0 ? 'butter' : i % 3 === 1 ? 'blue' : 'navy'} seed={i + 1} />
-                </div>
-                <h3 className={styles.title}>{service.title}</h3>
-                <ul className={styles.keys}>
-                  {service.keys.map((key) => (
-                    <li key={key}>{key}</li>
-                  ))}
-                </ul>
-                <span className={styles.more}>
-                  Start a project <Arrow direction="up-right" />
-                </span>
-              </Link>
-            </Spotlight>
+            <ServiceFolder key={service.title} service={service} index={i} className={styles.item} />
           ))}
         </m.div>
         {pinned && <m.span className={styles.progress} style={{ scaleX: scrollYProgress }} aria-hidden="true" />}
