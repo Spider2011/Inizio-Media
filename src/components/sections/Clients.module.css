@@ -70,11 +70,13 @@
 }
 
 .tile {
-  display: grid;
-  place-items: center;
+  /* A fixed inset, not a percentage: % padding resolves against the whole sliding row's width,
+     which once swelled each tile to ~480px and shrank the logo to nothing. */
+  --inset: clamp(16px, 1.8vw, 26px);
+  position: relative;
+  flex: none;
   width: clamp(150px, 16vw, 220px);
   aspect-ratio: 3 / 2;
-  padding: 18%;
   border-radius: var(--radius-md);
   background: var(--white);
   border: 1px solid var(--hairline-dark);
@@ -86,9 +88,12 @@
   box-shadow: 0 20px 40px rgba(7, 28, 64, 0.14);
 }
 
+/* Pinned inside the inset, so a tall or square logo can never stretch the tile out of 3:2. */
 .logo {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: var(--inset);
+  width: calc(100% - 2 * var(--inset));
+  height: calc(100% - 2 * var(--inset));
   object-fit: contain;
   filter: grayscale(1);
   opacity: 0.75;
