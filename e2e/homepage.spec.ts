@@ -78,6 +78,26 @@ test('every service folder is shown full size, each in its own place', async ({ 
   expect(places.size).toBe(14);
 });
 
+test('client logos show at a readable size in compact tiles', async ({ page }) => {
+  await open(page, '/clientele');
+  const tiles = page.locator('#clientele li');
+  /* The tiles never stop sliding, so scroll to the (still) section rather than to a tile. */
+  await page.locator('#clientele').scrollIntoViewIfNeeded();
+  const sizes = await tiles.evaluateAll((els) =>
+    els.slice(0, 6).map((tile) => {
+      const t = tile.getBoundingClientRect();
+      const logo = tile.querySelector('img')!.getBoundingClientRect();
+      return { tileWidth: t.width, tileHeight: t.height, logoWidth: logo.width, logoHeight: logo.height };
+    })
+  );
+  for (const size of sizes) {
+    expect(size.tileWidth).toBeLessThanOrEqual(240);
+    /* Tiles keep their 3:2 shape whatever the logo's proportions. */
+    expect(size.tileWidth / size.tileHeight).toBeCloseTo(1.5, 1);
+    expect(Math.max(size.logoWidth, size.logoHeight)).toBeGreaterThan(50);
+  }
+});
+
 test('the header moves between pages under the curtain and marks the current page', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === 'phone', 'The full navigation shows from 1280px.');
   await open(page);
