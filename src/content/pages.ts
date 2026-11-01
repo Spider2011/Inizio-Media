@@ -75,7 +75,7 @@ const COPY: Record<NavId, PageCopy> = {
     photo: { id: 'photo-1552133457-ce1d2d33cdfb', alt: 'The Bandra-Worli Sea Link in Mumbai under a cloudy sky' },
     accent: ['new.'],
     lead: 'Tell us about your brand, or just say hello. Every brand needs a beginning.',
-    description: 'Contact Inizio Media in Mumbai: email, phone, Instagram, or send an enquiry about your brand.'
+    description: 'Contact Inizio Media in Mumbai: email, phone, Instagram, LinkedIn, or send an enquiry about your brand.'
   }
 };
 

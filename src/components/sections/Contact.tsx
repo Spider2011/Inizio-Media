@@ -10,7 +10,8 @@ import { EnquiryForm } from './EnquiryForm';
 const DETAILS = [
   { label: 'Email', value: SITE.email, href: `mailto:${SITE.email}` },
   { label: 'Phone', value: SITE.phone.display, href: SITE.phone.href },
-  { label: 'Instagram', value: SITE.instagram.handle, href: SITE.instagram.url }
+  { label: 'Instagram', value: SITE.instagram.handle, href: SITE.instagram.url },
+  { label: 'LinkedIn', value: SITE.linkedin.name, href: SITE.linkedin.url }
 ];
 
 export function Contact() {
