@@ -84,6 +84,7 @@ export function MenuOverlay({ id, pathname, onClose, returnFocus }: Props) {
         <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
         <a href={SITE.phone.href}>{SITE.phone.display}</a>
         <a href={SITE.instagram.url}>Instagram {SITE.instagram.handle}</a>
+        <a href={SITE.linkedin.url}>LinkedIn</a>
         <span>{SITE.location}</span>
       </m.div>
     </m.div>

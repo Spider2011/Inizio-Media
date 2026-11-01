@@ -49,7 +49,7 @@ const ORGANIZATION = {
   email: SITE.email,
   telephone: SITE.phone.display,
   address: { '@type': 'PostalAddress', addressLocality: 'Mumbai', addressCountry: 'IN' },
-  sameAs: [SITE.instagram.url]
+  sameAs: [SITE.instagram.url, SITE.linkedin.url]
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

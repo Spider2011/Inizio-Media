@@ -50,6 +50,11 @@ export function Footer() {
                   <RollText text={`Instagram ${SITE.instagram.handle}`} />
                 </a>
               </li>
+              <li>
+                <a href={SITE.linkedin.url}>
+                  <RollText text={`LinkedIn ${SITE.linkedin.name}`} />
+                </a>
+              </li>
             </ul>
           </div>
           <div>

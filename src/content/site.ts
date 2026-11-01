@@ -7,6 +7,7 @@ export const SITE = {
   email: 'teaminizio.media@gmail.com',
   phone: { display: '+91 90823 22109', href: 'tel:+919082322109' },
   instagram: { handle: '@iniziomedia_', url: 'https://instagram.com/iniziomedia_' },
+  linkedin: { name: 'Inizio Media', url: 'https://www.linkedin.com/company/teaminiziomedia/' },
   location: 'Mumbai, India',
   keywords: ['Strategy', 'Branding', 'Content', 'Social', 'Performance', 'Growth']
 } as const;

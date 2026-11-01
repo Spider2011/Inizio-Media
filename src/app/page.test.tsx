@@ -131,6 +131,7 @@ describe('Page content', { timeout: 30_000 }, () => {
     expect(document.querySelector(`a[href="${SITE.phone.href}"]`)).not.toBeNull();
     expect(document.querySelector(`a[href="mailto:${SITE.email}"]`)).not.toBeNull();
     expect(document.querySelector(`a[href="${SITE.instagram.url}"]`)).not.toBeNull();
+    expect(document.querySelector(`a[href="${SITE.linkedin.url}"]`)).not.toBeNull();
   });
 
   it('wraps the next-page chain round from the last page to the first', () => {
