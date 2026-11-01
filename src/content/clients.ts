@@ -26,31 +26,41 @@ import soHome from '@/assets/clients/so-home.png';
 import chocolateLibrary from '@/assets/clients/the-chocolate-library.png';
 import welcomeInterior from '@/assets/clients/welcome-interior-studio.png';
 
-export type Client = { name: string; logo: StaticImageData; scale: number };
+export type Client = {
+  name: string;
+  logo: StaticImageData;
+  scale: number;
+  /** Instagram handle (no @); the logo links to the profile when present. */
+  instagram?: string;
+};
+
+export function instagramUrl(handle: string): string {
+  return `https://www.instagram.com/${handle}/`;
+}
 
 export const CLIENTS: readonly Client[] = [
-  { name: 'Rotaract District 3141', logo: rotaract, scale: 1 },
-  { name: 'Bracezz', logo: bracezz, scale: 0.95 },
-  { name: 'The Chocolate Library', logo: chocolateLibrary, scale: 1.25 },
-  { name: 'Orange Decore', logo: orangeDecore, scale: 1 },
-  { name: 'Eternia Sports', logo: eterniaSports, scale: 1 },
-  { name: 'High Intensity Sports', logo: highIntensitySports, scale: 1.05 },
-  { name: 'GFC', logo: gfc, scale: 1.25 },
-  { name: 'Nail Art by Charmi', logo: nailArtByCharmi, scale: 1.25 },
-  { name: 'Artemix', logo: artemix, scale: 1.15 },
-  { name: 'Cuddly', logo: cuddly, scale: 1 },
-  { name: 'So Home', logo: soHome, scale: 1 },
-  { name: 'InvestSure Financial Services', logo: investsure, scale: 1.05 },
+  { name: 'Rotaract District 3141', logo: rotaract, scale: 1, instagram: 'rotaract_mumbai' },
+  { name: 'Bracezz', logo: bracezz, scale: 0.95, instagram: 'bracezzz__' },
+  { name: 'The Chocolate Library', logo: chocolateLibrary, scale: 1.25, instagram: 'the.chocolatelibrarymumbai' },
+  { name: 'Orange Decore', logo: orangeDecore, scale: 1, instagram: 'orangedecore_mumbai' },
+  { name: 'Eternia Sports', logo: eterniaSports, scale: 1, instagram: 'eterniasports' },
+  { name: 'High Intensity Sports', logo: highIntensitySports, scale: 1.05, instagram: 'highintensitysports' },
+  { name: 'Gala Food Corner', logo: gfc, scale: 1.25, instagram: 'galafoodcorner_' },
+  { name: 'Nail Art by Charmi', logo: nailArtByCharmi, scale: 1.25, instagram: 'nailhousebycharmi' },
+  { name: 'Artemix', logo: artemix, scale: 1.15, instagram: 'artemix.music' },
+  { name: 'Cuddly', logo: cuddly, scale: 1, instagram: 'cuddlymulund' },
+  { name: 'So Home', logo: soHome, scale: 1, instagram: 'sohome.in_' },
+  { name: 'InvestSure Financial Services', logo: investsure, scale: 1.05, instagram: 'investsurefs' },
   { name: 'Welcome Interior Studio', logo: welcomeInterior, scale: 1.1 },
-  { name: 'Chocobury', logo: chocobury, scale: 1 },
-  { name: 'ADC', logo: adc, scale: 1 },
-  { name: 'Shanti Siddhi', logo: shantiSiddhi, scale: 1.25 },
-  { name: 'Aarka', logo: aarka, scale: 1.25 },
-  { name: 'Nishk', logo: nishk, scale: 1.2 },
-  { name: 'O&B Sports Infrastructure', logo: obSports, scale: 1.1 },
-  { name: 'Oberoi Mulund Marathi Mandal', logo: mulundMarathiMandal, scale: 1.05 },
-  { name: 'Infiwick Candles', logo: infiwickCandles, scale: 1.15 },
-  { name: 'Moiraa', logo: moiraa, scale: 1.15 },
-  { name: 'Eat Smart Restart', logo: eatSmartRestart, scale: 1.05 },
-  { name: 'NE', logo: ne, scale: 0.9 }
+  { name: 'Chocobury', logo: chocobury, scale: 1, instagram: 'thechocobury' },
+  { name: 'ADC', logo: adc, scale: 1, instagram: 'dentistsatadc1977' },
+  { name: 'Shanti Siddhi', logo: shantiSiddhi, scale: 1.25, instagram: 'shantisiddhigroup' },
+  { name: 'Aarka', logo: aarka, scale: 1.25, instagram: 'aarka_life' },
+  { name: 'Nishk', logo: nishk, scale: 1.2, instagram: 'nishkbydessertwale' },
+  { name: 'O&B Sports Infrastructure', logo: obSports, scale: 1.1, instagram: 'oandb_sportsinfrastructure' },
+  { name: 'Oberoi Mulund Marathi Mandal', logo: mulundMarathiMandal, scale: 1.05, instagram: 'oberoi_mandali' },
+  { name: 'Infiwick Candles', logo: infiwickCandles, scale: 1.15, instagram: 'infiwick' },
+  { name: 'Moiraa', logo: moiraa, scale: 1.15, instagram: 'moiraaethnics' },
+  { name: 'Eat Smart Restart', logo: eatSmartRestart, scale: 1.05, instagram: 'eatsmart.restart' },
+  { name: 'Neo Estate', logo: ne, scale: 0.9, instagram: 'neoestatesofficial' }
 ];

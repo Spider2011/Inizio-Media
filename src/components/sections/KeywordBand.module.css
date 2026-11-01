@@ -1,50 +1,70 @@
+/* Deliberately quiet: regular-weight sentence case, a slow steady drift, soft edges. */
 .band {
   position: relative;
-  height: clamp(220px, 26vw, 360px);
-  display: grid;
-  place-items: center;
   overflow: hidden;
+  padding-block: clamp(22px, 3vw, 36px);
   background: var(--navy);
+  border-block: 1px solid var(--hairline-light);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
 }
 
-.ribbon {
-  position: absolute;
-  left: -5%;
-  width: 110%;
-  padding-block: clamp(14px, 1.6vw, 24px);
-  box-shadow: 0 30px 60px rgba(4, 15, 36, 0.45);
+.track {
+  display: flex;
+  width: max-content;
+  animation: drift 60s linear infinite;
 }
 
-.butter {
-  z-index: 2;
-  background: var(--butter);
-  color: var(--navy);
-  transform: rotate(-4deg);
-  text-shadow: 0.03em 0.035em 0 rgba(0, 74, 173, 0.4);
-}
-
-.blue {
-  background: var(--blue);
-  color: var(--white);
-  transform: rotate(3deg);
-  text-shadow: 0.03em 0.035em 0 var(--navy), 0 0 0.4em rgba(169, 196, 238, 0.35);
+.list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .item {
   display: inline-flex;
   align-items: center;
-  gap: clamp(20px, 3vw, 44px);
-  padding-right: clamp(20px, 3vw, 44px);
-  font-family: var(--font-display), sans-serif;
-  font-weight: 800;
-  font-size: clamp(30px, 5vw, 76px);
+  font-family: var(--font-body), sans-serif;
+  font-weight: 400;
+  font-size: clamp(18px, 2vw, 28px);
   line-height: 1;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: var(--blue-sky);
+  white-space: nowrap;
 }
 
-.star {
-  width: 0.6em;
-  height: 0.6em;
-  fill: currentColor;
+/* A small butter dot between words, with generous space either side. */
+.item::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  margin-inline: clamp(24px, 3.4vw, 52px);
+  border-radius: 50%;
+  background: var(--butter);
+  opacity: 0.8;
+}
+
+@keyframes drift {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+    width: auto;
+    justify-content: center;
+  }
+
+  .list:last-child {
+    display: none;
+  }
+
+  .list {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 12px;
+  }
 }

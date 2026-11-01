@@ -7,7 +7,7 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { Magnetic } from '@/components/fx/Magnetic';
 import { Arrow } from '@/components/ui/Arrow';
 import { Art } from '@/components/ui/Art';
-import { SectionTitle, type MoreLink } from '@/components/ui/SectionTitle';
+import { SectionTitle } from '@/components/ui/SectionTitle';
 import { GALLERY } from '@/content/gallery';
 import { SITE } from '@/content/site';
 import { distribute, EASE_OUT, VIEW } from '@/lib/motion';
@@ -23,7 +23,7 @@ const DRIFT: readonly [number, number][] = [
   [100, -60]
 ];
 
-export function Events({ more }: { more?: MoreLink }) {
+export function Events() {
   const [viewer, setViewer] = useState<Viewer | null>(null);
   const columns = useMediaQuery('(min-width: 768px)') ? 3 : 2;
   const buttons = useRef<Array<HTMLButtonElement | null>>([]);
@@ -45,7 +45,6 @@ export function Events({ more }: { more?: MoreLink }) {
           titleId="events-title"
           accent={['beautifully', 'kept']}
           lead="From sangeet to brand launch: candid coverage, edited fast and shared live."
-          more={more}
         />
 
         <div ref={gridRef} className={styles.grid} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>

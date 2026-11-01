@@ -1,6 +1,5 @@
 .clients {
   --accent: var(--blue);
-  --on-accent: var(--white);
   --muted: var(--ink-muted);
   --fx-edge: var(--blue-sky);
   --fx-deep: rgba(0, 74, 173, 0.3);
@@ -59,7 +58,9 @@
   animation-direction: reverse;
 }
 
-.rows:hover .track {
+/* Pause while pointing at or tabbing through the logos, so each link can be reached. */
+.rows:hover .track,
+.rows:focus-within .track {
   animation-play-state: paused;
 }
 
@@ -100,9 +101,50 @@
   transition: filter 0.4s, opacity 0.4s;
 }
 
-.tile:hover .logo {
+.tile:hover .logo,
+.link:focus-visible .logo {
   filter: none;
   opacity: 1;
+}
+
+/* The whole tile is the link to the client's Instagram. */
+.link {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.link:focus-visible {
+  outline-offset: 3px;
+}
+
+/* A small Instagram disc pops into the corner on hover, so the tile reads as a link without
+   covering the logo. (The markup carries `hidden` as a safety net; this rule shows it.) */
+.badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: var(--white);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.3s var(--ease-out), transform 0.4s var(--ease-out);
+}
+
+.glyph {
+  width: 14px;
+  height: 14px;
+}
+
+.tile:hover .badge,
+.link:focus-visible .badge {
+  opacity: 1;
+  transform: none;
 }
 
 @keyframes slide {
