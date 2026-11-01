@@ -61,14 +61,6 @@ const COPY: Record<NavId, PageCopy> = {
     lead: 'From founders’ first launches to city institutions, these are the brands that began with us.',
     description: 'The brands Inizio Media has worked with, from first-time founders to established names in Mumbai.'
   },
-  testimonials: {
-    title: 'Kind words, real results.',
-    teaser: 'What our clients say about working with us.',
-    photo: { id: 'photo-1550480082-dd9c35032f45', alt: 'A smiling woman in a brown hat' },
-    accent: ['results.'],
-    lead: 'What the brands we work with say about working with us.',
-    description: 'What clients say about working with Inizio Media, a digital marketing and branding agency in Mumbai.'
-  },
   contact: {
     title: 'Start something new.',
     teaser: 'Start a project, or just say hello.',

@@ -12,7 +12,6 @@ import ContactPage, { metadata as contactMeta } from './contact/page';
 import EventsPage, { metadata as eventsMeta } from './events/page';
 import HomePage from './page';
 import ServicesPage, { metadata as servicesMeta } from './services/page';
-import TestimonialsPage, { metadata as testimonialsMeta } from './testimonials/page';
 import WorkPage, { metadata as workMeta } from './work/page';
 
 /* Under Vite, static image imports are URL strings without dimensions; render a plain <img>. */
@@ -30,10 +29,9 @@ vi.mock('next/image', () => ({
 const INNER: Record<NavId, { Page: ComponentType; meta: Metadata; sections: readonly string[] }> = {
   about: { Page: AboutPage, meta: aboutMeta, sections: ['about', 'results-title', 'process', 'collab-title'] },
   services: { Page: ServicesPage, meta: servicesMeta, sections: ['services', 'process', 'What we do, in brief', 'collab-title'] },
-  work: { Page: WorkPage, meta: workMeta, sections: ['work', 'results-title', 'collab-title'] },
+  work: { Page: WorkPage, meta: workMeta, sections: ['results-title', 'clientele', 'collab-title'] },
   events: { Page: EventsPage, meta: eventsMeta, sections: ['events', 'collab-title'] },
-  clientele: { Page: ClientelePage, meta: clienteleMeta, sections: ['clientele', 'testimonials'] },
-  testimonials: { Page: TestimonialsPage, meta: testimonialsMeta, sections: ['testimonials', 'results-title', 'collab-title'] },
+  clientele: { Page: ClientelePage, meta: clienteleMeta, sections: ['clientele'] },
   contact: { Page: ContactPage, meta: contactMeta, sections: ['contact'] }
 };
 

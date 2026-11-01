@@ -5,7 +5,11 @@ import { Arrow } from '@/components/ui/Arrow';
 import { NAV_LINKS } from '@/content/site';
 import styles from './not-found.module.css';
 
-export const metadata: Metadata = { title: 'Page not found' };
+export const metadata: Metadata = {
+  title: 'Page not found',
+  description: 'This page could not be found. Visit the Inizio Media home page or browse our services, work and contact pages.',
+  robots: { index: false, follow: true }
+};
 
 export default function NotFound() {
   return (

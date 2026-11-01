@@ -19,7 +19,8 @@
   /* Display sizes are set in sentence case: lower-case Syne runs ~0.62em per letter, so the longest
      words ("beginnings", "statistics,") always fit the container. */
   --text-hero: min(calc((100vw - 2 * var(--gutter)) / 6.8), 132px);
-  --text-xxl: clamp(40px, 7vw, 120px);
+  /* 36px floor: the longest heading word ("beginning.") then fits a 320px screen. */
+  --text-xxl: clamp(36px, 7vw, 120px);
   --text-xl: clamp(36px, 6vw, 96px);
   --text-lg: clamp(28px, 3.6vw, 56px);
 

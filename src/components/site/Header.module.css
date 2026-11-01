@@ -29,6 +29,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  min-height: 44px;
   margin-right: auto;
 }
 
@@ -131,6 +132,30 @@
   height: 2px;
   background: var(--butter);
   transform-origin: 0 50%;
+}
+
+/* Very small phones (≈320–380px): tighter spacing and a slightly smaller mark, so the logo and the
+   Menu button fit without the bar running past the screen edge. */
+@media (max-width: 380px) {
+  .pill {
+    gap: 10px;
+    padding-left: 12px;
+  }
+
+  .brand {
+    gap: 8px;
+  }
+
+  .brand img {
+    width: 48px;
+    height: auto;
+  }
+
+  .menuButton {
+    gap: 10px;
+    padding: 0 14px;
+    letter-spacing: 0.12em;
+  }
 }
 
 @media (min-width: 768px) {

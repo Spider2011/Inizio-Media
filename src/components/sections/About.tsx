@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import markBlue from '@/assets/logos/inizio-im-mark-blue.svg';
+import markBlue from '@/assets/logos/inizio-im-mark-blue.png';
 import { Parallax } from '@/components/fx/Parallax';
 import { RotatingBadge } from '@/components/fx/RotatingBadge';
 import { ScrollWords } from '@/components/fx/ScrollWords';
@@ -20,7 +20,7 @@ export function About() {
             <Parallax distance={-160}>
               <div className={styles.markWrap}>
                 <RotatingBadge text="Inizio means beginning" className={styles.badge}>
-                  <Image src={markBlue} alt="" width={150} height={77} unoptimized />
+                  <Image src={markBlue} alt="" width={150} height={77} />
                 </RotatingBadge>
               </div>
             </Parallax>

@@ -26,7 +26,6 @@ describe('Header', () => {
       'Our Work',
       'Events & Weddings',
       'Clientele',
-      'Testimonials',
       'Contact'
     ]);
     expect(links.map((a) => a.getAttribute('href'))).toEqual([
@@ -35,7 +34,6 @@ describe('Header', () => {
       '/work',
       '/events',
       '/clientele',
-      '/testimonials',
       '/contact'
     ]);
   });

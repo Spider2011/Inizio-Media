@@ -3,6 +3,7 @@ import { Clients } from '@/components/sections/Clients';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { PageShell } from '@/components/site/PageShell';
 import { getPage } from '@/content/pages';
+import { TESTIMONIALS_ARE_SAMPLE } from '@/content/testimonials';
 
 const page = getPage('clientele');
 
@@ -13,11 +14,12 @@ export const metadata: Metadata = {
   openGraph: { title: `${page.label} · Inizio Media`, description: page.description, url: page.href }
 };
 
+/* Client quotes appear once real, approved testimonials replace the sample data in content/testimonials.ts. */
 export default function ClientelePage() {
   return (
     <PageShell id="clientele">
       <Clients />
-      <Testimonials />
+      {!TESTIMONIALS_ARE_SAMPLE && <Testimonials />}
     </PageShell>
   );
 }
