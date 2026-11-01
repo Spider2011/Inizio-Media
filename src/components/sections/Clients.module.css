@@ -61,9 +61,15 @@
 /* Pause while pointing at the logos, or while tabbing through them with the keyboard (so each link
    can be reached). Keyboard focus only: a mouse click also focuses the link, and :focus-within
    would leave the wall frozen after the visitor comes back from Instagram. */
-.rows:hover .track,
+/* Touch screens get no hover pause: a tap leaves a sticky :hover behind, which froze the wall. */
 .rows:has(:focus-visible) .track {
   animation-play-state: paused;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .rows:hover .track {
+    animation-play-state: paused;
+  }
 }
 
 .list {
@@ -86,9 +92,21 @@
   transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
 }
 
-.tile:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(7, 28, 64, 0.14);
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(7, 28, 64, 0.14);
+  }
+
+  .tile:hover .logo {
+    filter: none;
+    opacity: 1;
+  }
+
+  .tile:hover .badge {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Pinned inside the inset, so a tall or square logo can never stretch the tile out of 3:2. */
@@ -103,7 +121,6 @@
   transition: filter 0.4s, opacity 0.4s;
 }
 
-.tile:hover .logo,
 .link:focus-visible .logo {
   filter: none;
   opacity: 1;
@@ -143,7 +160,14 @@
   height: 14px;
 }
 
-.tile:hover .badge,
+/* Touch screens can't hover, so the Instagram disc is always shown there as the tap cue. */
+@media (hover: none) {
+  .badge {
+    opacity: 0.9;
+    transform: scale(0.85);
+  }
+}
+
 .link:focus-visible .badge {
   opacity: 1;
   transform: none;

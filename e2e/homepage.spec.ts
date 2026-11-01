@@ -123,8 +123,8 @@ test('the home page stays short and its index leads to every page', async ({ pag
   await expect(page.getByRole('heading', { level: 1, name: 'Work that moves the numbers.' })).toBeVisible();
 });
 
-test('the logo wall keeps sliding after a logo is clicked, and pauses for keyboard focus', async ({ page, context }, testInfo) => {
-  test.skip(testInfo.project.name === 'phone', 'Uses a mouse pointer.');
+test('the logo wall keeps sliding after a logo is clicked or tapped, and pauses for keyboard focus', async ({ page, context }, testInfo) => {
+  const phone = testInfo.project.name === 'phone';
   /* Clicking opens Instagram in a new tab; keep the test offline. */
   await context.route('**/*instagram.com/**', (route) => route.abort());
   await open(page, '/clientele');
@@ -132,15 +132,27 @@ test('the logo wall keeps sliding after a logo is clicked, and pauses for keyboa
   const track = page.locator('#clientele [class*="track"]').first();
   const state = () => track.evaluate((el) => getComputedStyle(el).animationPlayState);
 
+  /* Pick a logo that is fully on screen right now (the wall keeps moving). */
+  const target = await page.evaluate(() => {
+    const link = [...document.querySelectorAll<HTMLAnchorElement>('#clientele ul:not([aria-hidden]) a')].find((a) => {
+      const r = a.getBoundingClientRect();
+      return r.left > 20 && r.right < innerWidth - 20 && r.top > 0 && r.bottom < innerHeight;
+    })!;
+    const r = link.getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+  });
   const popup = page.waitForEvent('popup');
-  await page.getByRole('link', { name: /on Instagram/ }).first().click({ force: true });
+  if (phone) await page.touchscreen.tap(target.x, target.y);
+  else await page.mouse.click(target.x, target.y);
   await (await popup).close();
-  await page.mouse.move(5, 5);
+  if (!phone) await page.mouse.move(5, 5);
   await expect.poll(state).toBe('running');
 
   /* Tabbing onto a logo pauses the wall so it can be reached. */
-  await page.keyboard.press('Tab');
-  await expect.poll(state).toBe('paused');
+  if (!phone) {
+    await page.keyboard.press('Tab');
+    await expect.poll(state).toBe('paused');
+  }
 });
 
 test('the header moves between pages under the curtain and marks the current page', async ({ page }, testInfo) => {
