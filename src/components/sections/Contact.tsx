@@ -23,7 +23,7 @@ export function Contact() {
           <p className="eyebrow" style={{ color: 'var(--butter)' }}>
             Ready to build?
           </p>
-          <SplitText as="h2" id="contact-title" className={`${styles.title} fx-depth fx-hover`} text={"Let's\ncreate."} by="chars" stagger={0.04} classFor={{ 'create.': 'fx-neon' }} />
+          <SplitText as="h2" id="contact-title" className={`${styles.title} fx-depth fx-hover`} text={"Let's\ncreate."} by="chars" stagger={0.04} classFor={{ 'create.': styles.accent }} />
 
           <ul className={styles.details}>
             {DETAILS.map((detail) => (
