@@ -123,6 +123,26 @@ test('the home page stays short and its index leads to every page', async ({ pag
   await expect(page.getByRole('heading', { level: 1, name: 'Work that moves the numbers.' })).toBeVisible();
 });
 
+test('the logo wall keeps sliding after a logo is clicked, and pauses for keyboard focus', async ({ page, context }, testInfo) => {
+  test.skip(testInfo.project.name === 'phone', 'Uses a mouse pointer.');
+  /* Clicking opens Instagram in a new tab; keep the test offline. */
+  await context.route('**/*instagram.com/**', (route) => route.abort());
+  await open(page, '/clientele');
+  await page.locator('#clientele').scrollIntoViewIfNeeded();
+  const track = page.locator('#clientele [class*="track"]').first();
+  const state = () => track.evaluate((el) => getComputedStyle(el).animationPlayState);
+
+  const popup = page.waitForEvent('popup');
+  await page.getByRole('link', { name: /on Instagram/ }).first().click({ force: true });
+  await (await popup).close();
+  await page.mouse.move(5, 5);
+  await expect.poll(state).toBe('running');
+
+  /* Tabbing onto a logo pauses the wall so it can be reached. */
+  await page.keyboard.press('Tab');
+  await expect.poll(state).toBe('paused');
+});
+
 test('the header moves between pages under the curtain and marks the current page', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === 'phone', 'The full navigation shows from 1280px.');
   await open(page);
