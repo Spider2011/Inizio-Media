@@ -40,9 +40,9 @@
   letter-spacing: -0.05em;
 }
 
-.contact {
-  --fx-neon: var(--butter);
-  --fx-glow: rgba(246, 231, 161, 0.28);
+/* "create." in solid butter, keeping the same extruded depth as "Let's". */
+.accent {
+  color: var(--butter);
 }
 
 .details {
