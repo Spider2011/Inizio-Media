@@ -58,9 +58,11 @@
   animation-direction: reverse;
 }
 
-/* Pause while pointing at or tabbing through the logos, so each link can be reached. */
+/* Pause while pointing at the logos, or while tabbing through them with the keyboard (so each link
+   can be reached). Keyboard focus only: a mouse click also focuses the link, and :focus-within
+   would leave the wall frozen after the visitor comes back from Instagram. */
 .rows:hover .track,
-.rows:focus-within .track {
+.rows:has(:focus-visible) .track {
   animation-play-state: paused;
 }
 
