@@ -1,24 +1,19 @@
 'use client';
 
 import { m, type Variants } from 'motion/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Spotlight } from '@/components/fx/Spotlight';
 import { Arrow } from '@/components/ui/Arrow';
-import { Art } from '@/components/ui/Art';
 import type { ServiceCard } from '@/content/services';
-import type { PlaceholderTone } from '@/content/types';
 import { cx } from '@/lib/cx';
 import { pad2 } from '@/lib/format';
 import { EASE_OUT, VIEW } from '@/lib/motion';
+import { unsplashLoader, unsplashSrc } from '@/lib/unsplash';
 import styles from './ServiceFolder.module.css';
 
-/* Folder colours rotate through the palette; each pairs with artwork that stands out against it. */
-const TONES = [
-  { folder: 'butter', art: 'blue' },
-  { folder: 'sky', art: 'navy' },
-  { folder: 'navy', art: 'butter' },
-  { folder: 'paper', art: 'blue' }
-] as const satisfies readonly { folder: string; art: PlaceholderTone }[];
+/* Folder colours rotate through the palette. */
+const TONES = ['butter', 'sky', 'navy', 'paper'] as const;
 
 const rise: Variants = {
   hidden: { opacity: 0, y: 60 },
@@ -48,15 +43,25 @@ export function ServiceFolder({ service, index, className }: Props) {
       whileInView="show"
       viewport={VIEW}
     >
-      <Spotlight as="article" className={cx(styles.folder, styles[tone.folder])} tilt={8}>
+      <Spotlight as="article" className={cx(styles.folder, styles[tone])} tilt={8}>
         <Link className={styles.link} href="/contact" data-cursor="Enquire">
           <span className={styles.back} aria-hidden="true">
             <span className={styles.tab}>{number}</span>
           </span>
 
           <m.span className={styles.sheets} custom={index} variants={drop} aria-hidden="true">
+            {/* A photo print tucked into the folder (decorative: the service is named on the pocket). */}
             <span className={cx(styles.sheet, styles.sheetArt)}>
-              <Art tone={tone.art} seed={index + 1} />
+              <span className={styles.photo}>
+                <Image
+                  loader={unsplashLoader}
+                  src={unsplashSrc(service.photo)}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 240px, 60vw"
+                  className={styles.photoImg}
+                />
+              </span>
             </span>
             <span className={cx(styles.sheet, styles.sheetNote)}>
               <span className={styles.initial}>{service.title.charAt(0)}</span>

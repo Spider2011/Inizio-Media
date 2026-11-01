@@ -3,7 +3,7 @@
 import { m, useScroll, useTransform } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { Arrow } from '@/components/ui/Arrow';
-import { SectionTitle, type MoreLink } from '@/components/ui/SectionTitle';
+import { SectionTitle } from '@/components/ui/SectionTitle';
 import { SERVICE_CARDS } from '@/content/services';
 import styles from './Services.module.css';
 import { ServiceFolder } from './ServiceFolder';
@@ -12,7 +12,7 @@ import { ServiceFolder } from './ServiceFolder';
 const HORIZONTAL = '(min-width: 1024px) and (prefers-reduced-motion: no-preference)';
 
 /* Desktop: the section pins and the glass folders travel sideways as you scroll down. Elsewhere: a grid. */
-export function Services({ more }: { more?: MoreLink }) {
+export function Services() {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [distance, setDistance] = useState(0);
@@ -53,7 +53,6 @@ export function Services({ more }: { more?: MoreLink }) {
               titleId="services-title"
               accent={['do']}
               lead="Fourteen services, one team. Pick one, or let us run the whole journey."
-              more={more}
             />
             <p className={styles.hint} aria-hidden="true">
               Keep scrolling <Arrow />

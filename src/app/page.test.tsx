@@ -45,20 +45,17 @@ function sectionKeys(root: Element): string[] {
 
 /* Rendering whole pages in jsdom is slow on a cold start, so these get a longer timeout. */
 describe('Home page', { timeout: 30_000 }, () => {
-  it('previews each part of the site in order', () => {
+  it('stays short: the hero, the keyword band, then the index of pages', () => {
     const { container } = render(<HomePage />);
-    expect(sectionKeys(container)).toEqual([
-      'top',
-      'What we do, in brief',
-      'results-title',
-      'about',
-      'services',
-      'work',
-      'collab-title',
-      'events',
-      'clientele',
-      'testimonials'
-    ]);
+    expect(sectionKeys(container)).toEqual(['top', 'What we do, in brief', 'explore']);
+  });
+
+  it('lists every page in the index, in navigation order, with its teaser', () => {
+    render(<HomePage />);
+    const index = screen.getByRole('region', { name: 'Where to next?' });
+    const links = within(index).getAllByRole('link');
+    expect(links.map((a) => a.getAttribute('href'))).toEqual(PAGES.map((page) => page.href));
+    PAGES.forEach((page) => expect(within(index).getByText(page.teaser)).toBeInTheDocument());
   });
 
   it('has one h1 and a way into every page', () => {
@@ -105,6 +102,28 @@ describe('Page content', { timeout: 30_000 }, () => {
     render(<ClientelePage />);
     const named = Array.from(document.querySelectorAll('#clientele img')).filter((img) => img.getAttribute('alt'));
     expect(named.map((img) => img.getAttribute('alt')).sort()).toEqual(CLIENTS.map((c) => c.name).sort());
+  });
+
+  it('links each client logo to its Instagram profile in a new tab, once per client', () => {
+    render(<ClientelePage />);
+    const wall = document.getElementById('clientele')!;
+    const linked = CLIENTS.filter((client) => client.instagram);
+    for (const client of linked) {
+      const link = within(wall).getByRole('link', { name: `${client.name} on Instagram (opens in a new tab)` });
+      expect(link).toHaveAttribute('href', `https://www.instagram.com/${client.instagram}/`);
+      expect(link).toHaveAttribute('target', '_blank');
+      expect(link.getAttribute('rel')).toContain('noopener');
+    }
+    /* The looping duplicate of each row stays out of the tab order. */
+    const copies = Array.from(wall.querySelectorAll('ul[aria-hidden="true"] a'));
+    expect(copies).toHaveLength(linked.length);
+    copies.forEach((a) => expect(a).toHaveAttribute('tabindex', '-1'));
+  });
+
+  it('stores bare Instagram handles, without tracking codes', () => {
+    for (const client of CLIENTS) {
+      if (client.instagram) expect(client.instagram).toMatch(/^[a-z0-9._]+$/);
+    }
   });
 
   it('uses the exact contact details on the contact page', () => {

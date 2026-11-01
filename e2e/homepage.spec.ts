@@ -48,7 +48,7 @@ test('every animated element on the home page finishes visible once scrolled pas
 });
 
 test('results count up and land on the real figures', async ({ page }) => {
-  await open(page);
+  await open(page, '/work');
   const results = page.getByRole('region', { name: 'Statistics, on average' });
   await results.scrollIntoViewIfNeeded();
   for (const figure of ['15M', '10.2M', '100K']) {
@@ -96,6 +96,31 @@ test('client logos show at a readable size in compact tiles', async ({ page }) =
     expect(size.tileWidth / size.tileHeight).toBeCloseTo(1.5, 1);
     expect(Math.max(size.logoWidth, size.logoHeight)).toBeGreaterThan(50);
   }
+});
+
+test('the home page stays short and its index leads to every page', async ({ page }) => {
+  await open(page);
+  const screens = await page.evaluate(() => document.body.scrollHeight / window.innerHeight);
+  expect(screens).toBeLessThan(7);
+
+  const index = page.getByRole('region', { name: 'Where to next?' });
+  await index.scrollIntoViewIfNeeded();
+  /* No page name may run into its arrow button. */
+  const overlaps = await index.locator('li').evaluateAll((items) =>
+    items
+      .map((li) => {
+        const label = li.querySelector('[class*="label"]')!.getBoundingClientRect();
+        const disc = li.querySelector('[class*="disc"]')!.getBoundingClientRect();
+        return { name: li.textContent?.trim().slice(0, 20), overlap: label.right > disc.left && label.bottom > disc.top && label.top < disc.bottom };
+      })
+      .filter((row) => row.overlap)
+      .map((row) => row.name)
+  );
+  expect(overlaps).toEqual([]);
+
+  await index.getByRole('link', { name: /Our Work/ }).click();
+  await expect(page).toHaveURL(/\/work$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'Work that moves the numbers.' })).toBeVisible();
 });
 
 test('the header moves between pages under the curtain and marks the current page', async ({ page }, testInfo) => {

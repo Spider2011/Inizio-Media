@@ -126,7 +126,7 @@ export function Hero() {
             </div>
           ))}
         </dl>
-        <a className={styles.scroll} href="#about">
+        <a className={styles.scroll} href="#explore">
           <span className={styles.mouse} aria-hidden="true" />
           Scroll to explore
         </a>
