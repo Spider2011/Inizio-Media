@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-const ROUTES = ['/', '/about', '/services', '/work', '/events', '/clientele', '/testimonials', '/contact'] as const;
+const ROUTES = ['/', '/about', '/services', '/work', '/events', '/clientele', '/contact'] as const;
 
 /* Load a page and wait for the preloader curtain to finish. */
 async function open(page: Page, path = '/') {
@@ -172,21 +172,47 @@ test('the header moves between pages under the curtain and marks the current pag
   await expect(page.getByRole('heading', { level: 1, name: 'Moments worth keeping.' })).toBeVisible();
 });
 
-test('the gallery viewer opens, moves between photos, and is removed on close', async ({ page }) => {
-  await open(page, '/events');
-  const opener = page.getByRole('button', { name: 'Open photo: Haldi morning' });
-  await opener.scrollIntoViewIfNeeded();
-  await opener.click();
+test('the enquiry form explains a refusal, and offers email when the network fails', async ({ page }) => {
+  let attempt = 0;
+  await page.route('**/api/enquiry', (route) => {
+    attempt += 1;
+    if (attempt === 1) {
+      return route.fulfill({
+        status: 429,
+        contentType: 'application/json',
+        body: JSON.stringify({ success: false, data: null, error: 'Too many enquiries. Please try again in a few minutes.' })
+      });
+    }
+    return route.abort('failed');
+  });
+  /* The email fallback would leave the page; stub it so the message can be read. */
+  await page.addInitScript(() => {
+    window.location.assign = () => undefined;
+  });
+  await open(page, '/contact');
+  await page.locator('#contact').scrollIntoViewIfNeeded();
+  await page.getByLabel('Your name').fill('Asha');
+  await page.getByLabel('Phone or email').fill('9082322109');
 
-  const viewer = page.getByRole('dialog', { name: 'Photo viewer' });
-  await expect(viewer).toBeVisible();
-  await expect(viewer.getByRole('button', { name: 'Close' })).toBeFocused();
-  await page.keyboard.press('ArrowRight');
-  await expect(viewer.getByText('The pheras')).toBeVisible();
+  await page.getByRole('button', { name: 'Send enquiry' }).click();
+  await expect(page.getByText('Too many enquiries. Please try again in a few minutes.')).toBeVisible();
 
-  await page.keyboard.press('Escape');
-  await expect(viewer).toHaveCount(0);
-  await expect(opener).toBeFocused();
+  await page.getByRole('button', { name: 'Send enquiry' }).click();
+  await expect(page.getByText(/opened your email app/)).toBeVisible();
+});
+
+test('no page shows placeholder or sample text', async ({ page }) => {
+  for (const route of ROUTES) {
+    await page.goto(route);
+    const text = await page.locator('main').innerText();
+    expect(text, route).not.toMatch(/client name|sample (cards|quotes)|photo · \d:\d|lorem ipsum/i);
+  }
+});
+
+test('the retired testimonials address redirects to the clientele page', async ({ page }) => {
+  const response = await page.goto('/testimonials');
+  expect(response?.url()).toMatch(/\/clientele$/);
+  expect(response?.status()).toBe(200);
 });
 
 test('the menu bursts open, traps focus and takes you to another page', async ({ page }, testInfo) => {

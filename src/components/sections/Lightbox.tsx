@@ -4,7 +4,6 @@ import { AnimatePresence, m, useIsPresent, type PanInfo, type Variants } from 'm
 import Image from 'next/image';
 import { useRef, useState, type KeyboardEvent } from 'react';
 import { Arrow } from '@/components/ui/Arrow';
-import { Art } from '@/components/ui/Art';
 import type { GalleryItem } from '@/content/gallery';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
@@ -107,11 +106,8 @@ export function Lightbox({ items, index, openedIndex, onNavigate, onClose, retur
               className={styles.frame}
               style={{ aspectRatio: item.ratio, ['--ratio' as string]: ratioValue(item.ratio) }}
             >
-              {item.photo ? (
-                <Image src={item.photo.image} alt={item.photo.alt} fill sizes="90vw" className={styles.photo} />
-              ) : (
-                <Art tone={item.tone} seed={index + 11} label="Photo" />
-              )}
+              {/* The gallery only opens real photographs (Events filters out items without one). */}
+              {item.photo && <Image src={item.photo.image} alt={item.photo.alt} fill sizes="90vw" className={styles.photo} />}
             </m.div>
           </m.div>
         </AnimatePresence>

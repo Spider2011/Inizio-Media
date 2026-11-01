@@ -59,7 +59,7 @@
 .caption b {
   display: block;
   margin-bottom: 4px;
-  font-size: 11px;
+  font-size: 12px;
   font-style: normal;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -76,6 +76,55 @@
   .caption {
     transform: none;
     opacity: 1;
+  }
+}
+
+/* ---------- What the coverage includes (shown until real photos are in the gallery) ---------- */
+.coverage {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.coverageItem {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  min-height: 220px;
+  padding: clamp(24px, 3vw, 36px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--hairline-light);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.015));
+}
+
+.coverageIndex {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: var(--butter);
+}
+
+.coverageTitle {
+  margin-top: auto;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.coverageText {
+  max-width: 34ch;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+@media (min-width: 768px) {
+  .coverage {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

@@ -84,6 +84,17 @@
   color: var(--butter);
 }
 
+/* Fingers need bigger targets than mouse pointers. */
+@media (pointer: coarse) {
+  .list {
+    gap: 0;
+  }
+
+  .list a {
+    min-height: 44px;
+  }
+}
+
 .studio {
   font-size: 15px;
   line-height: 1.9;

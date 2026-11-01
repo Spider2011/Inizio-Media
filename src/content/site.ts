@@ -6,7 +6,7 @@ export const SITE = {
     'Inizio Media is a Mumbai-based digital marketing and branding agency. Strategy · Branding · Content · Social · Performance · Growth. We build brands.',
   email: 'teaminizio.media@gmail.com',
   phone: { display: '+91 90823 22109', href: 'tel:+919082322109' },
-  instagram: { handle: '@iniziomedia_', url: 'https://instagram.com/iniziomedia_' },
+  instagram: { handle: '@iniziomedia_', url: 'https://www.instagram.com/iniziomedia_/' },
   linkedin: { name: 'Inizio Media', url: 'https://www.linkedin.com/company/teaminiziomedia/' },
   location: 'Mumbai, India',
   keywords: ['Strategy', 'Branding', 'Content', 'Social', 'Performance', 'Growth']
@@ -19,7 +19,6 @@ export const NAV_LINKS = [
   { id: 'work', label: 'Our Work', href: '/work' },
   { id: 'events', label: 'Events & Weddings', href: '/events' },
   { id: 'clientele', label: 'Clientele', href: '/clientele' },
-  { id: 'testimonials', label: 'Testimonials', href: '/testimonials' },
   { id: 'contact', label: 'Contact', href: '/contact' }
 ] as const;
 

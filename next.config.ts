@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];
+  },
+  /* The Testimonials page is retired until there are real, approved quotes; old links land on Clientele. */
+  async redirects() {
+    return [{ source: '/testimonials', destination: '/clientele', permanent: true }];
   }
 };
 

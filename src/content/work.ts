@@ -21,7 +21,7 @@ export const WORK: readonly WorkItem[] = [
     client: 'Client Name',
     tags: ['Branding', 'Social'],
     description: 'Identity refresh and a three-month launch calendar for a lifestyle label.',
-    href: 'https://instagram.com/iniziomedia_',
+    href: 'https://www.instagram.com/iniziomedia_/',
     tone: 'pale'
   },
   {
@@ -29,7 +29,7 @@ export const WORK: readonly WorkItem[] = [
     client: 'Client Name',
     tags: ['Performance', 'Content'],
     description: 'Always-on Meta campaigns with weekly creative rotation.',
-    href: 'https://instagram.com/iniziomedia_',
+    href: 'https://www.instagram.com/iniziomedia_/',
     tone: 'blue'
   },
   {
@@ -37,7 +37,7 @@ export const WORK: readonly WorkItem[] = [
     client: 'Client Name',
     tags: ['Website', 'SEO'],
     description: 'A new site and search plan that turned a catalogue into a storefront.',
-    href: 'https://instagram.com/iniziomedia_',
+    href: 'https://www.instagram.com/iniziomedia_/',
     tone: 'navy'
   }
 ];

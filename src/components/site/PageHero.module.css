@@ -131,6 +131,12 @@
   color: var(--butter);
 }
 
+@media (pointer: coarse) {
+  .crumbs a {
+    min-height: 44px;
+  }
+}
+
 .crumbs [aria-current='page'] {
   color: var(--butter);
 }

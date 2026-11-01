@@ -81,9 +81,11 @@ export function Footer() {
 
       <div className={`container ${styles.bottom}`}>
         <span>
-          © {new Date().getFullYear()} {SITE.name} · {SITE.location}
+          © {new Date().getFullYear()} {SITE.name}. All rights reserved.
         </span>
-        <span>{SITE.keywords.join(' · ')}</span>
+        <span>
+          {SITE.location} · {SITE.keywords.join(' · ')}
+        </span>
       </div>
     </footer>
   );

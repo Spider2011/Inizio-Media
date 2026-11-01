@@ -4,8 +4,11 @@
   background: var(--navy);
 }
 
+/* minmax(0, 1fr): the column is the screen's width, never stretched by a card's content (that pushed
+   the cards 31px past a 320px screen). */
 .stack {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .slot {
@@ -20,6 +23,7 @@
 
 .card {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 24px;
   height: min(70vh, 600px);
   min-height: 480px;
