@@ -1,8 +1,8 @@
 import Image from 'next/image';
+import { AutoScroller } from '@/components/fx/AutoScroller';
 import { Counter } from '@/components/fx/Counter';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { CLIENTS, instagramUrl, type Client } from '@/content/clients';
-import { cx } from '@/lib/cx';
 import styles from './Clients.module.css';
 
 const HALF = Math.ceil(CLIENTS.length / 2);
@@ -52,11 +52,12 @@ function Tile({ client, decorative }: { client: Client; decorative: boolean }) {
   );
 }
 
-/* Two copies back to back slide by half their width, so the loop has no seam. */
+/* Two copies back to back, so the loop has no seam. The row drifts on its own and can also be
+   dragged, swiped or scrolled sideways by hand. */
 function Row({ clients, reverse }: { clients: readonly Client[]; reverse?: boolean }) {
   return (
-    <div className={styles.row}>
-      <div className={cx(styles.track, reverse && styles.reverse)}>
+    <AutoScroller className={styles.row} reverse={reverse} loopSeconds={55}>
+      <div className={styles.track}>
         {[0, 1].map((copy) => (
           <ul key={copy} className={styles.list} aria-hidden={copy > 0 ? true : undefined}>
             {clients.map((client) => (
@@ -65,7 +66,7 @@ function Row({ clients, reverse }: { clients: readonly Client[]; reverse?: boole
           </ul>
         ))}
       </div>
-    </div>
+    </AutoScroller>
   );
 }
 

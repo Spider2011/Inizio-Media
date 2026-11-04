@@ -44,32 +44,37 @@
   mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
 }
 
+/* Each row is a sideways scroller: AutoScroller drifts it, and visitors can drag, swipe or scroll it.
+   It pauses while pointed at with a mouse or tabbed through with the keyboard (see AutoScroller). */
 .row {
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  user-select: none;
+  -webkit-user-select: none;
+  /* Room for the tiles' lift on hover, which the scroller would otherwise clip. */
+  padding-block: 8px;
+  margin-block: -8px;
+}
+
+.row::-webkit-scrollbar {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .row {
+    cursor: grab;
+  }
+
+  .row[data-dragging] {
+    cursor: grabbing;
+  }
 }
 
 .track {
   display: flex;
   width: max-content;
-  animation: slide 55s linear infinite;
-}
-
-.reverse {
-  animation-direction: reverse;
-}
-
-/* Pause while pointing at the logos, or while tabbing through them with the keyboard (so each link
-   can be reached). Keyboard focus only: a mouse click also focuses the link, and :focus-within
-   would leave the wall frozen after the visitor comes back from Instagram. */
-/* Touch screens get no hover pause: a tap leaves a sticky :hover behind, which froze the wall. */
-.rows:has(:focus-visible) .track {
-  animation-play-state: paused;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .rows:hover .track {
-    animation-play-state: paused;
-  }
 }
 
 .list {
@@ -173,12 +178,6 @@
   transform: none;
 }
 
-@keyframes slide {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 @media (min-width: 900px) {
   .head {
     grid-template-columns: 1fr auto;
@@ -186,8 +185,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .row {
+    overflow: visible;
+    cursor: auto;
+  }
+
   .track {
-    animation: none;
     flex-wrap: wrap;
     width: auto;
   }
