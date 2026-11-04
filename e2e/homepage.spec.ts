@@ -129,8 +129,8 @@ test('the logo wall keeps sliding after a logo is clicked or tapped, and pauses 
   await context.route('**/*instagram.com/**', (route) => route.abort());
   await open(page, '/clientele');
   await page.locator('#clientele').scrollIntoViewIfNeeded();
-  const track = page.locator('#clientele [class*="track"]').first();
-  const state = () => track.evaluate((el) => getComputedStyle(el).animationPlayState);
+  const row = page.locator('#clientele [data-state]').first();
+  const state = () => row.getAttribute('data-state');
 
   /* Pick a logo that is fully on screen right now (the wall keeps moving). */
   const target = await page.evaluate(() => {
@@ -146,13 +146,42 @@ test('the logo wall keeps sliding after a logo is clicked or tapped, and pauses 
   else await page.mouse.click(target.x, target.y);
   await (await popup).close();
   if (!phone) await page.mouse.move(5, 5);
-  await expect.poll(state).toBe('running');
+  /* A tap or click holds the wall briefly, then it drifts on. */
+  await expect.poll(state, { timeout: 8000 }).toBe('running');
 
   /* Tabbing onto a logo pauses the wall so it can be reached. */
   if (!phone) {
     await page.keyboard.press('Tab');
     await expect.poll(state).toBe('paused');
   }
+});
+
+test('the logo wall drifts on its own and can be dragged by hand without opening a logo', async ({ page, context }, testInfo) => {
+  test.skip(testInfo.project.name === 'phone', 'Mouse dragging; touch swipes use the browser’s own scrolling.');
+  await context.route('**/*instagram.com/**', (route) => route.abort());
+  await open(page, '/clientele');
+  const row = page.locator('#clientele [data-state]').first();
+  await row.scrollIntoViewIfNeeded();
+  await page.mouse.move(5, 5);
+  const left = () => row.evaluate((el) => el.scrollLeft);
+
+  const start = await left();
+  await expect.poll(left).not.toBe(start);
+
+  const box = (await row.boundingBox())!;
+  const y = box.y + box.height / 2;
+  let popups = 0;
+  page.on('popup', () => (popups += 1));
+  await page.mouse.move(box.x + box.width / 2, y);
+  const before = await left();
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width / 2 - 300, y, { steps: 10 });
+  await page.mouse.up();
+  const moved = (await left()) - before;
+  /* 300px of drag, give or take a loop jump of one copy. */
+  expect(Math.abs(moved) % ((await row.evaluate((el) => el.scrollWidth)) / 2)).toBeGreaterThan(250);
+  await page.waitForTimeout(300);
+  expect(popups).toBe(0);
 });
 
 test('the header moves between pages under the curtain and marks the current page', async ({ page }, testInfo) => {
