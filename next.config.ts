@@ -13,9 +13,13 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];
   },
-  /* The Testimonials page is retired until there are real, approved quotes; old links land on Clientele. */
+  /* Retired pages. Testimonials waits for real, approved quotes; old links land on Clientele.
+     Events & Weddings is gone as a page; event coverage is still listed on Services. */
   async redirects() {
-    return [{ source: '/testimonials', destination: '/clientele', permanent: true }];
+    return [
+      { source: '/testimonials', destination: '/clientele', permanent: true },
+      { source: '/events', destination: '/services', permanent: true }
+    ];
   }
 };
 

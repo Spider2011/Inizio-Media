@@ -9,7 +9,6 @@ import { renderWithMotion as render } from '@/test-utils/render';
 import AboutPage, { metadata as aboutMeta } from './about/page';
 import ClientelePage, { metadata as clienteleMeta } from './clientele/page';
 import ContactPage, { metadata as contactMeta } from './contact/page';
-import EventsPage, { metadata as eventsMeta } from './events/page';
 import HomePage from './page';
 import ServicesPage, { metadata as servicesMeta } from './services/page';
 import WorkPage, { metadata as workMeta } from './work/page';
@@ -30,7 +29,6 @@ const INNER: Record<NavId, { Page: ComponentType; meta: Metadata; sections: read
   about: { Page: AboutPage, meta: aboutMeta, sections: ['about', 'results-title', 'process', 'collab-title'] },
   services: { Page: ServicesPage, meta: servicesMeta, sections: ['services', 'process', 'What we do, in brief', 'collab-title'] },
   work: { Page: WorkPage, meta: workMeta, sections: ['results-title', 'clientele', 'collab-title'] },
-  events: { Page: EventsPage, meta: eventsMeta, sections: ['events', 'collab-title'] },
   clientele: { Page: ClientelePage, meta: clienteleMeta, sections: ['clientele'] },
   contact: { Page: ContactPage, meta: contactMeta, sections: ['contact'] }
 };

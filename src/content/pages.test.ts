@@ -14,7 +14,7 @@ describe('pages', () => {
 
   it('looks pages up and steps through them in a loop', () => {
     expect(getPage('work').href).toBe('/work');
-    expect(nextPage('work').id).toBe('events');
+    expect(nextPage('work').id).toBe('clientele');
     expect(nextPage('contact').id).toBe('about');
   });
 });
