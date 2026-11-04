@@ -4,7 +4,7 @@ import { m, useMotionValue, useScroll, useSpring, useTransform } from 'motion/re
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRef, type PointerEvent } from 'react';
-import markWhite from '@/assets/logos/inizio-im-mark-white.png';
+import logo from '@/assets/logos/inizio-logo.png';
 import { Counter } from '@/components/fx/Counter';
 import { useIntroDone } from '@/components/fx/Intro';
 import { Magnetic } from '@/components/fx/Magnetic';
@@ -111,7 +111,7 @@ export function Hero() {
         aria-hidden="true"
       >
         <RotatingBadge text="Inizio Media • We build brands">
-          <Image src={markWhite} alt="" width={96} height={49} />
+          <Image src={logo} alt="" width={96} height={41} />
         </RotatingBadge>
       </m.div>
 

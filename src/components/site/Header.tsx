@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRef, useState } from 'react';
-import markWhite from '@/assets/logos/inizio-im-mark-white.png';
+import logo from '@/assets/logos/inizio-logo.png';
 import { Magnetic } from '@/components/fx/Magnetic';
 import { useIntroDone } from '@/components/fx/Intro';
 import { Arrow } from '@/components/ui/Arrow';
@@ -44,12 +44,7 @@ export function Header() {
       >
         <div className={styles.pill}>
           <Link className={styles.brand} href="/" aria-label="Inizio Media — home">
-            <Image src={markWhite} alt="" width={64} height={33} />
-            <span className={styles.word}>
-              Inizio
-              <br />
-              Media
-            </span>
+            <Image src={logo} alt="" width={104} height={44} priority />
           </Link>
           <nav aria-label="Main" className={styles.nav}>
             <ul>
