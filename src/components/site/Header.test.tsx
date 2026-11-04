@@ -24,7 +24,6 @@ describe('Header', () => {
       'About Us',
       'Our Services',
       'Our Work',
-      'Events & Weddings',
       'Clientele',
       'Contact'
     ]);
@@ -32,7 +31,6 @@ describe('Header', () => {
       '/about',
       '/services',
       '/work',
-      '/events',
       '/clientele',
       '/contact'
     ]);

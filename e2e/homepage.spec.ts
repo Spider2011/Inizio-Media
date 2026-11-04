@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-const ROUTES = ['/', '/about', '/services', '/work', '/events', '/clientele', '/contact'] as const;
+const ROUTES = ['/', '/about', '/services', '/work', '/clientele', '/contact'] as const;
 
 /* Load a page and wait for the preloader curtain to finish. */
 async function open(page: Page, path = '/') {
@@ -168,8 +168,8 @@ test('the header moves between pages under the curtain and marks the current pag
   expect(await page.evaluate(() => window.scrollY)).toBe(0);
 
   await page.getByRole('region', { name: 'Next page' }).getByRole('link').click();
-  await expect(page).toHaveURL(/\/events$/);
-  await expect(page.getByRole('heading', { level: 1, name: 'Moments worth keeping.' })).toBeVisible();
+  await expect(page).toHaveURL(/\/clientele$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'The company we keep.' })).toBeVisible();
 });
 
 test('the enquiry form explains a refusal, and offers email when the network fails', async ({ page }) => {
@@ -212,6 +212,12 @@ test('no page shows placeholder or sample text', async ({ page }) => {
 test('the retired testimonials address redirects to the clientele page', async ({ page }) => {
   const response = await page.goto('/testimonials');
   expect(response?.url()).toMatch(/\/clientele$/);
+  expect(response?.status()).toBe(200);
+});
+
+test('the retired events address redirects to the services page', async ({ page }) => {
+  const response = await page.goto('/events');
+  expect(response?.url()).toMatch(/\/services$/);
   expect(response?.status()).toBe(200);
 });
 

@@ -1,4 +1,3 @@
-import type { StockPhoto } from '@/lib/unsplash';
 import { NAV_LINKS, type NavId } from './site';
 
 /* Copy for each inner page's hero and metadata. The headline's accent words get the shine effect. */
@@ -13,8 +12,6 @@ export type PageInfo = {
   lead: string;
   /** One line for the home page's index of pages. */
   teaser: string;
-  /** Stock photo (Unsplash) shown when the page's row is hovered on the home page. */
-  photo: StockPhoto;
   description: string;
 };
 
@@ -24,7 +21,6 @@ const COPY: Record<NavId, PageCopy> = {
   about: {
     title: 'We build beginnings.',
     teaser: 'Who we are, how we work, and what Inizio means.',
-    photo: { id: 'photo-1598201116904-9613ee826e9a', alt: 'A creative team gathered together in a bright studio' },
     accent: ['beginnings.'],
     lead: 'Inizio means beginning. We are a Mumbai-based digital marketing and branding agency that takes brands from the first idea to the last report.',
     description: 'About Inizio Media, a Mumbai-based digital marketing and branding agency: who we are, how we work and what we have built.'
@@ -32,7 +28,6 @@ const COPY: Record<NavId, PageCopy> = {
   services: {
     title: 'Everything a brand needs to grow.',
     teaser: 'Fourteen services, from branding to performance.',
-    photo: { id: 'photo-1521737711867-e3b97375f902', alt: 'A team working together on laptops around a table' },
     accent: ['grow.'],
     lead: 'Strategy, branding, content, social, performance and growth. Fourteen services, one team.',
     description: 'Branding, social media, content, performance marketing, websites and more from Inizio Media, Mumbai.'
@@ -40,23 +35,13 @@ const COPY: Record<NavId, PageCopy> = {
   work: {
     title: 'Work that moves the numbers.',
     teaser: 'Selected launches, campaigns and their results.',
-    photo: { id: 'photo-1744686909434-fd158fca1c35', alt: 'A designer sketching at her desk in a studio' },
     accent: ['numbers.'],
     lead: 'Launches, campaigns and brand systems, measured in reach, engagement and growth.',
     description: 'Selected work and results from Inizio Media, a digital marketing and branding agency in Mumbai.'
   },
-  events: {
-    title: 'Moments worth keeping.',
-    teaser: 'Weddings, sangeets and launches, covered live.',
-    photo: { id: 'photo-1630526720753-aa4e71acf67d', alt: 'A couple in traditional Indian wedding attire by a river' },
-    accent: ['keeping.'],
-    lead: 'Weddings, sangeets and brand launches: candid coverage, edited fast and shared live.',
-    description: 'Event and wedding coverage by Inizio Media: candid photography and content, edited fast and shared live.'
-  },
   clientele: {
     title: 'The company we keep.',
     teaser: 'The brands that began with us.',
-    photo: { id: 'photo-1600880292089-90a7e086ee0c', alt: 'Team members joining hands over a desk' },
     accent: ['keep.'],
     lead: 'From founders’ first launches to city institutions, these are the brands that began with us.',
     description: 'The brands Inizio Media has worked with, from first-time founders to established names in Mumbai.'
@@ -64,7 +49,6 @@ const COPY: Record<NavId, PageCopy> = {
   contact: {
     title: 'Start something new.',
     teaser: 'Start a project, or just say hello.',
-    photo: { id: 'photo-1552133457-ce1d2d33cdfb', alt: 'The Bandra-Worli Sea Link in Mumbai under a cloudy sky' },
     accent: ['new.'],
     lead: 'Tell us about your brand, or just say hello. Every brand needs a beginning.',
     description: 'Contact Inizio Media in Mumbai: email, phone, Instagram, LinkedIn, or send an enquiry about your brand.'

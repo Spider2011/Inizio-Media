@@ -1,23 +1,20 @@
 import { describe, expect, it } from 'vitest';
-import { PAGES } from '@/content/pages';
 import { SERVICE_CARDS } from '@/content/services';
 import { unsplashLoader, unsplashSrc } from './unsplash';
 
 const ID = /^photo-\d{10,13}-[0-9a-f]{12}$/;
 
 describe('stock photos', () => {
-  it('gives every page and every service a valid Unsplash photo with a description', () => {
-    for (const { photo } of [...PAGES, ...SERVICE_CARDS]) {
+  it('gives every service a valid Unsplash photo with a description', () => {
+    for (const { photo } of SERVICE_CARDS) {
       expect(photo.id).toMatch(ID);
       expect(photo.alt.length).toBeGreaterThan(10);
     }
   });
 
-  it('never shows the same photo twice among the services, or twice among the pages', () => {
+  it('never shows the same photo twice among the services', () => {
     const services = SERVICE_CARDS.map((s) => s.photo.id);
-    const pages = PAGES.map((p) => p.photo.id);
     expect(new Set(services).size).toBe(services.length);
-    expect(new Set(pages).size).toBe(pages.length);
   });
 
   it('asks the Unsplash CDN for exactly the width needed, cropped and in a modern format', () => {

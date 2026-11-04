@@ -13,10 +13,6 @@
   overflow: hidden;
 }
 
-.wrap {
-  position: relative;
-}
-
 .list {
   margin: 0;
   padding: 0;
@@ -134,66 +130,6 @@
 
 .row:focus-visible {
   outline-offset: -4px;
-}
-
-/* ---------- Pointer-following preview (mouse only) ---------- */
-.preview {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 2;
-  width: clamp(200px, 18vw, 260px);
-  aspect-ratio: 4 / 5;
-  margin: calc(clamp(200px, 18vw, 260px) * -0.625) 0 0 calc(clamp(200px, 18vw, 260px) * -0.5);
-  pointer-events: none;
-  opacity: 0;
-}
-
-.previewCard {
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  box-shadow: 0 30px 60px rgba(4, 15, 36, 0.35);
-}
-
-.previewImg {
-  object-fit: cover;
-}
-
-/* Darken the foot of the photo so the label always reads. */
-.previewCard::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 55%, rgba(4, 15, 36, 0.55));
-}
-
-.previewNumber {
-  position: absolute;
-  z-index: 1;
-  top: 12px;
-  right: 14px;
-  font-family: var(--font-display), sans-serif;
-  font-weight: 800;
-  font-size: 28px;
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--white);
-}
-
-.previewLabel {
-  z-index: 1;
-  position: absolute;
-  left: 14px;
-  bottom: 14px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgba(7, 28, 64, 0.7);
-  color: var(--white);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
 }
 
 @media (min-width: 900px) {
