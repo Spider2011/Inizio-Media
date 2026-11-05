@@ -243,6 +243,18 @@
   color: var(--white);
 }
 
+.tag:has(.playGlyph) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+}
+
+.playGlyph {
+  width: 0.9em;
+  height: 0.9em;
+  color: var(--butter);
+}
+
 /* ---------- Loader: progress counter and the way out ---------- */
 .loader {
   position: absolute;

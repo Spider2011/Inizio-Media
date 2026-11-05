@@ -52,7 +52,7 @@ export function Services() {
               title="What we do"
               titleId="services-title"
               accent={['do']}
-              lead="Fourteen services, one team. Pick one, or let us run the whole journey."
+              lead="Thirteen services, one team. Pick one, or let us run the whole journey."
             />
             <p className={styles.hint} aria-hidden="true">
               Keep scrolling <Arrow />

@@ -17,7 +17,8 @@ import {
   SLOTS,
   SLOT_STEP,
   turnFor,
-  wrapAngle
+  wrapAngle,
+  wrapTurn
 } from './wheel';
 
 describe('wrapAngle', () => {
@@ -30,6 +31,17 @@ describe('wrapAngle', () => {
   });
 });
 
+describe('wrapTurn', () => {
+  it('folds a turn onto the 240° ring: eight slots 30° apart', () => {
+    expect(SLOT_STEP * SLOTS).toBe(240);
+    expect(wrapTurn(0)).toBe(0);
+    expect(wrapTurn(130)).toBe(-110);
+    expect(wrapTurn(-130)).toBe(110);
+    expect(wrapTurn(-120)).toBe(120);
+    expect(wrapTurn(480)).toBe(0);
+  });
+});
+
 describe('ringLayout', () => {
   it('fills every slot and never puts a project next to itself, seam included', () => {
     for (let projects = 2; projects <= 40; projects++) {
@@ -39,9 +51,16 @@ describe('ringLayout', () => {
     }
   });
 
-  it('shows the first ten projects when there are more projects than slots', () => {
-    expect(SLOTS).toBe(10);
-    expect(ringLayout(23)).toEqual(Array.from({ length: 10 }, (_, i) => i));
+  it('shows the first eight projects when there are more projects than slots', () => {
+    expect(SLOTS).toBe(8);
+    expect(ringLayout(23)).toEqual(Array.from({ length: 8 }, (_, i) => i));
+  });
+
+  it('keeps the lifted cards a small gap apart, never overlapping', () => {
+    const rimArc = DESIGN.radius[1] * ((SLOT_STEP * Math.PI) / 180);
+    const cardWidth = DESIGN.cardWidth * (1 + DESIGN.cardGrow);
+    expect(rimArc - cardWidth).toBeGreaterThan(0);
+    expect(rimArc - cardWidth).toBeLessThan(40);
   });
 
   it('places every project at least once, in order, before any repeat', () => {
@@ -93,7 +112,12 @@ describe('the deal', () => {
 
   it('hides cards far round the wheel so it never shows a seam', () => {
     expect(cardPose(Math.round(70 / SLOT_STEP), 0, 1, 0, 1).visible).toBe(true);
-    expect(cardPose(Math.round(140 / SLOT_STEP), 0, 1, 0, 1).visible).toBe(false);
+    expect(cardPose(4, 0, 1, 0, 1).visible).toBe(false); // at the seam, 120° round
+    /* Every turn of the wheel shows seven cards at most, so the seam never comes into view. */
+    for (let wheel = 0; wheel < 240; wheel += 5) {
+      const shown = Array.from({ length: SLOTS }, (_, s) => cardPose(s, wheel, 1, 1, 1)).filter((c) => c.visible);
+      expect(shown.length, `turn ${wheel}`).toBeLessThanOrEqual(7);
+    }
   });
 
   it('pushes cards back by their distance from the top so the top card overlaps evenly', () => {
@@ -161,7 +185,7 @@ describe('turning', () => {
   it('turns to bring a slot to the top by the shortest way', () => {
     const turn = turnFor(5, 1, 720);
     expect(activeSlot(turn, 1)).toBe(5);
-    expect(Math.abs(turn - 720)).toBeLessThanOrEqual(180);
+    expect(Math.abs(turn - 720)).toBeLessThanOrEqual(SLOT_STEP * SLOTS / 2);
   });
 
   it('eases toward its target and lets a flick die away', () => {

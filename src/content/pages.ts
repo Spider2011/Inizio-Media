@@ -27,9 +27,9 @@ const COPY: Record<NavId, PageCopy> = {
   },
   services: {
     title: 'Everything a brand needs to grow.',
-    teaser: 'Fourteen services, from branding to performance.',
+    teaser: 'Thirteen services, from branding to performance.',
     accent: ['grow.'],
-    lead: 'Strategy, branding, content, social, performance and growth. Fourteen services, one team.',
+    lead: 'Strategy, branding, content, social, performance and growth. Thirteen services, one team.',
     description: 'Branding, social media, content, performance marketing, websites and more from Inizio Media, Mumbai.'
   },
   work: {

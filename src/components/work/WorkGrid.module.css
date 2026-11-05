@@ -7,65 +7,59 @@
   color: var(--ink);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
-  gap: clamp(12px, 1.6vw, 24px);
+/* Staggered columns: each image keeps its own shape, nothing is cropped. */
+.gallery {
+  --gap: clamp(10px, 1.4vw, 20px);
+  columns: 2;
+  column-gap: var(--gap);
   margin: clamp(40px, 6vw, 72px) 0 0;
   padding: 0;
   list-style: none;
 }
 
-.card {
-  display: grid;
-  gap: 8px;
-  height: 100%;
-}
-
-.media {
-  position: relative;
-  display: grid;
-  place-items: center;
-  aspect-ratio: 9 / 16;
+.item {
+  margin-bottom: var(--gap);
   overflow: hidden;
   border-radius: var(--radius-md);
-  border: 1px solid var(--hairline-dark);
-  background: linear-gradient(180deg, var(--white) 0%, var(--blue-pale) 100%);
+  background: var(--white);
+  box-shadow: 0 10px 28px rgba(7, 28, 64, 0.1);
+  break-inside: avoid;
   transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
 }
 
-.cover {
-  object-fit: cover;
+/* A logo file with see-through areas (white lettering) sits on navy so every part reads. */
+.onDark {
+  padding: 12%;
+  background: var(--navy);
 }
 
-.logo {
-  width: 72%;
+.image {
+  display: block;
+  width: 100%;
   height: auto;
-  max-height: 50%;
-  object-fit: contain;
 }
 
-.client {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 800;
-  font-size: clamp(15px, 1.2vw, 18px);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+@media (min-width: 560px) {
+  .gallery {
+    columns: 3;
+  }
 }
 
-.meta {
-  font-size: 13px;
-  color: var(--ink-muted);
-  overflow-wrap: anywhere;
-}
-
-.card:focus-visible {
-  outline-offset: 4px;
+@media (min-width: 1200px) {
+  .gallery {
+    columns: 4;
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .card:hover .media {
+  .item:hover {
     transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(7, 28, 64, 0.14);
+    box-shadow: 0 22px 44px rgba(7, 28, 64, 0.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    transition: none;
   }
 }

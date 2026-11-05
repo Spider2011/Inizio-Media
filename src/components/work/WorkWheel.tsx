@@ -8,6 +8,7 @@ import inizioLogo from '@/assets/logos/inizio-logo.png';
 import { useIntroDone } from '@/components/fx/Intro';
 import type { PageInfo } from '@/content/pages';
 import { coverSrc, isExternal, type WorkProject } from '@/data/work';
+import { ReelPlayer, type Reel } from './ReelPlayer';
 import { holdHeader } from '@/lib/header-hold';
 import { EASE_OUT } from '@/lib/motion';
 import {
@@ -116,6 +117,7 @@ export function WorkWheel({ page, projects }: Props) {
   const [revealed, setRevealed] = useState(false);
   const [progress, setProgress] = useState(0);
   const [active, setActive] = useState(0);
+  const [openReel, setOpenReel] = useState<Reel | null>(null);
 
   const frameRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
@@ -223,12 +225,17 @@ export function WorkWheel({ page, projects }: Props) {
     }
   };
 
-  /* A drag must never open a card: only a clean tap or click does. */
-  const onCardClick = (event: MouseEvent<HTMLAnchorElement>) => {
+  /* A drag must never open a card: only a clean tap or click does. A reel opens in the player, with
+     sound; the link itself (the video file) is only the fallback when scripts are off. */
+  const onCardClick = (event: MouseEvent<HTMLAnchorElement>, project: WorkProject) => {
     if (wheelRef.current.suppressClick) {
       event.preventDefault();
       wheelRef.current.suppressClick = false;
+      return;
     }
+    if (!project.video) return;
+    event.preventDefault();
+    setOpenReel({ src: project.video, poster: coverSrc(project.cover), label: project.title });
   };
 
   return (
@@ -258,7 +265,7 @@ export function WorkWheel({ page, projects }: Props) {
                 tabbable={slot === tabStop}
                 cardRef={(el) => (cardRefs.current[slot] = el)}
                 videoRef={(el) => (videoRefs.current[slot] = el)}
-                onClick={onCardClick}
+                onClick={(event) => onCardClick(event, project)}
                 onPointerEnter={(e) => e.pointerType === 'mouse' && (wheelRef.current.hovered = slot)}
                 onPointerLeave={() => wheelRef.current.hovered === slot && (wheelRef.current.hovered = -1)}
                 onFocus={() => {
@@ -283,6 +290,8 @@ export function WorkWheel({ page, projects }: Props) {
           </button>
         )}
       </div>
+
+      <ReelPlayer reel={openReel} onClose={() => setOpenReel(null)} />
     </section>
   );
 }
@@ -331,8 +340,13 @@ type CardProps = {
   onBlur: () => void;
 };
 
+function cardLabel(project: WorkProject, external: boolean): string {
+  if (project.video) return `Play ${project.title} with sound`;
+  return `${project.client}, ${project.title}, ${project.category}${external ? ' (opens in a new tab)' : ''}`;
+}
+
 function Card({ slot, project, isReal, tabbable, cardRef, videoRef, ...handlers }: CardProps) {
-  const external = isExternal(project.href);
+  const external = !project.video && isExternal(project.href);
   const cover = coverSrc(project.cover);
   return (
     <a
@@ -341,11 +355,11 @@ function Card({ slot, project, isReal, tabbable, cardRef, videoRef, ...handlers 
       href={project.href}
       target={external ? '_blank' : undefined}
       rel={external ? 'noopener noreferrer' : undefined}
-      aria-label={isReal ? `${project.client}, ${project.title}, ${project.category}${external ? ' (opens in a new tab)' : ''}` : undefined}
+      aria-label={isReal ? cardLabel(project, external) : undefined}
       aria-hidden={isReal ? undefined : true}
       tabIndex={isReal && tabbable ? 0 : -1}
       data-card={slot}
-      data-cursor="Open"
+      data-cursor={project.video ? 'Play' : 'Open'}
       draggable={false}
       {...handlers}
     >
@@ -372,7 +386,14 @@ function Card({ slot, project, isReal, tabbable, cardRef, videoRef, ...handlers 
             onPause={(e) => e.currentTarget.parentElement?.removeAttribute('data-playing')}
           />
         )}
-        <span className={styles.tag}>{project.category}</span>
+        <span className={styles.tag}>
+          {project.video && (
+            <svg viewBox="0 0 12 12" width="9" height="9" aria-hidden="true" className={styles.playGlyph}>
+              <path d="M2.5 1.5v9l8-4.5z" fill="currentColor" />
+            </svg>
+          )}
+          {project.category}
+        </span>
       </span>
       <span className={styles.back} aria-hidden="true">
         <Image className={styles.backLogo} src={inizioLogo} alt="" sizes="120px" draggable={false} />

@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import type { ComponentType, ImgHTMLAttributes } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { CLIENTS } from '@/content/clients';
+import { GALLERY } from '@/data/gallery';
 import { WORK_PROJECTS } from '@/data/work';
 import { getPage, nextPage, PAGES } from '@/content/pages';
 import { SITE, type NavId } from '@/content/site';
@@ -116,11 +117,6 @@ describe('Page content', { timeout: 30_000 }, () => {
     }
   });
 
-  it('keeps name-only clients off the work wheel and grid until they have a logo', () => {
-    expect(WORK_PROJECTS.every((p) => p.logo)).toBe(true);
-    expect(WORK_PROJECTS).toHaveLength(CLIENTS.filter((c) => c.instagram && c.logo).length);
-  });
-
   it('links each client logo to its Instagram profile in a new tab, once per client', () => {
     render(<ClientelePage />);
     const wall = document.getElementById('clientele')!;
@@ -143,19 +139,31 @@ describe('Page content', { timeout: 30_000 }, () => {
     }
   });
 
-  it('puts ten reels on the work wheel, each once for assistive tech, and every project in the grid', () => {
+  it('puts eight reels on the work wheel, each once for assistive tech, each playable with sound', () => {
     render(<WorkPage />);
     const wheel = screen.getByRole('group', { name: /Projects/ });
     const real = Array.from(wheel.querySelectorAll('a:not([aria-hidden])'));
-    expect(real).toHaveLength(Math.min(WORK_PROJECTS.length, 10));
-    expect(wheel.querySelectorAll('a')).toHaveLength(10);
-    wheel.querySelectorAll('a[aria-hidden="true"]').forEach((a) => expect(a).toHaveAttribute('tabindex', '-1'));
+    expect(WORK_PROJECTS).toHaveLength(8);
+    expect(real).toHaveLength(8);
+    expect(wheel.querySelectorAll('a')).toHaveLength(8);
     /* One roving tab stop on the wheel. */
     expect(wheel.querySelectorAll('a[tabindex="0"]')).toHaveLength(1);
-    expect(real[0]).toHaveAccessibleName(`${WORK_PROJECTS[0].client}, ${WORK_PROJECTS[0].title}, ${WORK_PROJECTS[0].category} (opens in a new tab)`);
+    real.forEach((a, i) => {
+      expect(a).toHaveAccessibleName(`Play Reel ${i + 1} with sound`);
+      expect(a).toHaveAttribute('href', WORK_PROJECTS[i].video);
+      expect(a).not.toHaveAttribute('target');
+    });
+    /* The loops on the cards are silent. */
+    wheel.querySelectorAll('video').forEach((v) => expect((v as HTMLVideoElement).muted).toBe(true));
+  });
 
+  it('shows every gallery image below the wheel, with no client names or logos', () => {
+    render(<WorkPage />);
     const grid = screen.getByRole('region', { name: 'Every beginning, at a glance.' });
-    expect(within(grid).getAllByRole('link')).toHaveLength(WORK_PROJECTS.length);
+    const images = within(grid).getAllByRole('img');
+    expect(images).toHaveLength(GALLERY.length);
+    expect(within(grid).queryAllByRole('link')).toHaveLength(0);
+    for (const client of CLIENTS) expect(grid).not.toHaveTextContent(client.name);
   });
 
   it('uses the exact contact details on the contact page', () => {
