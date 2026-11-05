@@ -120,7 +120,7 @@ test('the home page stays short and its index leads to every page', async ({ pag
 
   await index.getByRole('link', { name: /Our Work/ }).click();
   await expect(page).toHaveURL(/\/work$/);
-  await expect(page.getByRole('heading', { level: 1, name: 'Work that moves the numbers.' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Our Work' })).toBeVisible();
 });
 
 test('the logo wall keeps sliding after a logo is clicked or tapped, and pauses for keyboard focus', async ({ page, context }, testInfo) => {
@@ -191,7 +191,7 @@ test('the header moves between pages under the curtain and marks the current pag
   await nav.getByRole('link', { name: /Our Work/ }).click();
 
   await expect(page).toHaveURL(/\/work$/);
-  await expect(page.getByRole('heading', { level: 1, name: 'Work that moves the numbers.' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Our Work' })).toBeVisible();
   await expect(nav.getByRole('link', { name: /Our Work/ })).toHaveAttribute('aria-current', 'page');
   await expect(page.locator('[class*="curtain"]')).toHaveCount(0, { timeout: 5000 });
   expect(await page.evaluate(() => window.scrollY)).toBe(0);

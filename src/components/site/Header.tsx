@@ -4,13 +4,14 @@ import { AnimatePresence, m, useMotionValueEvent, useScroll } from 'motion/react
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { useRef, useState, useSyncExternalStore } from 'react';
 import logo from '@/assets/logos/inizio-logo.png';
 import { Magnetic } from '@/components/fx/Magnetic';
 import { useIntroDone } from '@/components/fx/Intro';
 import { Arrow } from '@/components/ui/Arrow';
 import { isCurrentPage, NAV_LINKS } from '@/content/site';
 import { cx } from '@/lib/cx';
+import { isHeaderHeld, subscribeHeaderHold } from '@/lib/header-hold';
 import { EASE_OUT } from '@/lib/motion';
 import styles from './Header.module.css';
 import { MenuOverlay } from './MenuOverlay';
@@ -20,7 +21,10 @@ const MENU_ID = 'site-menu';
 
 /* Floating glass header: slides away while reading down, returns on the way up. */
 export function Header() {
-  const ready = useIntroDone();
+  const introDone = useIntroDone();
+  /* A page entrance (the Our Work wheel) may keep the header back until its reveal. */
+  const held = useSyncExternalStore(subscribeHeaderHold, isHeaderHeld, () => false);
+  const ready = introDone && !held;
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);

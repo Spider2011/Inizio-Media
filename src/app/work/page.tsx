@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import { Clients } from '@/components/sections/Clients';
 import { Collaborate } from '@/components/sections/Collaborate';
 import { Results } from '@/components/sections/Results';
-import { Work } from '@/components/sections/Work';
 import { PageShell } from '@/components/site/PageShell';
+import { WorkGrid } from '@/components/work/WorkGrid';
+import { WorkWheel } from '@/components/work/WorkWheel';
 import { getPage } from '@/content/pages';
-import { WORK_IS_SAMPLE } from '@/content/work';
+import { WORK_PROJECTS } from '@/data/work';
 
 const page = getPage('work');
 
@@ -16,14 +16,13 @@ export const metadata: Metadata = {
   openGraph: { title: `${page.label} · Inizio Media`, description: page.description, url: page.href }
 };
 
-/* Case-study cards appear once real projects replace the sample data in content/work.ts. Until then the
-   page shows the real results and the brands behind them. */
+/* The project wheel up top, every project in a plain grid below, then the results. The logo wall
+   lives on the Clientele page only. */
 export default function WorkPage() {
   return (
-    <PageShell id="work">
-      {!WORK_IS_SAMPLE && <Work />}
+    <PageShell id="work" hero={<WorkWheel page={page} projects={WORK_PROJECTS} />}>
+      <WorkGrid projects={WORK_PROJECTS} />
       <Results />
-      <Clients />
       <Collaborate />
     </PageShell>
   );

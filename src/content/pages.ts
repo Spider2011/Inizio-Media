@@ -33,10 +33,10 @@ const COPY: Record<NavId, PageCopy> = {
     description: 'Branding, social media, content, performance marketing, websites and more from Inizio Media, Mumbai.'
   },
   work: {
-    title: 'Work that moves the numbers.',
+    title: 'Our Work',
     teaser: 'Selected launches, campaigns and their results.',
-    accent: ['numbers.'],
-    lead: 'Launches, campaigns and brand systems, measured in reach, engagement and growth.',
+    accent: ['Work'],
+    lead: 'Reels, launches and brand systems for the brands that began with us.',
     description: 'Selected work and results from Inizio Media, a digital marketing and branding agency in Mumbai.'
   },
   clientele: {
