@@ -1,16 +1,14 @@
 'use client';
 
 import { m, useScroll, useTransform, type MotionValue } from 'motion/react';
+import Image from 'next/image';
 import { useRef } from 'react';
-import { Art } from '@/components/ui/Art';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { PROCESS_STEPS, type ProcessStep } from '@/content/process';
-import type { PlaceholderTone } from '@/content/types';
 import { cx } from '@/lib/cx';
 import { pad2 } from '@/lib/format';
+import { unsplashLoader, unsplashSrc } from '@/lib/unsplash';
 import styles from './Process.module.css';
-
-const ART_TONES: readonly PlaceholderTone[] = ['navy', 'blue', 'butter', 'navy'];
 
 /* Cards stick one over another; each shrinks back a little as the next arrives. */
 export function Process() {
@@ -50,7 +48,14 @@ function StepCard({ step, index, total, progress }: CardProps) {
           <p className={styles.desc}>{step.description}</p>
         </div>
         <div className={styles.art}>
-          <Art tone={ART_TONES[index]} seed={index + 7} glyph={pad2(index + 1)} />
+          <Image
+            loader={unsplashLoader}
+            src={unsplashSrc(step.photo)}
+            alt={step.photo.alt}
+            fill
+            sizes="(min-width: 900px) 40vw, 90vw"
+            className={styles.photo}
+          />
         </div>
       </m.article>
     </li>
