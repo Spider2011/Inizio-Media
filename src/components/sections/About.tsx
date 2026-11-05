@@ -7,7 +7,8 @@ import { SectionTitle } from '@/components/ui/SectionTitle';
 import { SITE } from '@/content/site';
 import styles from './About.module.css';
 
-const CHIP_DISTANCES = [-220, -90, -300, -140, -60, -260];
+/* Close to the disc's own -160, so the keywords float a little but stay around the logo. */
+const CHIP_DISTANCES = [-190, -140, -200, -150, -130, -180];
 
 export function About() {
   return (
