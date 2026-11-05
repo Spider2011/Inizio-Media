@@ -1,0 +1,71 @@
+.section {
+  /* Paper ground: the blue accent, like the other light sections (butter is for dark grounds). */
+  --accent: var(--blue);
+  --muted: var(--ink-muted);
+  padding-block: var(--section-pad);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
+  gap: clamp(12px, 1.6vw, 24px);
+  margin: clamp(40px, 6vw, 72px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: grid;
+  gap: 8px;
+  height: 100%;
+}
+
+.media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--hairline-dark);
+  background: linear-gradient(180deg, var(--white) 0%, var(--blue-pale) 100%);
+  transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+}
+
+.cover {
+  object-fit: cover;
+}
+
+.logo {
+  width: 72%;
+  height: auto;
+  max-height: 50%;
+  object-fit: contain;
+}
+
+.client {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(15px, 1.2vw, 18px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.meta {
+  font-size: 13px;
+  color: var(--ink-muted);
+  overflow-wrap: anywhere;
+}
+
+.card:focus-visible {
+  outline-offset: 4px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .media {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(7, 28, 64, 0.14);
+  }
+}
