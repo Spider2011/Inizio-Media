@@ -7,7 +7,7 @@ import { SectionTitle } from '@/components/ui/SectionTitle';
 import { PROCESS_STEPS, type ProcessStep } from '@/content/process';
 import { cx } from '@/lib/cx';
 import { pad2 } from '@/lib/format';
-import { unsplashLoader, unsplashSrc } from '@/lib/unsplash';
+import { photoSource } from '@/lib/unsplash';
 import styles from './Process.module.css';
 
 /* Cards stick one over another; each shrinks back a little as the next arrives. */
@@ -49,8 +49,7 @@ function StepCard({ step, index, total, progress }: CardProps) {
         </div>
         <div className={styles.art}>
           <Image
-            loader={unsplashLoader}
-            src={unsplashSrc(step.photo)}
+            {...photoSource(step.photo)}
             alt={step.photo.alt}
             fill
             sizes="(min-width: 900px) 40vw, 90vw"
