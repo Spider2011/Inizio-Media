@@ -9,7 +9,7 @@ import type { ServiceCard } from '@/content/services';
 import { cx } from '@/lib/cx';
 import { pad2 } from '@/lib/format';
 import { EASE_OUT, VIEW } from '@/lib/motion';
-import { unsplashLoader, unsplashSrc } from '@/lib/unsplash';
+import { photoSource } from '@/lib/unsplash';
 import styles from './ServiceFolder.module.css';
 
 /* Folder colours rotate through the palette. */
@@ -54,8 +54,7 @@ export function ServiceFolder({ service, index, className }: Props) {
             <span className={cx(styles.sheet, styles.sheetArt)}>
               <span className={styles.photo}>
                 <Image
-                  loader={unsplashLoader}
-                  src={unsplashSrc(service.photo)}
+                  {...photoSource(service.photo)}
                   alt=""
                   fill
                   sizes="(min-width: 1024px) 240px, 60vw"

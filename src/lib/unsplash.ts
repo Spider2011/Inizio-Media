@@ -9,6 +9,8 @@ export type StockPhoto = {
   id: string;
   /** What the photo shows (used where the photo carries meaning; decorative slots use alt=""). */
   alt: string;
+  /** The studio's own image in /public; used instead of the Unsplash photo when set. */
+  local?: string;
 };
 
 export function unsplashSrc(photo: StockPhoto): string {
@@ -17,3 +19,8 @@ export function unsplashSrc(photo: StockPhoto): string {
 
 export const unsplashLoader: ImageLoader = ({ src, width, quality }) =>
   `${src}?auto=format&fit=crop&w=${width}&q=${quality ?? 70}`;
+
+/** Props for next/image: the local file when there is one, otherwise the Unsplash photo via its CDN. */
+export function photoSource(photo: StockPhoto): { src: string; loader?: ImageLoader } {
+  return photo.local ? { src: photo.local } : { src: unsplashSrc(photo), loader: unsplashLoader };
+}
