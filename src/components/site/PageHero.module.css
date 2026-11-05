@@ -62,10 +62,13 @@
   opacity: 0.45;
 }
 
-/* Giant outlined page number, glowing faintly behind the headline. */
+/* Giant outlined page number, glowing faintly behind the headline. It sits inside the page gutter:
+   the negative letter-spacing pulls the box in after the last digit, so the right padding gives that
+   digit its full width back (it used to be cut off at the screen edge). */
 .index {
   position: absolute;
-  right: -0.04em;
+  right: var(--gutter);
+  padding-right: 0.08em;
   top: 50%;
   margin-top: -0.55em;
   font-family: var(--font-display), sans-serif;
