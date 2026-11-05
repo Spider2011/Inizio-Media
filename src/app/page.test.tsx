@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import type { ComponentType, ImgHTMLAttributes } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { CLIENTS } from '@/content/clients';
+import { WORK_PROJECTS } from '@/data/work';
 import { getPage, nextPage, PAGES } from '@/content/pages';
 import { SITE, type NavId } from '@/content/site';
 import { renderWithMotion as render } from '@/test-utils/render';
@@ -28,7 +29,7 @@ vi.mock('next/image', () => ({
 const INNER: Record<NavId, { Page: ComponentType; meta: Metadata; sections: readonly string[] }> = {
   about: { Page: AboutPage, meta: aboutMeta, sections: ['about', 'results-title', 'process', 'collab-title'] },
   services: { Page: ServicesPage, meta: servicesMeta, sections: ['services', 'process', 'What we do, in brief', 'collab-title'] },
-  work: { Page: WorkPage, meta: workMeta, sections: ['results-title', 'clientele', 'collab-title'] },
+  work: { Page: WorkPage, meta: workMeta, sections: ['projects', 'results-title', 'collab-title'] },
   clientele: { Page: ClientelePage, meta: clienteleMeta, sections: ['clientele'] },
   contact: { Page: ContactPage, meta: contactMeta, sections: ['contact'] }
 };
@@ -94,10 +95,30 @@ describe.each(PAGES.map((page) => [page.id, page] as const))('The %s page', { ti
 });
 
 describe('Page content', { timeout: 30_000 }, () => {
-  it('names every client logo once for assistive tech on the clientele page', () => {
+  it('names every client once on the clientele page: logos by alt text, the rest written out', () => {
     render(<ClientelePage />);
-    const named = Array.from(document.querySelectorAll('#clientele img')).filter((img) => img.getAttribute('alt'));
-    expect(named.map((img) => img.getAttribute('alt')).sort()).toEqual(CLIENTS.map((c) => c.name).sort());
+    const wall = document.getElementById('clientele')!;
+    const logos = Array.from(wall.querySelectorAll('img')).filter((img) => img.getAttribute('alt')).map((img) => img.getAttribute('alt'));
+    const written = Array.from(wall.querySelectorAll('ul:not([aria-hidden]) [data-name]')).map((el) => el.textContent);
+    expect([...logos, ...written].sort()).toEqual(CLIENTS.map((c) => c.name).sort());
+    expect(written).toHaveLength(CLIENTS.filter((c) => !c.logo).length);
+  });
+
+  it('spreads the name-only tiles through both rows of the wall', () => {
+    render(<ClientelePage />);
+    const rows = Array.from(document.querySelectorAll('#clientele ul:not([aria-hidden])'));
+    expect(rows).toHaveLength(2);
+    for (const row of rows) {
+      const kinds = Array.from(row.children).map((li) => (li.querySelector('[data-name]') ? 'name' : 'logo'));
+      expect(kinds).toContain('name');
+      /* Never two names side by side. */
+      kinds.forEach((kind, i) => expect(kind === 'name' && kinds[i + 1] === 'name', `row item ${i}`).toBe(false));
+    }
+  });
+
+  it('keeps name-only clients off the work wheel and grid until they have a logo', () => {
+    expect(WORK_PROJECTS.every((p) => p.logo)).toBe(true);
+    expect(WORK_PROJECTS).toHaveLength(CLIENTS.filter((c) => c.instagram && c.logo).length);
   });
 
   it('links each client logo to its Instagram profile in a new tab, once per client', () => {
@@ -120,6 +141,21 @@ describe('Page content', { timeout: 30_000 }, () => {
     for (const client of CLIENTS) {
       if (client.instagram) expect(client.instagram).toMatch(/^[a-z0-9._]+$/);
     }
+  });
+
+  it('puts ten reels on the work wheel, each once for assistive tech, and every project in the grid', () => {
+    render(<WorkPage />);
+    const wheel = screen.getByRole('group', { name: /Projects/ });
+    const real = Array.from(wheel.querySelectorAll('a:not([aria-hidden])'));
+    expect(real).toHaveLength(Math.min(WORK_PROJECTS.length, 10));
+    expect(wheel.querySelectorAll('a')).toHaveLength(10);
+    wheel.querySelectorAll('a[aria-hidden="true"]').forEach((a) => expect(a).toHaveAttribute('tabindex', '-1'));
+    /* One roving tab stop on the wheel. */
+    expect(wheel.querySelectorAll('a[tabindex="0"]')).toHaveLength(1);
+    expect(real[0]).toHaveAccessibleName(`${WORK_PROJECTS[0].client}, ${WORK_PROJECTS[0].title}, ${WORK_PROJECTS[0].category} (opens in a new tab)`);
+
+    const grid = screen.getByRole('region', { name: 'Every beginning, at a glance.' });
+    expect(within(grid).getAllByRole('link')).toHaveLength(WORK_PROJECTS.length);
   });
 
   it('uses the exact contact details on the contact page', () => {

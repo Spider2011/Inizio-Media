@@ -131,6 +131,36 @@
   opacity: 1;
 }
 
+/* A client without a logo: its name, set like a wordmark, greyed like the logos until hovered. */
+.name {
+  position: absolute;
+  inset: var(--inset);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(14px, 1.25vw, 19px);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-wrap: balance;
+  color: var(--ink);
+  opacity: 0.62;
+  transition: color 0.4s, opacity 0.4s;
+}
+
+.link:focus-visible .name {
+  color: var(--blue);
+  opacity: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover .name {
+    color: var(--blue);
+    opacity: 1;
+  }
+}
+
 /* The whole tile is the link to the client's Instagram. */
 .link {
   position: absolute;
