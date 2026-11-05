@@ -5,6 +5,7 @@ import { PageShell } from '@/components/site/PageShell';
 import { WorkGrid } from '@/components/work/WorkGrid';
 import { WorkWheel } from '@/components/work/WorkWheel';
 import { getPage } from '@/content/pages';
+import { GALLERY } from '@/data/gallery';
 import { WORK_PROJECTS } from '@/data/work';
 
 const page = getPage('work');
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
 export default function WorkPage() {
   return (
     <PageShell id="work" hero={<WorkWheel page={page} projects={WORK_PROJECTS} />}>
-      <WorkGrid projects={WORK_PROJECTS} />
+      <WorkGrid images={GALLERY} />
       <Results />
       <Collaborate />
     </PageShell>

@@ -1,18 +1,23 @@
 /* Geometry for the Our Work wheel: pure functions, no DOM, so every number can be unit-tested.
    Angles are degrees, 0 = straight up, positive = clockwise (CSS rotateZ). Lengths are CSS px. */
 
-/* Ten reels round the wheel (the brief's 34 made the reels too crowded to watch). With more projects
-   than slots, the wheel shows the first ten; the grid below lists them all. */
-export const SLOTS = 10;
-export const SLOT_STEP = 360 / SLOTS;
+/* Eight reels round the wheel (the brief's 34 made the reels too crowded to watch). With more projects
+   than slots, the wheel shows the first eight. They sit 30° apart, so the side cards lean gently and
+   stay close to the top one; the eight loop over 240° rather than a full turn, and the 40° band
+   between the last visible card and the seam (past `visibleArc`) is always hidden. */
+export const SLOTS = 8;
+export const SLOT_STEP = 30;
+/** The turn after which the ring repeats. */
+export const PERIOD = SLOTS * SLOT_STEP;
 
 /* Desktop design values (a 170px-wide card in a 1440-wide frame); `scaleFor` sizes them per frame. */
 export const DESIGN = {
   cardWidth: 170,
-  /* A tighter circle than the brief's 580 → 1010 so ten cards sit close, a small gap apart. Each
-     pivot moves with its radius (pivot − radius stays −80 → −196), so the top card keeps its place. */
-  radius: [300, 420] as const, // before → after the lift
-  pivot: [220, 224] as const, // how far the pivot sits below the scene origin
+  /* Sized so the cards stand a small gap apart (the brief had 580 → 1010): 30° of a 450px rim is
+     ~236px against a ~230px lifted card. Each pivot moves with its radius (pivot − radius stays
+     −80 → −196), so the top card keeps its place under the headline. */
+  radius: [330, 450] as const, // before → after the lift
+  pivot: [250, 254] as const, // how far the pivot sits below the scene origin
   cardGrow: 0.35,
   sceneGrow: 0.14,
   tilt: 12,
@@ -32,6 +37,13 @@ export const STALE_RELEASE_MS = 80;
 export const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 export const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 export const easeOutCubic = (t: number) => 1 - (1 - clamp01(t)) ** 3;
+
+/** A turn folded into (-PERIOD/2, PERIOD/2]: where a slot sits on the looping ring. */
+export function wrapTurn(deg: number): number {
+  const half = PERIOD / 2;
+  const a = ((((deg + half) % PERIOD) + PERIOD) % PERIOD) - half;
+  return a === -half ? half : a;
+}
 
 /** An angle folded into (-180, 180]. */
 export function wrapAngle(deg: number): number {
@@ -102,8 +114,8 @@ export function dealProgress(deal: number, fromTop: number): number {
 /** The pose of slot `slot` given the wheel's turn and the two driving values. */
 export function cardPose(slot: number, wheel: number, deal: number, lift: number, k: number): CardPose {
   const home = slot * SLOT_STEP;
-  const settled = wrapAngle(home + wheel - DESIGN.openTurn * lift);
-  const p = dealProgress(deal, wrapAngle(home));
+  const settled = wrapTurn(home + wheel - DESIGN.openTurn * lift);
+  const p = dealProgress(deal, wrapTurn(home));
   const angle = settled + DESIGN.dealSweep * (1 - p);
   const fromTop = Math.abs(wrapAngle(angle));
   const radius = lerp(DESIGN.radius[0], DESIGN.radius[1], lift) * k * p;
@@ -159,15 +171,15 @@ export function sceneOriginY(lift: number, k: number, frameHeight: number, topEd
 
 /** The slot nearest the top for a wheel turn. */
 export function activeSlot(wheel: number, lift: number, slots = SLOTS): number {
-  const step = 360 / slots;
+  const step = PERIOD / slots;
   const raw = Math.round(-(wheel - DESIGN.openTurn * lift) / step);
   return ((raw % slots) + slots) % slots;
 }
 
 /** The wheel turn that brings `slot` to the top, choosing the one nearest `from`. */
 export function turnFor(slot: number, lift: number, from: number, slots = SLOTS): number {
-  const base = -slot * (360 / slots) + DESIGN.openTurn * lift;
-  return base + Math.round((from - base) / 360) * 360;
+  const base = -slot * (PERIOD / slots) + DESIGN.openTurn * lift;
+  return base + Math.round((from - base) / PERIOD) * PERIOD;
 }
 
 /** One frame of the exponential follow toward a target. */

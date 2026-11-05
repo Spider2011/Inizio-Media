@@ -13,6 +13,8 @@
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
     "tokens": "node scripts/build-tokens.mjs",
+    "gallery": "node scripts/build-gallery.mjs",
+    "reels": "node scripts/build-reels.mjs",
     "e2e": "playwright test"
   },
   "engines": {

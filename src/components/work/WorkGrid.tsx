@@ -1,42 +1,28 @@
 import Image from 'next/image';
 import { SectionTitle } from '@/components/ui/SectionTitle';
-import { isExternal, type WorkProject } from '@/data/work';
+import type { GalleryImage } from '@/data/gallery';
+import { cx } from '@/lib/cx';
 import styles from './WorkGrid.module.css';
 
-/* Every project once, as a plain grid, for anyone who would rather scan than spin. */
-export function WorkGrid({ projects }: { projects: readonly WorkProject[] }) {
+/* The work itself: every image at its own shape, in staggered columns. No names or logos. */
+export function WorkGrid({ images }: { images: readonly GalleryImage[] }) {
   return (
     <section className={styles.section} id="projects" aria-labelledby="projects-title">
       <div className="container">
         <SectionTitle eyebrow="All projects" title="Every beginning, at a glance." titleId="projects-title" accent={['glance.']} />
-        <ul className={styles.grid}>
-          {projects.map((project) => {
-            const external = isExternal(project.href);
-            return (
-              <li key={project.slug}>
-                <a
-                  className={styles.card}
-                  href={project.href}
-                  target={external ? '_blank' : undefined}
-                  rel={external ? 'noopener noreferrer' : undefined}
-                  data-cursor="Open"
-                >
-                  <span className={styles.media}>
-                    {project.cover ? (
-                      <Image className={styles.cover} src={project.cover} alt="" fill sizes="(min-width: 1024px) 20vw, (min-width: 640px) 30vw, 45vw" />
-                    ) : (
-                      project.logo && <Image className={styles.logo} src={project.logo} alt="" sizes="160px" />
-                    )}
-                  </span>
-                  <span className={styles.client}>{project.client}</span>
-                  <span className={styles.meta}>
-                    {project.title} · {project.category}
-                    {external && <span className="sr-only"> (opens in a new tab)</span>}
-                  </span>
-                </a>
-              </li>
-            );
-          })}
+        <ul className={styles.gallery}>
+          {images.map((image, i) => (
+            <li key={image.src} className={cx(styles.item, image.transparent && styles.onDark)}>
+              <Image
+                className={styles.image}
+                src={image.src}
+                width={image.width}
+                height={image.height}
+                alt={`Work by Inizio Media, ${i + 1} of ${images.length}`}
+                sizes="(min-width: 1200px) 22vw, (min-width: 900px) 30vw, (min-width: 560px) 45vw, 50vw"
+              />
+            </li>
+          ))}
         </ul>
       </div>
     </section>

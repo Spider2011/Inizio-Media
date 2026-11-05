@@ -12,3 +12,8 @@ npm-debug.log*
 .claude/skills/**/__pycache__/
 test-results/
 playwright-report/
+
+# Source photos for the Our Work gallery (npm run gallery builds public/work/gallery from them)
+/images/
+# Source videos for the Our Work wheel (npm run reels builds public/work/reels from them)
+/REELS/

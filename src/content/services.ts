@@ -1,6 +1,6 @@
 import type { StockPhoto } from '@/lib/unsplash';
 
-/* The fourteen services, in the design system's order, three keywords each, with a stock photo
+/* The thirteen services, in the design system's order, three keywords each, with a stock photo
    (Unsplash) that illustrates the service. */
 
 export type ServiceCard = { title: string; keys: readonly [string, string, string]; photo: StockPhoto };
@@ -45,11 +45,6 @@ export const SERVICE_CARDS: readonly ServiceCard[] = [
     title: 'WhatsApp Marketing',
     keys: ['Campaigns', 'Automation', 'Engagement'],
     photo: { id: 'photo-1760349748488-bd2a7ef25ea0', alt: 'Hands typing a message on a smartphone' }
-  },
-  {
-    title: 'Digital Strategy',
-    keys: ['Research', 'Planning', 'Execution'],
-    photo: { id: 'photo-1759884247160-27b8465544b6', alt: 'Two people planning together on a whiteboard' }
   },
   {
     title: 'Product Shoot',
