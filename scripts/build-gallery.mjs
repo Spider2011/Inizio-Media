@@ -15,6 +15,8 @@ const MAX_WIDTH = 1080;
 const QUALITY = 80;
 /* Not client work: the studio's own logo. */
 const SKIP = new Set(['Full Colour.png']);
+/* Shown in the gallery's second row on every screen size (the rest keep their mixed order). */
+const SECOND_ROW = new Set(['O & B Logo W.png']);
 const IMAGE = /\.(jpe?g|png|webp)$/i;
 
 /** Which account a file came from: Instagram media ids end with a fragment of the account id;
@@ -55,11 +57,11 @@ async function build() {
       .resize({ width: MAX_WIDTH, withoutEnlargement: true })
       .webp({ quality: QUALITY, alphaQuality: 90 })
       .toFile(path.join(OUT_DIR, name));
-    entries.push({ src: `/work/gallery/${name}`, width: info.width, height: info.height, transparent: !isOpaque });
+    entries.push({ src: `/work/gallery/${name}`, width: info.width, height: info.height, transparent: !isOpaque, secondRow: SECOND_ROW.has(file) });
   }
 
   const lines = entries.map(
-    (e) => `  { src: '${e.src}', width: ${e.width}, height: ${e.height}${e.transparent ? ', transparent: true' : ''} }`
+    (e) => `  { src: '${e.src}', width: ${e.width}, height: ${e.height}${e.transparent ? ', transparent: true' : ''}${e.secondRow ? ', secondRow: true' : ''} }`
   );
   fs.writeFileSync(
     DATA_FILE,
@@ -72,6 +74,8 @@ async function build() {
       '  height: number;',
       '  /** Has see-through areas (a logo file): shown on a dark tile so white parts stay visible. */',
       '  transparent?: boolean;',
+      '  /** Placed in the second row whatever the column count. */',
+      '  secondRow?: boolean;',
       '};',
       '',
       'export const GALLERY: readonly GalleryImage[] = [',
