@@ -28,8 +28,9 @@ import welcomeInterior from '@/assets/clients/welcome-interior-studio.png';
 
 export type Client = {
   name: string;
-  logo: StaticImageData;
-  scale: number;
+  /** Without a logo the tile shows the name, set in the display face. */
+  logo?: StaticImageData;
+  scale?: number;
   /** Instagram handle (no @); the logo links to the profile when present. */
   instagram?: string;
 };
@@ -62,5 +63,16 @@ export const CLIENTS: readonly Client[] = [
   { name: 'Infiwick Candles', logo: infiwickCandles, scale: 1.15, instagram: 'infiwick' },
   { name: 'Moiraa', logo: moiraa, scale: 1.15, instagram: 'moiraaethnics' },
   { name: 'Eat Smart Restart', logo: eatSmartRestart, scale: 1.05, instagram: 'eatsmart.restart' },
-  { name: 'Neo Estate', logo: ne, scale: 0.9, instagram: 'neoestatesofficial' }
+  { name: 'Neo Estate', logo: ne, scale: 0.9, instagram: 'neoestatesofficial' },
+  /* No logos yet: these show their names. */
+  { name: 'The Jalsa Diaries', instagram: 'thejalsadiaries_' },
+  { name: 'Prit ki Yatri', instagram: 'pritkiyatri' },
+  { name: 'Jab Parth Met Krisha', instagram: 'jabparthmetkrisha' },
+  { name: 'Jen Ishq ki Kahani', instagram: 'jenishqkikahaani' },
+  { name: 'Ishq ka Prabhav', instagram: 'ishqkaprabhav' },
+  { name: 'Sneha ka Raj', instagram: 'snehakaraj' },
+  { name: 'Bharat Found his Jinie', instagram: 'bharatfoundhisjinie' },
+  { name: 'Kittu Chali Uss Par', instagram: 'kittuchaliusspar' },
+  { name: 'Nitin ki Khushi', instagram: 'nitinkikhushi' },
+  { name: 'Jeel Got Veerified', instagram: 'jeelgotveerefied' }
 ];

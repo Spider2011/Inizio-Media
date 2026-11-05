@@ -5,8 +5,21 @@ import { SectionTitle } from '@/components/ui/SectionTitle';
 import { CLIENTS, instagramUrl, type Client } from '@/content/clients';
 import styles from './Clients.module.css';
 
-const HALF = Math.ceil(CLIENTS.length / 2);
-const ROWS = [CLIENTS.slice(0, HALF), CLIENTS.slice(HALF)];
+/* Name-only tiles are spread through the logos (one after every few), never bunched at a row's end. */
+function spread(logos: readonly Client[], names: readonly Client[]): Client[] {
+  const step = names.length ? Math.max(1, Math.floor(logos.length / names.length)) : Infinity;
+  const out: Client[] = [];
+  let n = 0;
+  logos.forEach((client, i) => {
+    out.push(client);
+    if (n < names.length && (i + 1) % step === 0) out.push(names[n++]);
+  });
+  return [...out, ...names.slice(n)];
+}
+
+const halves = <T,>(list: readonly T[]) => [list.slice(0, Math.ceil(list.length / 2)), list.slice(Math.ceil(list.length / 2))];
+const [LOGOS, NAMES] = [CLIENTS.filter((c) => c.logo), CLIENTS.filter((c) => !c.logo)].map(halves);
+const ROWS = [spread(LOGOS[0], NAMES[0]), spread(LOGOS[1], NAMES[1])];
 
 /* Sized by its own attributes, so it can never balloon even if the stylesheet arrives late. */
 function InstagramGlyph() {
@@ -22,14 +35,18 @@ function InstagramGlyph() {
 /* One logo. With an Instagram handle it opens the client's profile in a new tab; the second
    (decorative) copy of each row is kept out of the tab order and away from screen readers. */
 function Tile({ client, decorative }: { client: Client; decorative: boolean }) {
-  const logo = (
+  const logo = client.logo ? (
     <Image
       src={client.logo}
       alt={decorative ? '' : client.name}
       sizes="160px"
       className={styles.logo}
-      style={{ scale: client.scale }}
+      style={{ scale: client.scale ?? 1 }}
     />
+  ) : (
+    <span className={styles.name} data-name="">
+      {client.name}
+    </span>
   );
   if (!client.instagram) return <li className={styles.tile}>{logo}</li>;
   return (
