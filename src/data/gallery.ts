@@ -6,6 +6,8 @@ export type GalleryImage = {
   height: number;
   /** Has see-through areas (a logo file): shown on a dark tile so white parts stay visible. */
   transparent?: boolean;
+  /** Placed in the second row whatever the column count. */
+  secondRow?: boolean;
 };
 
 export const GALLERY: readonly GalleryImage[] = [
@@ -15,7 +17,7 @@ export const GALLERY: readonly GalleryImage[] = [
   { src: '/work/gallery/04.webp', width: 1080, height: 1080 },
   { src: '/work/gallery/05.webp', width: 1080, height: 1440 },
   { src: '/work/gallery/06.webp', width: 1080, height: 1350 },
-  { src: '/work/gallery/07.webp', width: 1080, height: 1250, transparent: true },
+  { src: '/work/gallery/07.webp', width: 1080, height: 1250, transparent: true, secondRow: true },
   { src: '/work/gallery/08.webp', width: 1080, height: 1350 },
   { src: '/work/gallery/09.webp', width: 1080, height: 1350 },
   { src: '/work/gallery/10.webp', width: 1080, height: 1350 },
