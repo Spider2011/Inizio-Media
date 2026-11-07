@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import { LEGACY_REDIRECTS } from './src/lib/legacy-redirects';
 
 /* What the pages may load. Everything is first-party except Unsplash stock photos; fonts are
    self-hosted by next/font and the loader's art is inline data. Scripts keep 'unsafe-inline' because
@@ -42,7 +43,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: '/testimonials', destination: '/clientele', permanent: true },
-      { source: '/events', destination: '/services', permanent: true }
+      { source: '/events', destination: '/services', permanent: true },
+      ...LEGACY_REDIRECTS
     ];
   }
 };
