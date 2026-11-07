@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { Cursor } from '@/components/fx/Cursor';
 import { IntroProvider } from '@/components/fx/Intro';
+import { LoaderScripts } from '@/components/fx/LoaderScripts';
 import { SmoothScroll } from '@/components/fx/SmoothScroll';
 import { Providers } from '@/components/providers/Providers';
 import { Footer } from '@/components/site/Footer';
@@ -36,9 +37,8 @@ export const viewport: Viewport = {
   themeColor: '#071c40'
 };
 
-/* Without JavaScript: no preloader, and everything that would animate in is simply shown. */
-const NO_SCRIPT_CSS =
-  '.preloader{display:none!important}[data-reveal]{opacity:1!important;transform:none!important;clip-path:none!important}';
+/* Without JavaScript: no loader runs, and everything that would animate in is simply shown. */
+const NO_SCRIPT_CSS = '[data-reveal]{opacity:1!important;transform:none!important;clip-path:none!important}';
 
 const ORGANIZATION = {
   '@context': 'https://schema.org',
@@ -54,7 +54,11 @@ const ORGANIZATION = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en-IN" className={`${displayFont.variable} ${bodyFont.variable}`}>
+    /* The loader's head script adds a class and an inline style to <html> before React hydrates. */
+    <html lang="en-IN" className={`${displayFont.variable} ${bodyFont.variable}`} suppressHydrationWarning>
+      <head>
+        <LoaderScripts />
+      </head>
       <body>
         <noscript>
           <style>{NO_SCRIPT_CSS}</style>

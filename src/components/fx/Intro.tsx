@@ -1,89 +1,67 @@
 'use client';
 
-import { AnimatePresence, animate, m, useMotionValue, useReducedMotion, useTransform } from 'motion/react';
-import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
-import { useFitText } from '@/hooks/useFitText';
-import { EASE_IN_OUT, EASE_OUT } from '@/lib/motion';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { LOADER_DONE_EVENT, LOADER_DONE_FLAG } from '@/lib/loader';
 import { INTRO_DONE_EVENT } from './SmoothScroll';
-import styles from './Intro.module.css';
 
-/* Whether the opening preloader has finished. Defaults to true, so anything rendered
-   outside the provider (tests, other pages) never waits for an intro. */
+/* The opening loader is public/inizio-loader.js, started from <head> by LoaderScripts in the root
+   layout (so it covers the page before React loads). This provider only tracks when it has left the
+   screen: the header, heroes and work wheel wait for that before they animate in. */
+
+/** If the loader script never ran (blocked or failed), stop waiting this long after the page loads. */
+const MISSING_LOADER_GRACE_MS = 1500;
+
+/* Whether the opening loader has finished. Defaults to true, so anything rendered outside the
+   provider (tests, other pages) never waits for an intro. */
 const IntroContext = createContext(true);
 
 export function useIntroDone(): boolean {
   return useContext(IntroContext);
 }
 
-const WORD = 'Inizio Media';
+type LoaderWindow = Window & { InizioLoader?: unknown; [LOADER_DONE_FLAG]?: boolean };
 
 export function IntroProvider({ children }: { children: ReactNode }) {
   const [done, setDone] = useState(false);
-  const [showLoader, setShowLoader] = useState(true);
-  const reduce = useReducedMotion();
-  const wordBoxRef = useRef<HTMLDivElement>(null);
-  useFitText(wordBoxRef, { min: 28, max: 200 });
-  const count = useMotionValue(0);
-  const label = useTransform(count, (v) => String(Math.round(v)).padStart(3, '0'));
-  const bar = useTransform(count, [0, 100], [0, 1]);
 
   useEffect(() => {
+    const win = window as LoaderWindow;
     const html = document.documentElement;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!window.location.hash) {
       history.scrollRestoration = 'manual';
       window.scrollTo(0, 0);
     }
     html.classList.add('is-loading');
-    /* With reduced motion the count completes at once and the curtain is skipped. */
-    const controls = animate(count, 100, {
-      duration: reduce ? 0 : 1.8,
-      ease: [0.65, 0, 0.35, 1],
-      onComplete: () => {
-        html.classList.remove('is-loading');
-        setShowLoader(false);
-        setDone(true);
-        window.dispatchEvent(new Event(INTRO_DONE_EVENT));
-      }
-    });
-    return () => controls.stop();
-  }, [count]);
 
-  return (
-    <IntroContext.Provider value={done}>
-      <AnimatePresence>
-        {showLoader && (
-          <m.div
-            key="loader"
-            className={`preloader ${styles.loader}`}
-            aria-hidden="true"
-            /* With reduced motion there is no exit at all: a zero-length exit can be missed by
-               AnimatePresence, leaving the loader over the page. */
-            exit={reduce ? undefined : { clipPath: 'inset(0% 0% 100% 0%)', transition: { duration: 1, ease: EASE_IN_OUT } }}
-          >
-            <div ref={wordBoxRef} className={styles.wordBox}>
-              <m.div className={styles.word} initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.05 } } }}>
-                {[...WORD].map((ch, i) => (
-                  <span key={i} className={styles.mask}>
-                    <m.span
-                      className={styles.char}
-                      variants={{ hidden: { y: '130%' }, show: { y: '0%', transition: { duration: 0.9, ease: EASE_OUT } } }}
-                    >
-                      {ch === ' ' ? '\u00a0' : ch}
-                    </m.span>
-                  </span>
-                ))}
-              </m.div>
-            </div>
-            <div className={styles.meta}>
-              <span>Giving new beginnings</span>
-              <m.span className={styles.count}>{label}</m.span>
-            </div>
-            <m.div className={styles.bar} style={{ scaleX: bar }} />
-          </m.div>
-        )}
-      </AnimatePresence>
-      {children}
-    </IntroContext.Provider>
-  );
+    let finished = false;
+    let grace = 0;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      html.classList.remove('is-loading');
+      setDone(true);
+      window.dispatchEvent(new Event(INTRO_DONE_EVENT));
+    };
+    const checkLoaderRan = () => {
+      grace = window.setTimeout(() => {
+        if (!win.InizioLoader) finish();
+      }, MISSING_LOADER_GRACE_MS);
+    };
+
+    if (win[LOADER_DONE_FLAG]) {
+      finish();
+      return;
+    }
+    document.addEventListener(LOADER_DONE_EVENT, finish, { once: true });
+    if (document.readyState === 'complete') checkLoaderRan();
+    else window.addEventListener('load', checkLoaderRan, { once: true });
+
+    return () => {
+      document.removeEventListener(LOADER_DONE_EVENT, finish);
+      window.removeEventListener('load', checkLoaderRan);
+      window.clearTimeout(grace);
+    };
+  }, []);
+
+  return <IntroContext.Provider value={done}>{children}</IntroContext.Provider>;
 }
