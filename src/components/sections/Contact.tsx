@@ -9,7 +9,7 @@ import { EnquiryForm } from './EnquiryForm';
 
 const DETAILS = [
   { label: 'Email', value: SITE.email, href: `mailto:${SITE.email}` },
-  { label: 'Phone', value: SITE.phone.display, href: SITE.phone.href },
+  ...SITE.phones.map((phone, i) => ({ label: SITE.phones.length > 1 ? `Phone ${i + 1}` : 'Phone', value: phone.display, href: phone.href })),
   { label: 'Instagram', value: SITE.instagram.handle, href: SITE.instagram.url },
   { label: 'LinkedIn', value: SITE.linkedin.name, href: SITE.linkedin.url }
 ];
@@ -27,7 +27,7 @@ export function Contact() {
 
           <ul className={styles.details}>
             {DETAILS.map((detail) => (
-              <li key={detail.label}>
+              <li key={detail.href}>
                 <a href={detail.href} className={styles.detail}>
                   <span className={styles.detailLabel}>{detail.label}</span>
                   <span className={styles.detailValue}>

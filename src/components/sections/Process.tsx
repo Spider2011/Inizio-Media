@@ -2,6 +2,7 @@
 
 import { m, useScroll, useTransform, type MotionValue } from 'motion/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRef } from 'react';
 import { SectionTitle } from '@/components/ui/SectionTitle';
 import { PROCESS_STEPS, type ProcessStep } from '@/content/process';
@@ -39,12 +40,30 @@ type CardProps = { step: ProcessStep; index: number; total: number; progress: Mo
 
 function StepCard({ step, index, total, progress }: CardProps) {
   const scale = useTransform(progress, [index / total, 1], [1, 1 - (total - 1 - index) * 0.05]);
+  const { link } = step;
   return (
     <li className={styles.slot} style={{ top: `calc(96px + ${index * 28}px)` }}>
-      <m.article className={cx(styles.card, styles[`tone${index}`])} style={{ scale }}>
+      <m.article className={cx(styles.card, styles[`tone${index}`], link && styles.linked)} style={{ scale }}>
         <span className={styles.index}>{pad2(index + 1)}</span>
+        {link && (
+          <span className={styles.cta} aria-hidden="true">
+            {link.cta}
+            <svg viewBox="0 0 24 24" width="16" height="16">
+              <path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+        )}
         <div className={styles.text}>
-          <h3 className={styles.title}>{step.title}</h3>
+          <h3 className={styles.title}>
+            {link ? (
+              /* Its ::after covers the whole card, so the card is one link. */
+              <Link href={link.href} className={styles.cardLink} aria-label={link.label} data-cursor={link.cta}>
+                {step.title}
+              </Link>
+            ) : (
+              step.title
+            )}
+          </h3>
           <p className={styles.desc}>{step.description}</p>
         </div>
         <div className={styles.art}>

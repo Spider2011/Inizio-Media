@@ -168,7 +168,9 @@ describe('Page content', { timeout: 30_000 }, () => {
 
   it('uses the exact contact details on the contact page', () => {
     render(<ContactPage />);
-    expect(document.querySelector(`a[href="${SITE.phone.href}"]`)).not.toBeNull();
+    expect(SITE.phones.map((phone) => phone.display)).toEqual(['+91 90823 22109', '+91 84337 57541']);
+    for (const phone of SITE.phones) expect(document.querySelector(`#content a[href="${phone.href}"]`), phone.display).not.toBeNull();
+    expect(SITE.email).toBe('business@iniziomedia.in');
     expect(document.querySelector(`a[href="mailto:${SITE.email}"]`)).not.toBeNull();
     expect(document.querySelector(`a[href="${SITE.instagram.url}"]`)).not.toBeNull();
     expect(document.querySelector(`a[href="${SITE.linkedin.url}"]`)).not.toBeNull();

@@ -72,7 +72,7 @@ export function EnquiryForm({ endpoint = '/api/enquiry', openMailto = defaultOpe
     setStatus({ kind: 'sending' });
     const fallbackToEmailApp = () => {
       setStatus({ kind: 'mailto' });
-      openMailto(buildMailto(result.data, SITE.email));
+      openMailto(buildMailto(result.data, SITE.enquiryInbox));
     };
 
     try {
@@ -113,7 +113,7 @@ export function EnquiryForm({ endpoint = '/api/enquiry', openMailto = defaultOpe
     <form
       ref={formRef}
       className={styles.form}
-      action={`mailto:${SITE.email}`}
+      action={`mailto:${SITE.enquiryInbox}`}
       method="post"
       encType="text/plain"
       aria-labelledby="enquiry-title"
@@ -188,7 +188,7 @@ export function EnquiryForm({ endpoint = '/api/enquiry', openMailto = defaultOpe
               </button>
               <p className={cx(styles.status, status.kind === 'error' && styles.statusError)} role="status">
                 {status.kind === 'mailto' &&
-                  `We've opened your email app with the enquiry ready to send. If nothing opened, write to us at ${SITE.email}.`}
+                  `We've opened your email app with the enquiry ready to send. If nothing opened, write to us at ${SITE.enquiryInbox}.`}
                 {status.kind === 'error' && status.message}
               </p>
             </div>

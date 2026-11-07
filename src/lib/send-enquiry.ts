@@ -1,9 +1,10 @@
 /* Delivers enquiries by email through Resend's HTTP API (https://resend.com/docs/api-reference/emails/send-email).
    Server only: reads secrets from the environment. */
 import 'server-only';
+import { SITE } from '@/content/site';
 import { classifyContact, enquiryBody, enquirySubject, type Enquiry } from './enquiry';
 
-export const STUDIO_INBOX = 'teaminizio.media@gmail.com';
+export const STUDIO_INBOX = SITE.enquiryInbox;
 const RESEND_ENDPOINT = 'https://api.resend.com/emails';
 
 export type MailConfig = { apiKey: string; from: string; to: string };

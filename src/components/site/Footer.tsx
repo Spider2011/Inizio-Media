@@ -40,11 +40,13 @@ export function Footer() {
                   <RollText text={SITE.email} />
                 </a>
               </li>
-              <li>
-                <a href={SITE.phone.href}>
-                  <RollText text={SITE.phone.display} />
-                </a>
-              </li>
+              {SITE.phones.map((phone) => (
+                <li key={phone.href}>
+                  <a href={phone.href}>
+                    <RollText text={phone.display} />
+                  </a>
+                </li>
+              ))}
               <li>
                 <a href={SITE.instagram.url}>
                   <RollText text={`Instagram ${SITE.instagram.handle}`} />
