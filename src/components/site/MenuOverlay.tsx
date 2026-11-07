@@ -82,7 +82,11 @@ export function MenuOverlay({ id, pathname, onClose, returnFocus }: Props) {
         animate={{ opacity: 1, y: 0, transition: { delay: 0.8, duration: 0.8, ease: EASE_OUT } }}
       >
         <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
-        <a href={SITE.phone.href}>{SITE.phone.display}</a>
+        {SITE.phones.map((phone) => (
+          <a key={phone.href} href={phone.href}>
+            {phone.display}
+          </a>
+        ))}
         <a href={SITE.instagram.url}>Instagram {SITE.instagram.handle}</a>
         <a href={SITE.linkedin.url}>LinkedIn</a>
         <span>{SITE.location}</span>

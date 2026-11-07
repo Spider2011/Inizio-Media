@@ -58,6 +58,78 @@
   --fx-edge: var(--navy);
 }
 
+/* A card that is a link (Launch → Contact): the title's link stretches over the whole card. */
+.linked {
+  position: relative;
+}
+
+.cardLink {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
+
+.cardLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+}
+
+.linked:has(.cardLink:focus-visible) {
+  outline: 3px solid var(--butter);
+  outline-offset: 4px;
+}
+
+.cta {
+  position: absolute;
+  top: clamp(18px, 3vw, 44px);
+  right: clamp(18px, 3vw, 44px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 10px 24px rgba(4, 15, 36, 0.25);
+  transition: background 0.3s, transform 0.4s var(--ease-out);
+}
+
+.cta svg {
+  transition: transform 0.4s var(--ease-out);
+}
+
+.linked:hover .cta,
+.linked:has(.cardLink:focus-visible) .cta {
+  background: var(--butter);
+  transform: translateY(-2px);
+}
+
+.linked:hover .cta svg {
+  transform: translate(2px, -2px);
+}
+
+.linked .photo {
+  transition: transform 0.8s var(--ease-out);
+}
+
+.linked:hover .photo {
+  transform: scale(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta,
+  .cta svg,
+  .linked .photo {
+    transition: none;
+  }
+}
+
 .index {
   font-size: 13px;
   font-weight: 800;

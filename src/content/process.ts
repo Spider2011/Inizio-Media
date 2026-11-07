@@ -1,7 +1,12 @@
 import type { StockPhoto } from '@/lib/unsplash';
 
-/* The four steps of the process, each with a stock photo (Unsplash, free licence). */
-export type ProcessStep = { title: string; description: string; photo: StockPhoto };
+/* The four steps of the process, each with a photo. A step with `link` makes its whole card a link. */
+export type ProcessStep = {
+  title: string;
+  description: string;
+  photo: StockPhoto;
+  link?: { href: string; label: string; cta: string };
+};
 
 export const PROCESS_STEPS: readonly ProcessStep[] = [
   {
@@ -22,6 +27,7 @@ export const PROCESS_STEPS: readonly ProcessStep[] = [
   {
     title: 'Launch',
     description: 'Deploy, measure & iterate',
+    link: { href: '/contact', label: 'Launch: talk to us about your project', cta: 'Let’s talk' },
     photo: { id: 'photo-1551288049-bebda4e38f71', alt: 'Performance analytics on a laptop screen', local: '/process/launch.webp' }
   }
 ];

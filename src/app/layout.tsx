@@ -48,6 +48,7 @@ const ORGANIZATION = {
   slogan: 'We Build Brands.',
   email: SITE.email,
   telephone: SITE.phone.display,
+  contactPoint: SITE.phones.map((phone) => ({ '@type': 'ContactPoint', telephone: phone.display, contactType: 'customer service' })),
   address: { '@type': 'PostalAddress', addressLocality: 'Mumbai', addressCountry: 'IN' },
   sameAs: [SITE.instagram.url, SITE.linkedin.url]
 };
