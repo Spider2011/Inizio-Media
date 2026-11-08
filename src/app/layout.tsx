@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { Cursor } from '@/components/fx/Cursor';
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </IntroProvider>
         </Providers>
         <div className="grain" aria-hidden="true" />
+        <Analytics />
       </body>
     </html>
   );
