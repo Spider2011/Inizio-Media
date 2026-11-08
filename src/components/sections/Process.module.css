@@ -138,6 +138,7 @@
 
 .text {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   align-content: end;
 }
@@ -159,6 +160,13 @@
   font-size: clamp(18px, 1.8vw, 26px);
   font-weight: 500;
   line-height: 1.35;
+}
+
+/* The smallest phones (320px): the 44px floor makes "Discover" wider than the card. */
+@media (max-width: 359px) {
+  .title {
+    font-size: 36px;
+  }
 }
 
 /* Phones: number, photo filling the middle, then the title and line. Wider: text left, photo right. */

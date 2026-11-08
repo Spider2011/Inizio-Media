@@ -86,6 +86,9 @@
 .content {
   position: relative;
   display: grid;
+  /* One column that never grows past the screen: without minmax(0, …) a long headline word widens
+     the column, pushing the breadcrumb and intro off the right edge on phones. */
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(20px, 4vh, 44px);
   will-change: transform;
 }

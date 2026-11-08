@@ -35,6 +35,23 @@ for (const route of ROUTES) {
   });
 }
 
+for (const route of ROUTES.filter((path) => path !== '/')) {
+  test(`${route} opening screen fits the screen: headline words, breadcrumb and intro`, async ({ page }) => {
+    await open(page, route);
+    const hero = page.locator('#top');
+    await expect(hero.getByRole('heading', { level: 1 })).toBeVisible();
+
+    const overflow = await hero.evaluate((section) => {
+      const limit = document.documentElement.clientWidth;
+      const parts = [...section.querySelectorAll('nav, h1 .split-word, p')];
+      return parts
+        .map((el) => ({ text: el.textContent?.trim().slice(0, 24), right: Math.round(el.getBoundingClientRect().right) }))
+        .filter((part) => part.right > limit);
+    });
+    expect(overflow).toEqual([]);
+  });
+}
+
 test('every animated element on the home page finishes visible once scrolled past', async ({ page }) => {
   await open(page);
   await scrollThrough(page);
@@ -59,8 +76,8 @@ test('results count up and land on the real figures', async ({ page }) => {
 test('every service folder is shown full size, each in its own place', async ({ page }) => {
   await open(page, '/services');
   const folders = page.locator('#services article');
-  await expect(folders).toHaveCount(14);
-  await expect(folders.getByRole('heading', { level: 3 })).toHaveCount(14);
+  await expect(folders).toHaveCount(13);
+  await expect(folders.getByRole('heading', { level: 3 })).toHaveCount(13);
 
   /* Positions relative to the row (which may be mid-travel): no folder may collapse or stack on another. */
   const boxes = await folders.evaluateAll((els) => {
@@ -75,7 +92,7 @@ test('every service folder is shown full size, each in its own place', async ({ 
     expect(box.height).toBeGreaterThan(350);
   }
   const places = new Set(boxes.map((b) => `${Math.round(b.left)}:${Math.round(b.top)}`));
-  expect(places.size).toBe(14);
+  expect(places.size).toBe(13);
 });
 
 test('client logos show at a readable size in compact tiles', async ({ page }) => {

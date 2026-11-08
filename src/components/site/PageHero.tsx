@@ -6,6 +6,7 @@ import { useRef, type PointerEvent } from 'react';
 import { useIntroDone } from '@/components/fx/Intro';
 import { SplitText } from '@/components/fx/SplitText';
 import { Arrow } from '@/components/ui/Arrow';
+import { useFitWidestWord } from '@/hooks/useFitWidestWord';
 import type { PageInfo } from '@/content/pages';
 import { PAGES } from '@/content/pages';
 import { pad2 } from '@/lib/format';
@@ -17,6 +18,8 @@ import styles from './PageHero.module.css';
 export function PageHero({ page }: { page: PageInfo }) {
   const ready = useIntroDone();
   const ref = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  useFitWidestWord(contentRef, 'h1', { min: 28 });
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '35%']);
@@ -59,7 +62,7 @@ export function PageHero({ page }: { page: PageInfo }) {
         </m.span>
       </div>
 
-      <m.div className={`container ${styles.content}`} style={{ y: contentY, opacity: contentOpacity }}>
+      <m.div ref={contentRef} className={`container ${styles.content}`} style={{ y: contentY, opacity: contentOpacity }}>
         <m.nav aria-label="Breadcrumb" className={styles.crumbs} data-reveal="" {...appear(0.05)}>
           <ol>
             <li>

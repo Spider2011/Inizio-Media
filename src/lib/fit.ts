@@ -11,3 +11,19 @@ export function largestFitting(fits: (size: number) => boolean, min: number, max
   }
   return lo;
 }
+
+type WidestFit = {
+  /** The current font size, px. */
+  size: number;
+  /** The width the text may take, px. */
+  available: number;
+  /** The width of the widest unbreakable word at `size`, px. */
+  widest: number;
+};
+
+/* Font size at which the widest word fits `available`. Text width scales linearly with font size
+   (letter-spacing is in em), so one measurement is enough. Keeps `size` when it already fits. */
+export function sizeToFitWidest({ size, available, widest }: WidestFit, min: number): number {
+  if (available <= 0 || widest <= available) return size;
+  return Math.max(min, Math.floor((size * available) / widest));
+}

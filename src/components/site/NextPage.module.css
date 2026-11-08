@@ -37,6 +37,7 @@
 
 .inner {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(16px, 3vw, 32px);
 }
 
@@ -66,6 +67,13 @@
   font-size: clamp(36px, 8.5vw, 150px);
   line-height: 1;
   letter-spacing: -0.05em;
+}
+
+/* The smallest phones (320px): at the 36px floor, "Clientele" and the arrow disc overrun the screen. */
+@media (max-width: 359px) {
+  .label {
+    font-size: 30px;
+  }
 }
 
 .disc {
