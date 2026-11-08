@@ -7,6 +7,7 @@ import { WorkWheel } from '@/components/work/WorkWheel';
 import { getPage } from '@/content/pages';
 import { GALLERY } from '@/data/gallery';
 import { WORK_PROJECTS } from '@/data/work';
+import { SHARE_IMAGE } from '@/lib/share-image';
 
 const page = getPage('work');
 
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   title: page.label,
   description: page.description,
   alternates: { canonical: page.href },
-  openGraph: { title: `${page.label} · Inizio Media`, description: page.description, url: page.href }
+  openGraph: { title: `${page.label} · Inizio Media`, description: page.description, url: page.href, images: [SHARE_IMAGE] }
 };
 
 /* The project wheel up top, every project in a plain grid below, then the results. The logo wall

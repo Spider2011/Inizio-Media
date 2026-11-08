@@ -29,10 +29,11 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_IN',
     siteName: SITE.name,
+    url: '/',
     title: 'Inizio Media · We Build Brands',
     description: 'Giving new beginnings to your digital presence. A Mumbai-based digital marketing and branding agency.'
   },
-  twitter: { card: 'summary' }
+  twitter: { card: 'summary_large_image' }
 };
 
 export const viewport: Viewport = {
