@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
+import { Analytics } from '@vercel/analytics/next';
 import { Cursor } from '@/components/fx/Cursor';
 import { IntroProvider } from '@/components/fx/Intro';
 import { LoaderScripts } from '@/components/fx/LoaderScripts';
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </IntroProvider>
         </Providers>
         <div className="grain" aria-hidden="true" />
+        <Analytics />
       </body>
     </html>
   );
