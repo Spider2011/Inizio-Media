@@ -43,6 +43,7 @@ export const viewport: Viewport = {
 const NO_SCRIPT_CSS = '[data-reveal]{opacity:1!important;transform:none!important;clip-path:none!important}';
 
 const STRUCTURED_DATA = siteStructuredData(SITE_URL);
+const ON_VERCEL = process.env.VERCEL === '1';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -72,7 +73,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </IntroProvider>
         </Providers>
         <div className="grain" aria-hidden="true" />
-        <Analytics />
+        {/* Vercel serves the analytics script only on its own hosting; elsewhere it would 404. */}
+        {ON_VERCEL && <Analytics />}
       </body>
     </html>
   );
