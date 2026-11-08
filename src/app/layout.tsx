@@ -1,4 +1,5 @@
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { Cursor } from '@/components/fx/Cursor';
@@ -74,8 +75,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </IntroProvider>
         </Providers>
         <div className="grain" aria-hidden="true" />
-        {/* Vercel serves the analytics script only on its own hosting; elsewhere it would 404. */}
+        {/* Vercel serves these scripts only on its own hosting; elsewhere they would 404. */}
         {ON_VERCEL && <Analytics />}
+        {ON_VERCEL && <SpeedInsights />}
       </body>
     </html>
   );
