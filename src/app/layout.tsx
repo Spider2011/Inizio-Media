@@ -9,6 +9,7 @@ import { Footer } from '@/components/site/Footer';
 import { Header } from '@/components/site/Header';
 import { SITE } from '@/content/site';
 import { SITE_URL } from '@/lib/site-url';
+import { siteStructuredData } from '@/lib/structured-data';
 import { bodyFont, displayFont } from '@/styles/fonts';
 import 'lenis/dist/lenis.css';
 import '@/styles/globals.css';
@@ -40,18 +41,7 @@ export const viewport: Viewport = {
 /* Without JavaScript: no loader runs, and everything that would animate in is simply shown. */
 const NO_SCRIPT_CSS = '[data-reveal]{opacity:1!important;transform:none!important;clip-path:none!important}';
 
-const ORGANIZATION = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: SITE.name,
-  url: SITE_URL,
-  slogan: 'We Build Brands.',
-  email: SITE.email,
-  telephone: SITE.phone.display,
-  contactPoint: SITE.phones.map((phone) => ({ '@type': 'ContactPoint', telephone: phone.display, contactType: 'customer service' })),
-  address: { '@type': 'PostalAddress', addressLocality: 'Mumbai', addressCountry: 'IN' },
-  sameAs: [SITE.instagram.url, SITE.linkedin.url]
-};
+const STRUCTURED_DATA = siteStructuredData(SITE_URL);
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -66,7 +56,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </noscript>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION).replace(/</g, '\\u003c') }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA).replace(/</g, '\\u003c') }}
         />
         <a className="skip-link" href="#main">
           Skip to content
