@@ -1,12 +1,10 @@
 /* One response envelope for every API route: { success, data, error } plus optional detail. */
-import type { FieldErrors } from './enquiry';
-
 export type ApiResponse<T> = {
   success: boolean;
   data: T | null;
   error: string | null;
   code?: string;
-  fieldErrors?: FieldErrors;
+  fieldErrors?: Partial<Record<string, string>>;
 };
 
 export function ok<T>(data: T | null = null, init?: ResponseInit): Response {

@@ -16,18 +16,24 @@ export function readMailConfig(env: Record<string, string | undefined>): MailCon
   return { apiKey, from, to: env.ENQUIRY_TO?.trim() || STUDIO_INBOX };
 }
 
-export async function sendEnquiryEmail(data: Enquiry, config: MailConfig, fetchImpl: typeof fetch = fetch): Promise<void> {
-  const replyTo = classifyContact(data.contact) === 'email' ? { reply_to: data.contact } : {};
+export type MailMessage = { subject: string; text: string; replyTo?: string };
+
+export async function sendMail(message: MailMessage, config: MailConfig, fetchImpl: typeof fetch = fetch): Promise<void> {
   const res = await fetchImpl(RESEND_ENDPOINT, {
     method: 'POST',
     headers: { Authorization: `Bearer ${config.apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       from: config.from,
       to: [config.to],
-      subject: enquirySubject(data),
-      text: enquiryBody(data),
-      ...replyTo
+      subject: message.subject,
+      text: message.text,
+      ...(message.replyTo ? { reply_to: message.replyTo } : {})
     })
   });
   if (!res.ok) throw new Error(`Email provider responded ${res.status}`);
+}
+
+export async function sendEnquiryEmail(data: Enquiry, config: MailConfig, fetchImpl: typeof fetch = fetch): Promise<void> {
+  const replyTo = classifyContact(data.contact) === 'email' ? data.contact : undefined;
+  await sendMail({ subject: enquirySubject(data), text: enquiryBody(data), replyTo }, config, fetchImpl);
 }

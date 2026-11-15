@@ -27,11 +27,17 @@ vi.mock('next/image', () => ({
   }
 }));
 
+/* The wall loads notes on the server (an async component); here it renders empty. */
+vi.mock('@/components/sections/wall/WallFromStore', async () => {
+  const { BeginningsWall } = await import('@/components/sections/wall/BeginningsWall');
+  return { WallFromStore: () => <BeginningsWall notes={[]} /> };
+});
+
 const INNER: Record<NavId, { Page: ComponentType; meta: Metadata; sections: readonly string[] }> = {
   about: { Page: AboutPage, meta: aboutMeta, sections: ['about', 'results-title', 'process', 'collab-title'] },
   services: { Page: ServicesPage, meta: servicesMeta, sections: ['services', 'process', 'What we do, in brief', 'collab-title'] },
   work: { Page: WorkPage, meta: workMeta, sections: ['projects', 'results-title', 'collab-title'] },
-  clientele: { Page: ClientelePage, meta: clienteleMeta, sections: ['clientele'] },
+  clientele: { Page: ClientelePage, meta: clienteleMeta, sections: ['clientele', 'beginnings-wall'] },
   contact: { Page: ContactPage, meta: contactMeta, sections: ['contact'] }
 };
 

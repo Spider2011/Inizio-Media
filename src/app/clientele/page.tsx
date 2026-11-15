@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Clients } from '@/components/sections/Clients';
 import { Testimonials } from '@/components/sections/Testimonials';
+import { WallFromStore } from '@/components/sections/wall/WallFromStore';
 import { PageShell } from '@/components/site/PageShell';
 import { getPage } from '@/content/pages';
 import { TESTIMONIALS_ARE_SAMPLE } from '@/content/testimonials';
@@ -15,11 +16,13 @@ export const metadata: Metadata = {
   openGraph: { title: `${page.label} · Inizio Media`, description: page.description, url: page.href, images: [SHARE_IMAGE] }
 };
 
-/* Client quotes appear once real, approved testimonials replace the sample data in content/testimonials.ts. */
+/* Client quotes appear once real, approved testimonials replace the sample data in content/testimonials.ts.
+   The beginnings wall shows notes clients pinned themselves, once Inizio approves them at /admin/notes. */
 export default function ClientelePage() {
   return (
     <PageShell id="clientele">
       <Clients />
+      <WallFromStore />
       {!TESTIMONIALS_ARE_SAMPLE && <Testimonials />}
     </PageShell>
   );

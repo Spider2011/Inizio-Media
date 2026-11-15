@@ -7,7 +7,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      'server-only': fileURLToPath(new URL('./src/test-utils/server-only-stub.ts', import.meta.url))
+      'server-only': fileURLToPath(new URL('./src/test-utils/server-only-stub.ts', import.meta.url)),
+      'next/font/google': fileURLToPath(new URL('./src/test-utils/next-font-stub.ts', import.meta.url))
     }
   },
   test: {

@@ -1,0 +1,249 @@
+/* The beginnings wall: a blueprint board on the brand blue, with paper notes pinned across it. */
+.wall {
+  --accent: var(--butter);
+  --muted: rgba(255, 255, 255, 0.86);
+  /* Paper and ink for the notes (the brief's paper colours; no site token matches them exactly). */
+  --paper-white: #ffffff;
+  --paper-butter: #f2e2a0;
+  --paper-pale: #d7e5fb;
+  --paper-navy: #071c40;
+  --note-navy: #071c40;
+  --note-blue: #0650b4;
+  position: relative;
+  padding-block: var(--section-pad);
+  background: var(--blue);
+  color: var(--white);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Blueprint grid: 120px major lines over a 24px minor grid. */
+.blueprint {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size:
+    120px 120px,
+    120px 120px,
+    24px 24px,
+    24px 24px;
+  background-position: -1px -1px;
+}
+
+.inner {
+  position: relative;
+}
+
+/* ---------- Header ---------- */
+.head {
+  display: grid;
+  gap: 28px;
+  margin-bottom: clamp(56px, 7vw, 96px);
+}
+
+.intro {
+  margin-bottom: 0;
+}
+
+.pinButton {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--butter);
+  color: var(--navy);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  /* A chunky press-down edge. */
+  box-shadow: 0 6px 0 var(--navy);
+  transition:
+    background-color 0.3s var(--ease-out),
+    translate 0.15s var(--ease-out),
+    box-shadow 0.15s var(--ease-out);
+}
+
+.pinButton svg {
+  rotate: 35deg;
+  transition: rotate 0.4s var(--ease-out);
+}
+
+.pinButton:hover {
+  background: var(--white);
+}
+
+.pinButton:hover svg {
+  rotate: 0deg;
+}
+
+.pinButton:active {
+  translate: 0 5px;
+  box-shadow: 0 1px 0 var(--navy);
+}
+
+.headButton {
+  width: 100%;
+}
+
+/* ---------- Thank-you message: a toast at the foot of the screen ---------- */
+.toast {
+  position: fixed;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  left: 50%;
+  z-index: 150;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  margin: 0;
+  padding: 14px 24px;
+  border: 1.5px solid rgba(246, 231, 161, 0.5);
+  border-radius: 999px;
+  background: var(--navy);
+  color: var(--white);
+  font-weight: 700;
+  text-align: center;
+  translate: -50% 12px;
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.3s var(--ease-out),
+    translate 0.3s var(--ease-out);
+}
+
+.toast[data-show] {
+  opacity: 1;
+  translate: -50% 0;
+}
+
+.toast:empty {
+  padding: 0;
+  border: 0;
+}
+
+/* ---------- The board ---------- */
+.board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.slot {
+  width: 88%;
+  justify-self: start;
+}
+
+.slot:nth-child(even) {
+  justify-self: end;
+}
+
+.empty {
+  max-width: 420px;
+  margin-inline: auto;
+}
+
+.more {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(48px, 6vw, 80px);
+}
+
+.moreButton {
+  min-height: 56px;
+  padding: 0 32px;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--white);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.3s var(--ease-out);
+}
+
+.moreButton:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Tablets: two loose columns. */
+@media (min-width: 640px) {
+  .board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px 40px;
+    align-items: start;
+  }
+
+  .slot,
+  .slot:nth-child(even) {
+    width: auto;
+    justify-self: stretch;
+  }
+
+  .slot:nth-child(even) {
+    margin-top: 48px;
+  }
+
+  .headButton {
+    width: auto;
+    justify-self: start;
+  }
+}
+
+/* Desktop: about four to a row, each sitting at its own height. */
+@media (min-width: 1024px) {
+  .head {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+  }
+
+  .headButton {
+    justify-self: end;
+    margin-bottom: 8px;
+  }
+
+  .board {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 56px 36px;
+  }
+
+  .slot:nth-child(even) {
+    margin-top: 0;
+  }
+
+  .slot:nth-child(4n + 2) {
+    margin-top: 56px;
+  }
+
+  .slot:nth-child(4n + 3) {
+    margin-top: 18px;
+  }
+
+  .slot:nth-child(4n + 4) {
+    margin-top: 76px;
+  }
+
+  .slot:nth-child(8n + 5) {
+    margin-inline-start: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pinButton,
+  .pinButton svg,
+  .toast {
+    transition: none;
+  }
+}
