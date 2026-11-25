@@ -1,0 +1,406 @@
+/* The film strip. Phones: each chapter is its own swipeable strip, stacked. Wide screens: one strip,
+   pinned while the page scrolls it sideways, with chapter tabs underneath. */
+.film {
+  --film-base: #030a1a;
+  --sprocket: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='26'%3E%3Crect x='9' y='7' width='12' height='12' rx='3' fill='%23f0f0ec' fill-opacity='0.82'/%3E%3C/svg%3E");
+  --band: 26px;
+  --gap: clamp(16px, 2vw, 28px);
+  --card-h: min(110vw, 520px);
+  position: relative;
+  padding-top: var(--section-pad);
+  background: var(--navy);
+}
+
+/* ---------- The strip ---------- */
+.track {
+  display: grid;
+  gap: clamp(48px, 10vw, 72px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chapter {
+  display: grid;
+  gap: 24px;
+}
+
+.reels {
+  position: relative;
+  display: flex;
+  gap: var(--gap);
+  margin: 0;
+  padding: calc(var(--band) + 14px) var(--gutter);
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+  background:
+    var(--sprocket) 0 0 / 30px var(--band) repeat-x,
+    var(--sprocket) 0 100% / 30px var(--band) repeat-x,
+    var(--film-base);
+  background-attachment: local, local, scroll;
+}
+
+.reels::-webkit-scrollbar {
+  display: none;
+}
+
+.reels > li {
+  flex: none;
+  scroll-snap-align: start;
+}
+
+/* ---------- Chapter cards: set like a wedding card ---------- */
+.chapterCard {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  margin-inline: var(--gutter);
+  padding: 26px 24px;
+  border-radius: 10px;
+  background: var(--butter);
+  color: var(--navy);
+  /* A printed double rule inside the edge. */
+  box-shadow:
+    inset 0 0 0 8px var(--butter),
+    inset 0 0 0 9px rgba(7, 28, 64, 0.5),
+    inset 0 0 0 12px var(--butter),
+    inset 0 0 0 13px rgba(7, 28, 64, 0.28);
+  --fx-edge: var(--blue);
+}
+
+.chapterKicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.kind {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: var(--butter);
+  letter-spacing: 0.14em;
+}
+
+.chapterTitle {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(30px, 8vw, 44px);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.rituals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(7, 28, 64, 0.8);
+}
+
+/* A small diamond between rituals. */
+.rituals li + li::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin: 0 10px 2px;
+  rotate: 45deg;
+  background: var(--blue);
+  vertical-align: middle;
+}
+
+.count {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.swipe {
+  display: inline-grid;
+  animation: nudge 2.2s var(--ease-in-out) infinite;
+}
+
+@keyframes nudge {
+  50% {
+    translate: 6px 0;
+  }
+}
+
+/* ---------- The end of the roll ---------- */
+.end {
+  margin-inline: var(--gutter);
+}
+
+.endCard {
+  position: relative;
+  display: grid;
+  align-content: end;
+  gap: 16px;
+  min-height: 340px;
+  padding: 28px 26px;
+  border-radius: 10px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 100% 0%, var(--blue-mid) 0%, transparent 60%),
+    var(--blue);
+  color: var(--white);
+}
+
+.endKicker {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--blue-sky);
+}
+
+.endTitle {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(56px, 15vw, 100px);
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  color: var(--butter);
+}
+
+.endText {
+  max-width: 30ch;
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.endCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  min-height: 52px;
+  padding: 0 24px;
+  border-radius: 999px;
+  background: var(--butter);
+  color: var(--navy);
+  font-weight: 800;
+  font-size: 15px;
+  transition: background-color 0.3s, transform 0.4s var(--ease-out);
+}
+
+.endCta:hover {
+  background: var(--white);
+  transform: translateY(-2px);
+}
+
+/* ---------- Wide screens: one pinned strip ---------- */
+@media (min-width: 900px) {
+  .film {
+    --card-h: clamp(300px, calc(100vh - 300px), 560px);
+    padding-bottom: 0;
+  }
+
+  .pin[data-pinned] {
+    position: relative;
+  }
+
+  .pin[data-pinned] .sticky {
+    position: sticky;
+    top: 0;
+    display: grid;
+    /* One screen-wide column: the strip overflows it (and is clipped) instead of widening it, so
+       the tabs stay on screen. */
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 1fr auto;
+    align-items: center;
+    height: 100vh;
+    padding-top: 84px; /* clear the floating header */
+    /* clip, not hidden: the browser must not scroll the strip sideways on its own (it would when a
+       frame takes keyboard focus). */
+    overflow: clip;
+  }
+
+  .pin[data-pinned] .track {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+    width: max-content;
+    justify-self: start;
+    padding: calc(var(--band) + 18px) var(--gutter);
+    background:
+      var(--sprocket) 0 0 / 30px var(--band) repeat-x,
+      var(--sprocket) 0 100% / 30px var(--band) repeat-x,
+      var(--film-base);
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+
+  .pin[data-pinned] .chapter {
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+  }
+
+  .pin[data-pinned] .reels {
+    padding: 0;
+    overflow: visible;
+    background: none;
+    scroll-snap-type: none;
+  }
+
+  .pin[data-pinned] .chapterCard {
+    flex: none;
+    width: calc(var(--card-h) * 0.72);
+    height: var(--card-h);
+    margin: 0;
+    padding: 34px 30px;
+    align-content: space-between;
+  }
+
+  .pin[data-pinned] .chapterTitle {
+    font-size: clamp(32px, calc(var(--card-h) * 0.095), 52px);
+  }
+
+  .pin[data-pinned] .end {
+    margin: 0;
+  }
+
+  .pin[data-pinned] .endCard {
+    width: calc(var(--card-h) * 0.9);
+    height: var(--card-h);
+    min-height: 0;
+    padding: 34px 32px;
+  }
+
+  .pin[data-pinned] .endTitle {
+    /* "Yours." runs ~4.6em in Syne: this keeps it inside the card (0.9 × the card height wide). */
+    font-size: clamp(56px, calc(var(--card-h) * 0.16), 96px);
+  }
+
+  /* Phone-only cue. */
+  .pin[data-pinned] .swipe {
+    display: none;
+  }
+}
+
+/* Before the script measures (or without it) on a wide screen, the chapters still sit side by side
+   in their own strips. */
+@media (min-width: 900px) {
+  .pin:not([data-pinned]) {
+    padding-bottom: var(--section-pad);
+  }
+
+  .pin:not([data-pinned]) .chapter {
+    grid-template-columns: calc(var(--card-h) * 0.72) minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .pin:not([data-pinned]) .chapterCard {
+    margin-right: 0;
+  }
+
+  .pin:not([data-pinned]) .reels {
+    padding-left: var(--gap);
+  }
+
+  .pin:not([data-pinned]) .end {
+    max-width: 560px;
+  }
+}
+
+@media (max-width: 899px) {
+  .film {
+    padding-bottom: var(--section-pad);
+  }
+}
+
+/* ---------- Chapter tabs under the pinned strip ---------- */
+.tabs {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: 18px var(--gutter) 26px;
+}
+
+.tabs ol {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tab {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 4px 0;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.55);
+  transition: color 0.3s var(--ease-out);
+}
+
+.tab:hover,
+.tab[aria-current='step'] {
+  color: var(--white);
+}
+
+.tabLabel {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tabNumber {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--butter);
+}
+
+.tabRail {
+  position: relative;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--hairline-light);
+  overflow: hidden;
+}
+
+.tabFill {
+  position: absolute;
+  inset: 0;
+  background: var(--butter);
+  transform-origin: 0 50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swipe {
+    animation: none;
+  }
+}

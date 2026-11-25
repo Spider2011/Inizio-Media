@@ -32,6 +32,16 @@ describe('EnquiryForm', () => {
     expect(screen.getByLabelText('Phone or email')).toHaveAccessibleDescription('Enter a phone number or a full email address.');
   });
 
+  it('opens with the service a ?service= link asks for', () => {
+    window.history.replaceState(null, '', '/contact?service=wedding');
+    try {
+      render(<EnquiryForm openMailto={vi.fn()} />);
+      expect(screen.getByLabelText('What do you need?')).toHaveValue('Event & Wedding Coverage');
+    } finally {
+      window.history.replaceState(null, '', '/');
+    }
+  });
+
   it('clears an error as soon as it is fixed', async () => {
     const user = userEvent.setup();
     render(<EnquiryForm openMailto={vi.fn()} />);

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { LEGACY_REDIRECTS } from './legacy-redirects';
 
-const PAGES = ['/', '/about', '/services', '/work', '/clientele', '/contact'];
+const PAGES = ['/', '/about', '/services', '/work', '/weddings', '/clientele', '/contact'];
 
 describe('LEGACY_REDIRECTS', () => {
   it('sends the old WordPress posts and pages to the home page', () => {

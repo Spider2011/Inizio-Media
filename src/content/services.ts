@@ -3,7 +3,13 @@ import type { StockPhoto } from '@/lib/unsplash';
 /* The thirteen services, in the design system's order, three keywords each, with a stock photo
    (Unsplash) that illustrates the service. */
 
-export type ServiceCard = { title: string; keys: readonly [string, string, string]; photo: StockPhoto };
+export type ServiceCard = {
+  title: string;
+  keys: readonly [string, string, string];
+  photo: StockPhoto;
+  /** A page of its own to open instead of the contact page, with the folder's call to action. */
+  page?: { href: string; cta: string };
+};
 
 export const SERVICE_CARDS: readonly ServiceCard[] = [
   {
@@ -59,6 +65,7 @@ export const SERVICE_CARDS: readonly ServiceCard[] = [
   {
     title: 'Event & Wedding Coverage',
     keys: ['Coverage', 'Content', 'Live Updates'],
+    page: { href: '/weddings', cta: 'See the wedding reels' },
     photo: { id: 'photo-1610173827043-9db50e0d8ef9', alt: 'A bride in a red outfit with gold jewellery and henna', local: '/services/event-wedding-coverage.webp' }
   },
   {

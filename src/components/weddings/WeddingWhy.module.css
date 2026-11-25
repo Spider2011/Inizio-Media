@@ -1,0 +1,118 @@
+.section {
+  padding-block: var(--section-pad);
+  background: var(--navy);
+}
+
+.list {
+  display: grid;
+  border-top: 1px solid var(--hairline-light);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 18px 24px;
+  padding-block: clamp(28px, 4vw, 52px);
+  border-bottom: 1px solid var(--hairline-light);
+}
+
+.number {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(44px, 7vw, 104px);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--blue-sky);
+}
+
+.copy {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.title {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(24px, 2.8vw, 40px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.text {
+  max-width: 48ch;
+  font-size: clamp(16px, 1.25vw, 18px);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* The proof: a reel's still and its hook line, like a pinned clipping. */
+.proof {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 10px 22px 10px 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--hairline-light);
+  text-align: left;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.5s var(--ease-out);
+}
+
+.proof:hover {
+  background: rgba(246, 231, 161, 0.1);
+  border-color: var(--butter);
+  transform: translateY(-3px);
+}
+
+.thumb {
+  flex: none;
+  width: 52px;
+  height: auto;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.quote {
+  display: grid;
+  gap: 6px;
+}
+
+.quoteText {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  font-size: clamp(16px, 1.4vw, 20px);
+  line-height: 1.25;
+  color: var(--butter);
+}
+
+.watch {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue-sky);
+}
+
+@media (min-width: 900px) {
+  .row {
+    grid-template-columns: clamp(90px, 10vw, 150px) minmax(0, 1fr) minmax(0, 0.8fr);
+    align-items: center;
+  }
+
+  .proof {
+    grid-column: auto;
+    justify-self: end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proof {
+    transition: none;
+  }
+}

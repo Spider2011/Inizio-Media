@@ -12,6 +12,21 @@ export const SERVICES = [
 ] as const;
 
 export type Service = (typeof SERVICES)[number];
+
+/* Short names for links that open the form with a service already chosen: /contact?service=wedding. */
+const SERVICE_SLUGS = { wedding: 'Event & Wedding Coverage' } as const satisfies Record<string, Service>;
+type ServiceSlug = keyof typeof SERVICE_SLUGS;
+
+/** The service a ?service= link asks for, or null for a missing or unknown one. */
+export function serviceFromQuery(search: string): Service | null {
+  const slug = new URLSearchParams(search).get('service')?.trim().toLowerCase() ?? '';
+  return Object.hasOwn(SERVICE_SLUGS, slug) ? SERVICE_SLUGS[slug as ServiceSlug] : null;
+}
+
+/** The contact page, scrolled to the form, with this service chosen. */
+export function serviceLink(slug: ServiceSlug): string {
+  return `/contact?service=${slug}#contact`;
+}
 export type ContactKind = 'email' | 'phone';
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;

@@ -27,6 +27,7 @@ export const LEGACY_REDIRECTS: readonly LegacyRedirect[] = [
   ...to('/about', ['/about-us', '/who-we-are']),
   ...to('/services', ['/our-services', '/service']),
   ...to('/work', ['/our-work', '/portfolio', '/projects']),
+  ...to('/weddings', ['/wedding', '/weddings-and-events', '/events-and-weddings']),
   ...to('/clientele', ['/clients', '/our-clients']),
   ...to('/contact', ['/contact-us', '/get-in-touch'])
 ];

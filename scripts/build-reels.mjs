@@ -1,9 +1,11 @@
-// Builds the Our Work wheel's reels from the source videos in /REELS (not committed). Needs ffmpeg.
-// For each pick it writes to public/work/reels/:
-//   NN.mp4          the full reel, 720px wide with sound, for the player (opens on click)
-//   NN-preview.mp4  a short silent loop for the card on the wheel
-//   NN.webp         a still for the card face and the player's poster
-// and lists them in src/data/reels.ts. Run with `npm run reels` after changing PICKS.
+// Builds the site's reels from the source videos in /REELS (not committed). Needs ffmpeg.
+// Two sets: `work` (the Our Work wheel) and `weddings` (the Weddings page's film strip).
+// For each pick it writes to the set's folder under public/:
+//   NAME.mp4          the full reel, 720px wide with sound, for the player (opens on click)
+//   NAME-preview.mp4  a short silent loop for the card
+//   NAME.webp         a still for the card face and the player's poster
+// and lists them in the set's data file. Run with `npm run reels` (both sets) or
+// `npm run reels -- weddings` (one set) after changing its picks.
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -11,68 +13,117 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SOURCE = path.join(ROOT, 'REELS');
-const OUT_DIR = path.join(ROOT, 'public', 'work', 'reels');
-const DATA_FILE = path.join(ROOT, 'src', 'data', 'reels.ts');
-
-/* The eight on the wheel, in wheel order (the first lands on top). Source file names in /REELS. */
-const PICKS = ['16.MP4', '19.mp4', '40.mp4', '14.MP4', '29.mp4', '37.mp4', '7.mp4', '28.mp4'];
-const PREVIEW_SECONDS = 5;
 const POSTER_AT = 0.25; // fraction of the way in: past any black intro frame
+
+const SETS = {
+  work: {
+    /* The eight on the wheel, in wheel order (the first lands on top). Source file names in /REELS. */
+    picks: ['16.MP4', '19.mp4', '40.mp4', '14.MP4', '29.mp4', '37.mp4', '7.mp4', '28.mp4'].map((file) => ({ file })),
+    dir: 'work/reels',
+    dataFile: 'src/data/reels.ts',
+    /* Named by wheel position: 01, 02… */
+    name: (_, i) => String(i + 1).padStart(2, '0'),
+    full: { crf: 26, maxrate: '2M', audio: '128k' },
+    previewSeconds: 5,
+    write: writeWorkData
+  },
+  weddings: {
+    /* Every reel in /REELS with wedding content. The page sets their order and captions
+       (src/content/weddings.ts); here they are named by their source number. posterAt is in
+       seconds: most open on their hook line, which makes the best still. */
+    picks: [34, 35, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54].map((n) => ({
+      file: `${n}.mp4`,
+      posterAt: n === 47 ? undefined : 2
+    })),
+    dir: 'weddings/reels',
+    dataFile: 'src/data/wedding-reels.ts',
+    name: (file) => String(parseInt(file, 10)),
+    /* Eighteen reels (over nine minutes of busy, handheld footage): a lower cap keeps the set to
+       about 85 MB in all (118 MB at the work wheel's settings). Each is still 720px wide, which holds up on a phone. */
+    full: { crf: 28, maxrate: '1.1M', audio: '96k' },
+    previewSeconds: 4,
+    write: writeWeddingData
+  }
+};
 
 const run = (args) => execFileSync('ffmpeg', ['-v', 'error', '-y', ...args], { stdio: ['ignore', 'ignore', 'inherit'] });
 const duration = (file) =>
   Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', file]).toString());
 
-function build() {
-  if (!fs.existsSync(SOURCE)) throw new Error(`No source folder at ${SOURCE}`);
-  fs.rmSync(OUT_DIR, { recursive: true, force: true });
-  fs.mkdirSync(OUT_DIR, { recursive: true });
+function encode(set, pick, i, outDir) {
+  const input = path.join(SOURCE, pick.file);
+  if (!fs.existsSync(input)) throw new Error(`Missing reel ${pick.file}`);
+  const name = set.name(pick.file, i);
+  const seconds = duration(input);
+  const { crf, maxrate, audio } = set.full;
+  const bufsize = `${parseFloat(maxrate) * 2}M`;
+  const posterAt = pick.posterAt ?? seconds * POSTER_AT;
 
-  const entries = PICKS.map((file, i) => {
-    const input = path.join(SOURCE, file);
-    if (!fs.existsSync(input)) throw new Error(`Missing reel ${file}`);
-    const n = String(i + 1).padStart(2, '0');
-    const seconds = duration(input);
-    const scale = 'scale=720:-2:flags=lanczos,fps=30';
+  run(['-i', input, '-vf', 'scale=720:-2:flags=lanczos,fps=30', '-c:v', 'libx264', '-preset', 'slow', '-crf', String(crf),
+    '-maxrate', maxrate, '-bufsize', bufsize, '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', audio, '-movflags', '+faststart',
+    path.join(outDir, `${name}.mp4`)]);
+  run(['-ss', '0.5', '-t', String(set.previewSeconds), '-i', input, '-vf', 'scale=480:-2:flags=lanczos,fps=30', '-an',
+    '-c:v', 'libx264', '-preset', 'slow', '-crf', '30', '-pix_fmt', 'yuv420p', '-movflags', '+faststart',
+    path.join(outDir, `${name}-preview.mp4`)]);
+  run(['-ss', posterAt.toFixed(2), '-i', input, '-frames:v', '1', '-vf', 'scale=540:-2:flags=lanczos',
+    '-c:v', 'libwebp', '-quality', '80', path.join(outDir, `${name}.webp`)]);
 
-    run(['-i', input, '-vf', scale, '-c:v', 'libx264', '-preset', 'slow', '-crf', '26', '-maxrate', '2M', '-bufsize', '4M',
-      '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart', path.join(OUT_DIR, `${n}.mp4`)]);
-    run(['-ss', '0.5', '-t', String(PREVIEW_SECONDS), '-i', input, '-vf', 'scale=480:-2:flags=lanczos,fps=30', '-an',
-      '-c:v', 'libx264', '-preset', 'slow', '-crf', '30', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', path.join(OUT_DIR, `${n}-preview.mp4`)]);
-    run(['-ss', (seconds * POSTER_AT).toFixed(2), '-i', input, '-frames:v', '1', '-vf', 'scale=540:-2:flags=lanczos',
-      '-c:v', 'libwebp', '-quality', '80', path.join(OUT_DIR, `${n}.webp`)]);
-
-    console.log(`${n} ← ${file} (${Math.round(seconds)}s)`);
-    return { n, seconds: Math.round(seconds) };
-  });
-
-  const lines = entries.map(
-    (e) =>
-      `  { src: '/work/reels/${e.n}.mp4', preview: '/work/reels/${e.n}-preview.mp4', poster: '/work/reels/${e.n}.webp', seconds: ${e.seconds} }`
-  );
-  fs.writeFileSync(
-    DATA_FILE,
-    [
-      '/* GENERATED by scripts/build-reels.mjs from /REELS. Do not edit by hand: change PICKS there and run `npm run reels`. */',
-      '',
-      'export type ReelFile = {',
-      '  /** The full reel with sound (720px wide), for the player. */',
-      '  src: string;',
-      '  /** A few silent seconds that loop on the wheel card. */',
-      '  preview: string;',
-      '  /** A still for the card face and the player. */',
-      '  poster: string;',
-      '  seconds: number;',
-      '};',
-      '',
-      'export const REELS: readonly ReelFile[] = [',
-      lines.join(',\n'),
-      '];',
-      ''
-    ].join('\n')
-  );
-  const mb = fs.readdirSync(OUT_DIR).reduce((sum, f) => sum + fs.statSync(path.join(OUT_DIR, f)).size, 0) / 1024 / 1024;
-  console.log(`${entries.length} reels → public/work/reels (${mb.toFixed(1)} MB), src/data/reels.ts`);
+  console.log(`${set.dir}/${name} ← ${pick.file} (${Math.round(seconds)}s)`);
+  const url = `/${set.dir}/${name}`;
+  return { name, src: `${url}.mp4`, preview: `${url}-preview.mp4`, poster: `${url}.webp`, seconds: Math.round(seconds) };
 }
 
-build();
+const fileLine = (e) => `src: '${e.src}', preview: '${e.preview}', poster: '${e.poster}', seconds: ${e.seconds}`;
+
+function writeWorkData(entries) {
+  return [
+    '/* GENERATED by scripts/build-reels.mjs from /REELS. Do not edit by hand: change the picks there and run `npm run reels`. */',
+    '',
+    'export type ReelFile = {',
+    '  /** The full reel with sound (720px wide), for the player. */',
+    '  src: string;',
+    '  /** A few silent seconds that loop on the card. */',
+    '  preview: string;',
+    '  /** A still for the card face and the player. */',
+    '  poster: string;',
+    '  seconds: number;',
+    '};',
+    '',
+    'export const REELS: readonly ReelFile[] = [',
+    entries.map((e) => `  { ${fileLine(e)} }`).join(',\n'),
+    '];',
+    ''
+  ].join('\n');
+}
+
+function writeWeddingData(entries) {
+  return [
+    '/* GENERATED by scripts/build-reels.mjs from /REELS. Do not edit by hand: change the picks there and run `npm run reels -- weddings`. */',
+    '',
+    "import type { ReelFile } from './reels';",
+    '',
+    '/** Keyed by the reel\'s number in /REELS. */',
+    'export const WEDDING_REEL_FILES: Readonly<Record<string, ReelFile>> = {',
+    entries.map((e) => `  '${e.name}': { ${fileLine(e)} }`).join(',\n'),
+    '};',
+    ''
+  ].join('\n');
+}
+
+function build(key) {
+  const set = SETS[key];
+  const outDir = path.join(ROOT, 'public', ...set.dir.split('/'));
+  fs.rmSync(outDir, { recursive: true, force: true });
+  fs.mkdirSync(outDir, { recursive: true });
+
+  const entries = set.picks.map((pick, i) => encode(set, pick, i, outDir));
+  fs.writeFileSync(path.join(ROOT, set.dataFile), set.write(entries));
+  const mb = fs.readdirSync(outDir).reduce((sum, f) => sum + fs.statSync(path.join(outDir, f)).size, 0) / 1024 / 1024;
+  console.log(`${entries.length} reels → public/${set.dir} (${mb.toFixed(1)} MB), ${set.dataFile}`);
+}
+
+if (!fs.existsSync(SOURCE)) throw new Error(`No source folder at ${SOURCE}`);
+const wanted = process.argv.slice(2);
+const unknown = wanted.filter((key) => !(key in SETS));
+if (unknown.length) throw new Error(`Unknown reel set: ${unknown.join(', ')}. Choose from ${Object.keys(SETS).join(', ')}.`);
+(wanted.length ? wanted : Object.keys(SETS)).forEach(build);

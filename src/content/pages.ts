@@ -39,6 +39,14 @@ const COPY: Record<NavId, PageCopy> = {
     lead: 'Reels, launches and brand systems for the brands that began with us.',
     description: 'Selected work and results from Inizio Media, a digital marketing and branding agency in Mumbai.'
   },
+  weddings: {
+    title: 'Two families. One beginning.',
+    teaser: 'Pre-wedding and wedding reels, made for Instagram.',
+    accent: ['beginning.'],
+    lead: 'Pre-wedding and wedding content, filmed and cut the way your friends actually watch: vertical, funny, emotional and ready to post.',
+    description:
+      'Pre-wedding and wedding reels by Inizio Media, Mumbai: haldi, mehendi, garba, baraat, pheras and reception content made for Instagram.'
+  },
   clientele: {
     title: 'The company we keep.',
     teaser: 'The brands that began with us.',

@@ -13,6 +13,7 @@ import ClientelePage, { metadata as clienteleMeta } from './clientele/page';
 import ContactPage, { metadata as contactMeta } from './contact/page';
 import HomePage from './page';
 import ServicesPage, { metadata as servicesMeta } from './services/page';
+import WeddingsPage, { metadata as weddingsMeta } from './weddings/page';
 import WorkPage, { metadata as workMeta } from './work/page';
 
 /* Under Vite, static image imports are URL strings without dimensions; render a plain <img>. */
@@ -37,6 +38,7 @@ const INNER: Record<NavId, { Page: ComponentType; meta: Metadata; sections: read
   about: { Page: AboutPage, meta: aboutMeta, sections: ['about', 'results-title', 'process', 'collab-title'] },
   services: { Page: ServicesPage, meta: servicesMeta, sections: ['services', 'process', 'What we do, in brief', 'collab-title'] },
   work: { Page: WorkPage, meta: workMeta, sections: ['projects', 'results-title', 'collab-title'] },
+  weddings: { Page: WeddingsPage, meta: weddingsMeta, sections: ['wedding-film', 'wedding-services', 'wedding-why', 'wedding-book'] },
   clientele: { Page: ClientelePage, meta: clienteleMeta, sections: ['clientele', 'beginnings-wall'] },
   contact: { Page: ContactPage, meta: contactMeta, sections: ['contact'] }
 };

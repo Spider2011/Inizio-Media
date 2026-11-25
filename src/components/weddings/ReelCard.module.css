@@ -1,0 +1,136 @@
+/* A 9:16 frame on the film strip. Its height is set by the strip (--card-h). */
+.card {
+  position: relative;
+  display: block;
+  flex: none;
+  height: var(--card-h, 480px);
+  aspect-ratio: 9 / 16;
+  border-radius: 10px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #0b1630;
+  text-align: left;
+  color: var(--white);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  transition:
+    transform 0.6s var(--ease-out),
+    box-shadow 0.6s var(--ease-out);
+}
+
+.media,
+.poster,
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.poster,
+.video {
+  object-fit: cover;
+  transition: transform 1.2s var(--ease-out), filter 0.6s var(--ease-out);
+}
+
+/* Legibility for the words at the top and bottom, without dimming the middle of the frame. */
+.shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(4, 12, 30, 0.7) 0%, transparent 22%),
+    linear-gradient(0deg, rgba(4, 12, 30, 0.9) 0%, rgba(4, 12, 30, 0.4) 22%, transparent 38%);
+}
+
+.top,
+.bottom {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  display: flex;
+}
+
+.top {
+  top: 12px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.frame {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  font-variant-numeric: tabular-nums;
+  color: var(--butter);
+}
+
+.bottom {
+  bottom: 14px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.moment {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(22px, calc(var(--card-h, 480px) * 0.055), 30px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.play {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--butter);
+  color: var(--navy);
+  transition: transform 0.5s var(--ease-out);
+}
+
+.play svg {
+  margin-left: 2px;
+}
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow:
+      0 0 0 2px var(--butter),
+      0 24px 50px rgba(0, 0, 0, 0.45);
+  }
+
+  .card:hover .poster,
+  .card:hover .video {
+    transform: scale(1.06);
+  }
+
+  .card:hover .play {
+    transform: scale(1.15);
+  }
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--butter);
+  outline-offset: 4px;
+  border-radius: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .poster,
+  .video,
+  .play {
+    transition: none;
+  }
+}

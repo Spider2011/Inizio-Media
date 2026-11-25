@@ -1,5 +1,19 @@
 import { describe, expect, it } from 'vitest';
-import { buildMailto, classifyContact, enquiryBody, enquirySubject, SERVICES, validateEnquiry } from './enquiry';
+import { buildMailto, classifyContact, enquiryBody, enquirySubject, serviceFromQuery, serviceLink, SERVICES, validateEnquiry } from './enquiry';
+
+describe('serviceFromQuery', () => {
+  it('turns a ?service= slug into a listed service', () => {
+    expect(serviceFromQuery('?service=wedding')).toBe('Event & Wedding Coverage');
+    expect(serviceFromQuery('?service=%20Wedding%20')).toBe('Event & Wedding Coverage');
+    expect(SERVICES).toContain(serviceFromQuery(new URL(serviceLink('wedding'), 'https://x.test').search));
+  });
+
+  it('ignores missing, unknown and inherited names', () => {
+    for (const search of ['', '?service=', '?service=yacht', '?service=constructor', '?service=toString', '?other=wedding']) {
+      expect(serviceFromQuery(search)).toBeNull();
+    }
+  });
+});
 
 const valid = { name: 'Asha', contact: '+91 90823 22109', business: '', service: 'Branding', message: '' };
 

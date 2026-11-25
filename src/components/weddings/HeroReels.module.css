@@ -1,0 +1,112 @@
+/* Three reels fanned like prints. Phones and tablets: small, at the top right above the breadcrumb.
+   Wide screens (1280px+): low on the right, in the page number's place. */
+.stage {
+  position: absolute;
+  inset: 0;
+  display: block;
+  /* Small enough on phones to sit between the menu bar and the breadcrumb. */
+  --print-w: clamp(56px, 17vw, 90px);
+}
+
+.fan {
+  position: absolute;
+  top: 88px;
+  right: calc(var(--gutter) + var(--print-w) * 0.7);
+  width: var(--print-w);
+  aspect-ratio: 9 / 16;
+  opacity: 0.75;
+}
+
+.print {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #0b1630;
+  /* A white print border. */
+  box-shadow:
+    0 0 0 3px var(--paper),
+    0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.caption {
+  display: none;
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(7, 28, 64, 0.7);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.badge {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .stage {
+    /* Capped: past ~1500px the headline stops growing, so bigger prints would reach its first line. */
+    --print-w: clamp(120px, 11vw, 172px);
+  }
+
+  /* Low on the right, beside the headline's shorter last lines ("One", "beginning.") and above
+     the Scroll button. */
+  .fan {
+    top: auto;
+    bottom: clamp(130px, 19vh, 190px);
+    right: calc(var(--gutter) + var(--print-w) * 0.58);
+    opacity: 1;
+  }
+
+  .caption {
+    display: block;
+  }
+
+  .print {
+    box-shadow:
+      0 0 0 6px var(--paper),
+      0 30px 70px rgba(0, 0, 0, 0.5);
+  }
+
+  .badge {
+    position: absolute;
+    z-index: 3;
+    left: -100%;
+    top: 22%;
+    display: block;
+    color: var(--butter);
+    --badge-size: clamp(120px, 10vw, 160px);
+  }
+
+  .badgeCore {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--butter);
+    color: var(--navy);
+  }
+}
+
+/* Laptops and small desktops: the headline wraps to four lines and fills the width, so the page
+   number takes this place instead (see PageHero.module.css). */
+@media (min-width: 900px) and (max-width: 1279px) {
+  .stage {
+    display: none;
+  }
+}

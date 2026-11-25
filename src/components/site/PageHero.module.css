@@ -220,3 +220,17 @@
     animation: none;
   }
 }
+
+/* ---------- Optional visual (Weddings) ----------
+   The visual places itself; on wide screens (1280px+) it replaces the page number. */
+.visual {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+@media (min-width: 1280px) {
+  .withVisual .index {
+    display: none;
+  }
+}

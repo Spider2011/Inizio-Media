@@ -6,7 +6,7 @@ import { Arrow } from '@/components/ui/Arrow';
 import { SITE } from '@/content/site';
 import type { ApiResponse } from '@/lib/api-response';
 import { cx } from '@/lib/cx';
-import { buildMailto, SERVICES, validateEnquiry, type EnquiryField, type FieldErrors } from '@/lib/enquiry';
+import { buildMailto, serviceFromQuery, SERVICES, validateEnquiry, type EnquiryField, type FieldErrors } from '@/lib/enquiry';
 import { EASE_OUT } from '@/lib/motion';
 import styles from './EnquiryForm.module.css';
 
@@ -47,6 +47,13 @@ export function EnquiryForm({ endpoint = '/api/enquiry', openMailto = defaultOpe
   /* Native `required` covers visitors without JavaScript; with it, the animated error states take over. */
   useEffect(() => {
     if (formRef.current) formRef.current.noValidate = true;
+  }, []);
+
+  /* A link such as /contact?service=wedding opens the form with that service already chosen. */
+  useEffect(() => {
+    const service = serviceFromQuery(window.location.search);
+    const select = formRef.current?.querySelector<HTMLSelectElement>('select[name="service"]');
+    if (service && select) select.value = service;
   }, []);
 
   function focusFirstError(fieldErrors: FieldErrors) {

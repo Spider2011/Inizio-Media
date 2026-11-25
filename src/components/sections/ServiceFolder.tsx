@@ -44,7 +44,7 @@ export function ServiceFolder({ service, index, className }: Props) {
       viewport={VIEW}
     >
       <Spotlight as="article" className={cx(styles.folder, styles[tone])} tilt={8}>
-        <Link className={styles.link} href="/contact" data-cursor="Enquire">
+        <Link className={styles.link} href={service.page?.href ?? '/contact'} data-cursor={service.page ? 'Watch' : 'Enquire'}>
           <span className={styles.back} aria-hidden="true">
             <span className={styles.tab}>{number}</span>
           </span>
@@ -82,7 +82,7 @@ export function ServiceFolder({ service, index, className }: Props) {
               ))}
             </ul>
             <span className={styles.cta}>
-              Start a project
+              {service.page?.cta ?? 'Start a project'}
               <span className={styles.disc} aria-hidden="true">
                 <Arrow direction="up-right" />
               </span>

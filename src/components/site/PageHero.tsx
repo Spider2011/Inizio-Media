@@ -2,7 +2,7 @@
 
 import { m, useMotionValue, useScroll, useSpring, useTransform } from 'motion/react';
 import Link from 'next/link';
-import { useRef, type PointerEvent } from 'react';
+import { useRef, type PointerEvent, type ReactNode } from 'react';
 import { useIntroDone } from '@/components/fx/Intro';
 import { SplitText } from '@/components/fx/SplitText';
 import { Arrow } from '@/components/ui/Arrow';
@@ -14,8 +14,9 @@ import { EASE_OUT } from '@/lib/motion';
 import styles from './PageHero.module.css';
 
 /* Opening screen of an inner page: breadcrumb, a headline whose letters rise, a giant outlined page
-   number that drifts as you scroll, and glowing orbs that lean toward the pointer. */
-export function PageHero({ page }: { page: PageInfo }) {
+   number that drifts as you scroll, and glowing orbs that lean toward the pointer. A page may add a
+   decorative `visual` (Weddings has its reels): it takes the number's place on wide screens. */
+export function PageHero({ page, visual }: { page: PageInfo; visual?: ReactNode }) {
   const ready = useIntroDone();
   const ref = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -46,7 +47,13 @@ export function PageHero({ page }: { page: PageInfo }) {
   });
 
   return (
-    <section ref={ref} id="top" className={styles.hero} aria-labelledby="page-title" onPointerMove={onPointerMove}>
+    <section
+      ref={ref}
+      id="top"
+      className={visual ? `${styles.hero} ${styles.withVisual}` : styles.hero}
+      aria-labelledby="page-title"
+      onPointerMove={onPointerMove}
+    >
       <div className={styles.backdrop} aria-hidden="true">
         <m.span className={`${styles.orb} ${styles.orbA}`} style={orbA} />
         <m.span className={`${styles.orb} ${styles.orbB}`} style={orbB} />
@@ -60,6 +67,11 @@ export function PageHero({ page }: { page: PageInfo }) {
         >
           {pad2(page.index)}
         </m.span>
+        {visual && (
+          <m.div className={styles.visual} style={{ y: indexY }}>
+            {visual}
+          </m.div>
+        )}
       </div>
 
       <m.div ref={contentRef} className={`container ${styles.content}`} style={{ y: contentY, opacity: contentOpacity }}>

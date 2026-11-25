@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-const ROUTES = ['/', '/about', '/services', '/work', '/clientele', '/contact'] as const;
+const ROUTES = ['/', '/about', '/services', '/work', '/weddings', '/clientele', '/contact'] as const;
 
 /* Load a page and wait for the preloader curtain to finish. */
 async function open(page: Page, path = '/') {
@@ -261,9 +261,9 @@ test('the retired testimonials address redirects to the clientele page', async (
   expect(response?.status()).toBe(200);
 });
 
-test('the retired events address redirects to the services page', async ({ page }) => {
+test('the old events address redirects to the weddings page', async ({ page }) => {
   const response = await page.goto('/events');
-  expect(response?.url()).toMatch(/\/services$/);
+  expect(response?.url()).toMatch(/\/weddings$/);
   expect(response?.status()).toBe(200);
 });
 
