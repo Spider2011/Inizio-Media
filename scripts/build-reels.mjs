@@ -31,7 +31,7 @@ const SETS = {
     /* Every reel in /REELS with wedding content. The page sets their order and captions
        (src/content/weddings.ts); here they are named by their source number. posterAt is in
        seconds: most open on their hook line, which makes the best still. */
-    picks: [34, 35, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64].map((n) => ({
+    picks: [34, 35, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63].map((n) => ({
       file: `${n}.mp4`,
       /* 47 opens dark; 59 is letterboxed, so its still is the Save the Date title instead. */
       posterAt: n === 47 ? undefined : n === 59 ? 17 : 2
@@ -39,7 +39,7 @@ const SETS = {
     dir: 'weddings/reels',
     dataFile: 'src/data/wedding-reels.ts',
     name: (file) => String(parseInt(file, 10)),
-    /* Twenty-eight reels (over thirteen minutes of busy, handheld footage): a lower cap keeps the
+    /* Twenty-seven reels (over thirteen minutes of busy, handheld footage): a lower cap keeps the
        set small (the first eighteen came to 118 MB at the work wheel's settings, 85 MB at these).
        Each is still 720px wide, which holds up on a phone. */
     full: { crf: 28, maxrate: '1.1M', audio: '96k' },

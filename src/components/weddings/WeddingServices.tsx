@@ -17,7 +17,7 @@ import styles from './WeddingServices.module.css';
 /* Three stills from each service's own reels, tucked into the card's corner. For the design card:
    the haldi welcome board, the guests' notes on playing cards and the save-the-date. */
 const STILLS: Record<WeddingService['id'], readonly string[]> = {
-  'pre-wedding': ['63', '58', '64'],
+  'pre-wedding': ['63', '58', '62'],
   wedding: ['47', '49', '54'],
   stationery: ['50', '55', '59']
 };

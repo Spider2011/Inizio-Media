@@ -30,6 +30,5 @@ export const WEDDING_REEL_FILES: Readonly<Record<string, ReelFile>> = {
   '60': { src: '/weddings/reels/60.mp4', preview: '/weddings/reels/60-preview.mp4', poster: '/weddings/reels/60.webp', seconds: 42 },
   '61': { src: '/weddings/reels/61.mp4', preview: '/weddings/reels/61-preview.mp4', poster: '/weddings/reels/61.webp', seconds: 51 },
   '62': { src: '/weddings/reels/62.mp4', preview: '/weddings/reels/62-preview.mp4', poster: '/weddings/reels/62.webp', seconds: 22 },
-  '63': { src: '/weddings/reels/63.mp4', preview: '/weddings/reels/63-preview.mp4', poster: '/weddings/reels/63.webp', seconds: 20 },
-  '64': { src: '/weddings/reels/64.mp4', preview: '/weddings/reels/64-preview.mp4', poster: '/weddings/reels/64.webp', seconds: 11 }
+  '63': { src: '/weddings/reels/63.mp4', preview: '/weddings/reels/63-preview.mp4', poster: '/weddings/reels/63.webp', seconds: 20 }
 };

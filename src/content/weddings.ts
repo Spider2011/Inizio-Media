@@ -25,12 +25,11 @@ export const WEDDING_CHAPTERS: readonly WeddingChapter[] = [
     id: 'official',
     kind: 'Pre-wedding',
     title: 'It’s official',
-    rituals: ['Engagement', 'Couple shoot', 'Save the date', 'Countdown'],
+    rituals: ['Engagement', 'Couple shoot', 'Save the date', 'Wedding season'],
     reels: [
       { id: '63', moment: 'Engagement', hook: 'From the proposal to the engagement' },
       { id: '58', moment: 'Couple shoot', hook: 'Manifested: “Bhagwaan tumhe sab de aur mujhe TUM”' },
       { id: '59', moment: 'Save the date', hook: 'Save the date' },
-      { id: '64', moment: 'Countdown', hook: 'Counting down to 11/11' },
       { id: '62', moment: 'Wedding season', hook: 'Locking in for… Beyblade season' }
     ]
   },
