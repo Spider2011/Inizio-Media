@@ -30,7 +30,8 @@ export const WEDDING_CHAPTERS: readonly WeddingChapter[] = [
       { id: '63', moment: 'Engagement', hook: 'From the proposal to the engagement' },
       { id: '58', moment: 'Couple shoot', hook: 'Manifested: “Bhagwaan tumhe sab de aur mujhe TUM”' },
       { id: '59', moment: 'Save the date', hook: 'Save the date' },
-      { id: '64', moment: 'Countdown', hook: 'Counting down to 11/11' }
+      { id: '64', moment: 'Countdown', hook: 'Counting down to 11/11' },
+      { id: '62', moment: 'Wedding season', hook: 'Locking in for… Beyblade season' }
     ]
   },
   {
@@ -44,7 +45,6 @@ export const WEDDING_CHAPTERS: readonly WeddingChapter[] = [
       { id: '42', moment: 'Mehendi', hook: 'Mehendi… but with a surprise' },
       { id: '61', moment: 'Sangeet', hook: 'Your friends picked the last slot of the sangeet, and then the drama unfolds' },
       { id: '51', moment: 'Garba night', hook: 'Khamma!' },
-      { id: '62', moment: 'Garba night', hook: 'Locking in for… Beyblade season' },
       { id: '53', moment: 'Getting ready', hook: 'The bridesmaids, ft. their inner thoughts' }
     ]
   },

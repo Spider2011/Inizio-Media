@@ -64,6 +64,8 @@
   border-radius: 10px;
   background: var(--butter);
   color: var(--navy);
+  /* The title is sized from this card's width (cqi), so a long word can't push the card wider. */
+  container-type: inline-size;
   /* A printed double rule inside the edge. */
   box-shadow:
     inset 0 0 0 8px var(--butter),
@@ -96,7 +98,8 @@
 .chapterTitle {
   font-family: var(--font-display), sans-serif;
   font-weight: 800;
-  font-size: clamp(30px, 8vw, 44px);
+  /* The longest word, "celebrations", runs ~9.4em in Syne: this keeps it inside the card. */
+  font-size: clamp(16px, calc(100cqi / 9.8), 44px);
   line-height: 0.98;
   letter-spacing: -0.045em;
   text-wrap: balance;
@@ -270,7 +273,7 @@
 
   .pin[data-pinned] .chapterCard {
     flex: none;
-    width: calc(var(--card-h) * 0.72);
+    width: calc(var(--card-h) * 0.82);
     height: var(--card-h);
     margin: 0;
     padding: 34px 30px;
@@ -278,7 +281,7 @@
   }
 
   .pin[data-pinned] .chapterTitle {
-    font-size: clamp(32px, calc(var(--card-h) * 0.095), 52px);
+    font-size: clamp(16px, calc(100cqi / 9.8), 52px);
   }
 
   .pin[data-pinned] .end {
