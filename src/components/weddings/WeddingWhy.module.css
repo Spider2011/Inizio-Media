@@ -56,8 +56,8 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  width: fit-content;
-  max-width: 100%;
+  /* Full width of its column, so every proof is the same size whatever the length of its quote. */
+  width: 100%;
   padding: 10px 22px 10px 10px;
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.06);
@@ -110,7 +110,6 @@
 
   .proof {
     grid-column: auto;
-    justify-self: end;
   }
 }
 
