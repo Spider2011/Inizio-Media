@@ -31,7 +31,7 @@ function HeroPrint({ reel, index, ready }: { reel: ShownReel; index: number; rea
       animate={ready ? { opacity: 1, x: fan.x, y: fan.y, rotate: fan.rotate, scale: 1 } : undefined}
       transition={{ duration: 1.4, ease: EASE_OUT, delay: 0.35 + index * 0.12 }}
     >
-      <Image className={styles.media} src={reel.poster} alt="" width={540} height={960} sizes="(min-width: 900px) 240px, 34vw" priority={index === 1} />
+      <Image className={styles.media} src={reel.poster} alt="" width={540} height={960} sizes="172px" />
       <video ref={videoRef} className={styles.media} src={reel.preview} muted loop playsInline preload="none" />
       <span className={styles.caption}>{reel.moment}</span>
     </m.span>
