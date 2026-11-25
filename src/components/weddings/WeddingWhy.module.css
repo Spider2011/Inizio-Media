@@ -9,8 +9,10 @@
 }
 
 .row {
+  /* The number's size; its column is sized from it, since two outlined digits run ~2em wide in Syne. */
+  --num-size: clamp(44px, 6vw, 92px);
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: calc(var(--num-size) * 2.2) minmax(0, 1fr);
   gap: 18px 24px;
   padding-block: clamp(28px, 4vw, 52px);
   border-bottom: 1px solid var(--hairline-light);
@@ -19,7 +21,8 @@
 .number {
   font-family: var(--font-display), sans-serif;
   font-weight: 800;
-  font-size: clamp(44px, 7vw, 104px);
+  font-size: var(--num-size);
+  white-space: nowrap;
   line-height: 0.9;
   letter-spacing: -0.05em;
   color: transparent;
@@ -101,7 +104,7 @@
 
 @media (min-width: 900px) {
   .row {
-    grid-template-columns: clamp(90px, 10vw, 150px) minmax(0, 1fr) minmax(0, 0.8fr);
+    grid-template-columns: calc(var(--num-size) * 2.2) minmax(0, 1fr) minmax(0, 0.8fr);
     align-items: center;
   }
 
