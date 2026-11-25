@@ -9,7 +9,7 @@ import { serviceLink } from '@/lib/enquiry';
 import { pad2 } from '@/lib/format';
 import styles from './WeddingBook.module.css';
 
-/* The close: a running "Getting married?" line, the three steps to booking, and the way in. */
+/* The close: a running "Getting married?" line, the steps to booking, and the way in. */
 export function WeddingBook() {
   return (
     <section id="wedding-book" className={styles.band} aria-labelledby="wedding-book-title">

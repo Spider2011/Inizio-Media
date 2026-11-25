@@ -15,6 +15,16 @@ describe('Weddings content', () => {
     WEDDING_CHAPTERS.forEach((chapter) => expect(kinds.has(chapter.kind), chapter.id).toBe(true));
   });
 
+  it('offers pre-wedding, wedding and stationery design, each with what it includes and a booking line', () => {
+    expect(WEDDING_SERVICES.map((service) => service.id)).toEqual(['pre-wedding', 'wedding', 'stationery']);
+    WEDDING_SERVICES.forEach((service) => {
+      expect(service.includes.length, service.id).toBeGreaterThan(0);
+      expect(service.cta.trim(), service.id).not.toBe('');
+    });
+    const design = WEDDING_SERVICES[2].includes.join(' ').toLowerCase();
+    ['logo', 'magazine', 'photobooth', 'sunboards', 'printables'].forEach((item) => expect(design).toContain(item));
+  });
+
   it('backs every reason with a reel that is on the page', () => {
     WEDDING_REASONS.forEach((reason) => expect(ids()).toContain(reason.proof));
   });

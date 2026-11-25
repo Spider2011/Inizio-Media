@@ -105,7 +105,7 @@
 .rituals {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 0;
+  gap: 6px 16px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -114,13 +114,13 @@
   color: rgba(7, 28, 64, 0.8);
 }
 
-/* A small diamond between rituals. */
-.rituals li + li::before {
+/* A small diamond before every ritual, so a wrapped line still reads as a list. */
+.rituals li::before {
   content: '';
   display: inline-block;
   width: 5px;
   height: 5px;
-  margin: 0 10px 2px;
+  margin: 0 8px 2px 1px;
   rotate: 45deg;
   background: var(--blue);
   vertical-align: middle;
@@ -344,7 +344,9 @@
 
 .tabs ol {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* One equal column per chapter, however many there are. */
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
   gap: 18px;
   margin: 0;
   padding: 0;

@@ -73,7 +73,9 @@
 .moment {
   font-family: var(--font-display), sans-serif;
   font-weight: 800;
-  font-size: clamp(22px, calc(var(--card-h, 480px) * 0.055), 30px);
+  /* Sized from the card's inner width so the longest single word ("Engagement", ~10em in Syne)
+     always fits on one line. */
+  font-size: clamp(18px, calc((var(--card-h, 480px) * 0.5625 - 28px) / 10.5), 28px);
   line-height: 1;
   letter-spacing: -0.04em;
 }

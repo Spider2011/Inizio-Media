@@ -14,10 +14,19 @@ import { EASE_OUT, VIEW } from '@/lib/motion';
 import { withFile } from './reels';
 import styles from './WeddingServices.module.css';
 
-/* Three stills from each service's own reels, tucked into the card's corner. */
+/* Three stills from each service's own reels, tucked into the card's corner. For the design card:
+   the haldi welcome board, the guests' notes on playing cards and the save-the-date. */
 const STILLS: Record<WeddingService['id'], readonly string[]> = {
-  'pre-wedding': ['50', '41', '51'],
-  wedding: ['47', '49', '54']
+  'pre-wedding': ['63', '58', '64'],
+  wedding: ['47', '49', '54'],
+  stationery: ['50', '55', '59']
+};
+
+/* Invitation cards in the brand's colours, side by side. */
+const LOOK: Record<WeddingService['id'], { tone: string; place: string }> = {
+  'pre-wedding': { tone: styles.butter, place: styles.left },
+  wedding: { tone: styles.blue, place: styles.right },
+  stationery: { tone: styles.navy, place: styles.third }
 };
 
 function stillsFor(id: string): string[] {
@@ -29,16 +38,17 @@ function stillsFor(id: string): string[] {
 }
 
 function ServiceCard({ service, index }: { service: WeddingService; index: number }) {
+  const look = LOOK[service.id] ?? LOOK.wedding;
   return (
     <m.li
-      className={cx(styles.item, index % 2 ? styles.right : styles.left)}
+      className={cx(styles.item, look.place)}
       data-reveal=""
       initial={{ opacity: 0, y: 70 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={VIEW}
       transition={{ duration: 1, ease: EASE_OUT, delay: index * 0.12 }}
     >
-      <Spotlight as="article" className={cx(styles.card, index % 2 ? styles.blue : styles.butter)} tilt={5}>
+      <Spotlight as="article" className={cx(styles.card, look.tone)} tilt={5}>
         <p className={styles.kicker}>
           <span>{pad2(index + 1)}</span>
           <span className={styles.kind}>{service.kind}</span>
@@ -52,7 +62,7 @@ function ServiceCard({ service, index }: { service: WeddingService; index: numbe
         </ul>
         <div className={styles.foot}>
           <Link className={styles.cta} href={serviceLink('wedding')}>
-            Book {service.kind.toLowerCase()}
+            {service.cta}
             <span className={styles.disc} aria-hidden="true">
               <Arrow direction="up-right" />
             </span>
@@ -68,18 +78,18 @@ function ServiceCard({ service, index }: { service: WeddingService; index: numbe
   );
 }
 
-/* The two things couples book us for, as a pair of invitation cards. */
+/* What couples book us for: the two filmed services, and the design of everything printed. */
 export function WeddingServices() {
   return (
     <section id="wedding-services" className={styles.section} aria-labelledby="wedding-services-title">
       <div className="container">
         <SectionTitle
           className="fx-on-paper"
-          eyebrow="What we film"
+          eyebrow="What we do"
           title="Before the day, and on it."
           titleId="wedding-services-title"
           accent={['on', 'it.']}
-          lead="Book us for the pre-wedding, the wedding, or both. Either way you get reels people actually finish watching."
+          lead="Book us for the pre-wedding, the wedding, or both, and we will design everything printed with your names on it. Either way you get reels people actually finish watching."
         />
         <ul className={styles.list}>
           {WEDDING_SERVICES.map((service, i) => (

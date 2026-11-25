@@ -208,7 +208,7 @@ function ChapterCard({ chapter, number }: { chapter: Chapter; number: number }) 
 function EndCard({ onFocus }: { onFocus: (event: FocusEvent<HTMLElement>) => void }) {
   return (
     <div className={styles.endCard}>
-      <p className={styles.endKicker}>The next reel</p>
+      <p className={styles.endKicker}>The next reel can be</p>
       <p className={styles.endTitle}>Yours.</p>
       <p className={styles.endText}>Tell us your dates and functions, and we’ll plan the reels with you.</p>
       <Link className={styles.endCta} href={serviceLink('wedding')} onFocus={onFocus}>

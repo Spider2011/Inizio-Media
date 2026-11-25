@@ -74,6 +74,10 @@
 }
 
 .stepNumber {
+  /* Equal-width digits, so every step's text starts at the same place. */
+  flex: none;
+  min-width: 2.4em;
+  font-variant-numeric: tabular-nums;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.18em;

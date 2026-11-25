@@ -1,5 +1,5 @@
-/* The Weddings page: the reels in the order a wedding happens, the two things couples book us for,
-   and why they pick us. Reel ids are their numbers in /REELS (see scripts/build-reels.mjs). */
+/* The Weddings page: the reels in the order a wedding happens, what couples book us for, and why
+   they pick us. Reel ids are their numbers in /REELS (see scripts/build-reels.mjs). */
 
 export type WeddingReel = {
   /** The reel's number in /REELS, the key into WEDDING_REEL_FILES. */
@@ -22,15 +22,29 @@ export type WeddingChapter = {
 
 export const WEDDING_CHAPTERS: readonly WeddingChapter[] = [
   {
-    id: 'before',
+    id: 'official',
     kind: 'Pre-wedding',
-    title: 'Before the big day',
-    rituals: ['Haldi', 'Mehendi', 'Garba night'],
+    title: 'It’s official',
+    rituals: ['Engagement', 'Couple shoot', 'Save the date', 'Countdown'],
+    reels: [
+      { id: '63', moment: 'Engagement', hook: 'From the proposal to the engagement' },
+      { id: '58', moment: 'Couple shoot', hook: 'Manifested: “Bhagwaan tumhe sab de aur mujhe TUM”' },
+      { id: '59', moment: 'Save the date', hook: 'Save the date' },
+      { id: '64', moment: 'Countdown', hook: 'Counting down to 11/11' }
+    ]
+  },
+  {
+    id: 'celebrations',
+    kind: 'Wedding',
+    title: 'The celebrations',
+    rituals: ['Haldi', 'Mehendi', 'Sangeet', 'Garba night'],
     reels: [
       { id: '50', moment: 'Haldi', hook: 'You decided to have a fun haldi' },
       { id: '41', moment: 'Mehendi', hook: 'Moods of the bride during mehendi' },
       { id: '42', moment: 'Mehendi', hook: 'Mehendi… but with a surprise' },
+      { id: '61', moment: 'Sangeet', hook: 'Your friends picked the last slot of the sangeet, and then the drama unfolds' },
       { id: '51', moment: 'Garba night', hook: 'Khamma!' },
+      { id: '62', moment: 'Garba night', hook: 'Locking in for… Beyblade season' },
       { id: '53', moment: 'Getting ready', hook: 'The bridesmaids, ft. their inner thoughts' }
     ]
   },
@@ -41,6 +55,7 @@ export const WEDDING_CHAPTERS: readonly WeddingChapter[] = [
     rituals: ['First look', 'Baraat', 'Entries'],
     reels: [
       { id: '35', moment: 'First look', hook: 'Proof that even the groom’s friends deserve a first look' },
+      { id: '57', moment: 'Baraat', hook: 'Welcome to Parth’s baaraat' },
       { id: '47', moment: 'Baraat', hook: 'Ladkewaale hai, baaraat toh…' },
       { id: '34', moment: 'Baraat', hook: 'The groom’s side vs. the bride’s side' },
       { id: '44', moment: 'Entry', hook: 'Bhabhi kahaan hai???' },
@@ -51,8 +66,10 @@ export const WEDDING_CHAPTERS: readonly WeddingChapter[] = [
     id: 'vows',
     kind: 'Wedding',
     title: 'The vows',
-    rituals: ['Pheras', 'Sindoor', 'Bidaai'],
+    rituals: ['Varmala', 'Pheras', 'Sindoor', 'Bidaai'],
     reels: [
+      { id: '56', moment: 'Varmala', hook: '3 years, 6 birthdays, 0 break-ups… we made it' },
+      { id: '60', moment: 'Varmala', hook: 'A month since my tabiyat has been taazi with my jeeti hui baazi' },
       { id: '52', moment: 'Pheras', hook: 'The groom side during the pheras' },
       { id: '49', moment: 'Sindoor', hook: 'Adding the colour to his life' },
       { id: '39', moment: 'The tears', hook: 'Who will cry the most during the wedding' },
@@ -64,9 +81,10 @@ export const WEDDING_CHAPTERS: readonly WeddingChapter[] = [
     id: 'after',
     kind: 'Wedding',
     title: 'Happily ever after',
-    rituals: ['Reception', 'The family', 'The friends'],
+    rituals: ['Reception', 'Guest notes', 'The family', 'The friends'],
     reels: [
       { id: '46', moment: 'Reception', hook: 'POV: you waited so long, and it was over in a blink' },
+      { id: '55', moment: 'Guest notes', hook: 'Turned love into a deck they’ll shuffle forever' },
       { id: '45', moment: 'The family', hook: 'Us: Bhabhi, it’s not easy to handle our family' },
       { id: '48', moment: 'The friends', hook: 'They saved a million reels to recreate' }
     ]
@@ -75,10 +93,13 @@ export const WEDDING_CHAPTERS: readonly WeddingChapter[] = [
 
 export type WeddingService = {
   id: string;
-  kind: WeddingChapter['kind'];
+  /** The two filmed services match the chapters; design is the printed side of the wedding. */
+  kind: WeddingChapter['kind'] | 'Design';
   title: string;
   summary: string;
   includes: readonly string[];
+  /** The card's booking link text. */
+  cta: string;
 };
 
 export const WEDDING_SERVICES: readonly WeddingService[] = [
@@ -86,25 +107,41 @@ export const WEDDING_SERVICES: readonly WeddingService[] = [
     id: 'pre-wedding',
     kind: 'Pre-wedding',
     title: 'Pre-wedding content',
-    summary: 'The build-up, filmed like the main event. A shoot of the two of you, and every function before the big day.',
+    summary: 'The build-up, filmed like the main event: the proposal, a shoot of the two of you, and the news that you are getting married.',
     includes: [
       'A pre-wedding shoot, planned around your story',
-      'Haldi, mehendi, sangeet and garba nights',
       'Save-the-date and countdown reels',
       'The friends, the dances and the surprises'
-    ]
+    ],
+    cta: 'Book pre-wedding'
   },
   {
     id: 'wedding',
     kind: 'Wedding',
     title: 'Wedding content',
-    summary: 'From the baraat to the bidaai: the rituals, the entries, the tears and the chaos in between.',
+    summary: 'From the haldi to the bidaai: every function, the rituals, the entries, the tears and the chaos in between.',
     includes: [
+      'Haldi, mehendi, sangeet and garba nights',
       'Baraat, entries and varmala',
       'Pheras, sindoor and the family moments',
       'Reception and the after-party',
       'Reels cut for Instagram, ready to post'
-    ]
+    ],
+    cta: 'Book wedding'
+  },
+  {
+    id: 'stationery',
+    kind: 'Design',
+    title: 'Stationery & design',
+    summary: 'Everything printed with your names on it, designed by the same team as your reels, so the whole wedding looks like one story.',
+    includes: [
+      'A wedding logo and monogram',
+      'A wedding magazine: your story, in print',
+      'Photobooth frames and props',
+      'Sunboards for the welcome, the directions and the seating',
+      'Printables: invites, menus, tags and favours'
+    ],
+    cta: 'Book the design'
   }
 ];
 
@@ -129,7 +166,8 @@ export const WEDDING_REASONS = [
 
 export const WEDDING_STEPS = [
   'Tell us your dates and functions',
-  'We plan the reels with you',
+  'We get to know your story and your family',
+  'We plan the reels and the trends for each function',
   'We shoot, edit and hand them over'
 ] as const;
 

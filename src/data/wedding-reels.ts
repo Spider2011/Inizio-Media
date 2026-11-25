@@ -21,5 +21,15 @@ export const WEDDING_REEL_FILES: Readonly<Record<string, ReelFile>> = {
   '51': { src: '/weddings/reels/51.mp4', preview: '/weddings/reels/51-preview.mp4', poster: '/weddings/reels/51.webp', seconds: 40 },
   '52': { src: '/weddings/reels/52.mp4', preview: '/weddings/reels/52-preview.mp4', poster: '/weddings/reels/52.webp', seconds: 20 },
   '53': { src: '/weddings/reels/53.mp4', preview: '/weddings/reels/53-preview.mp4', poster: '/weddings/reels/53.webp', seconds: 24 },
-  '54': { src: '/weddings/reels/54.mp4', preview: '/weddings/reels/54-preview.mp4', poster: '/weddings/reels/54.webp', seconds: 26 }
+  '54': { src: '/weddings/reels/54.mp4', preview: '/weddings/reels/54-preview.mp4', poster: '/weddings/reels/54.webp', seconds: 26 },
+  '55': { src: '/weddings/reels/55.mp4', preview: '/weddings/reels/55-preview.mp4', poster: '/weddings/reels/55.webp', seconds: 32 },
+  '56': { src: '/weddings/reels/56.mp4', preview: '/weddings/reels/56-preview.mp4', poster: '/weddings/reels/56.webp', seconds: 31 },
+  '57': { src: '/weddings/reels/57.mp4', preview: '/weddings/reels/57-preview.mp4', poster: '/weddings/reels/57.webp', seconds: 45 },
+  '58': { src: '/weddings/reels/58.mp4', preview: '/weddings/reels/58-preview.mp4', poster: '/weddings/reels/58.webp', seconds: 43 },
+  '59': { src: '/weddings/reels/59.mp4', preview: '/weddings/reels/59-preview.mp4', poster: '/weddings/reels/59.webp', seconds: 22 },
+  '60': { src: '/weddings/reels/60.mp4', preview: '/weddings/reels/60-preview.mp4', poster: '/weddings/reels/60.webp', seconds: 42 },
+  '61': { src: '/weddings/reels/61.mp4', preview: '/weddings/reels/61-preview.mp4', poster: '/weddings/reels/61.webp', seconds: 51 },
+  '62': { src: '/weddings/reels/62.mp4', preview: '/weddings/reels/62-preview.mp4', poster: '/weddings/reels/62.webp', seconds: 22 },
+  '63': { src: '/weddings/reels/63.mp4', preview: '/weddings/reels/63-preview.mp4', poster: '/weddings/reels/63.webp', seconds: 20 },
+  '64': { src: '/weddings/reels/64.mp4', preview: '/weddings/reels/64-preview.mp4', poster: '/weddings/reels/64.webp', seconds: 11 }
 };
